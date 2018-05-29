@@ -5,6 +5,8 @@ import untangle
 
 
 def listExampleQuestions():
+    print("Using \"ctrl-Z\" to exit the program does not free the memory of the program instance. "
+          "Use \"ctrl-C\" instead.")
     print("Example questions:")
     print("What is the population in India?")
     print("What is the area of Bangladesh?")
