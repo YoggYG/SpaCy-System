@@ -91,7 +91,7 @@ def getXOfY(X, Y, person=False):
                     ?item wdt:P39 [wdt:P31|wdt:P279* wd:''' + predicateObject + '''].
                     '''
                 else:
-                    extraLines = ""  # empty, technically not necessary. Same as default argument of function
+                    extraLines = ""  # empty
 
                 answers = getSimpleAnswer(predicate, object, extraLines)
                 hasAnswer = False
@@ -109,9 +109,9 @@ def standardStrategy(doc, rootIndex):  # give me X of Y
     rootToken = doc[rootIndex]
     for XToken in rootToken.children:
         # print('\t'.join((XToken.text, XToken.lemma_, XToken.pos_, XToken.tag_, XToken.dep_, XToken.head.lemma_)))
-        if XToken.dep_ in ("nsubj", "attr", "dobj"):
+        if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
             for YToken in XToken.children:
-                if YToken.dep_ in ("poss", "prep"):
+                if YToken.dep_ in ("poss", "prep"):  # Y is a (grand)child of X
                     if YToken.dep_ == "prep":
                         YToken = YToken.right_edge  # YToken = "of", so the right edge is the actual Y
 
@@ -124,7 +124,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y
     return False
 
 
-def createSpans():
+def createSpans():  # combines noun chunks and entities into a single Token. Does not include the determiner.
     raw_spans = list(doc.ents) + list(doc.noun_chunks)
     spans = []
     # for span in raw_spans:
@@ -147,7 +147,7 @@ def createSpans():
             spans.append(span)
 
     for span in spans:
-        if span[0].dep_ in ("det"):
+        if span[0].dep_ == "det":
             span[1: len(span)].merge()
         else:
             span.merge()
@@ -158,14 +158,13 @@ if __name__ == '__main__':
     nlp = spacy.load('en')
 
     for line in sys.stdin:
-        foundAnswer = False
+        if line.strip() == "":
+            continue
+        
         doc = nlp(line.strip())
         createSpans()
 
         rootIndex = getIndexOfRoot(doc)
-
-        if rootIndex is None:  # stops crash when an empty line is entered
-            continue
 
         # for token in doc[rootIndex].subtree:
         #     print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_)))
