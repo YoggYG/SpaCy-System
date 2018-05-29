@@ -94,18 +94,17 @@ def getXOfY(X, Y, person=False):
                     extraLines = ""  # empty
 
                 answers = getSimpleAnswer(predicate, object, extraLines)
-                hasAnswer = False
-                for answer in answers:  # print all answers of this query
-                    hasAnswer = True
-                    print(answer)
 
-                if hasAnswer:
+                if len(answers) > 0:
+                    for answer in answers:  # print all answers of this query
+                        print(answer)
+
                     return True  # if the query returned an answer, stop searching
 
     return False
 
 
-def standardStrategy(doc, rootIndex):  # give me X of Y
+def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
     rootToken = doc[rootIndex]
     for XToken in rootToken.children:
         # print('\t'.join((XToken.text, XToken.lemma_, XToken.pos_, XToken.tag_, XToken.dep_, XToken.head.lemma_)))
@@ -133,7 +132,7 @@ def createSpans():  # combines noun chunks and entities into a single Token. Doe
         changed = False
         for idx in range(len(span)):
             token = span[idx]
-            if token.dep_ == "poss":
+            if token.dep_ == "poss":  # Do not merge noun chunks with a genitive in it. We need that.
                 changed = True
                 # print(span[0: idx + 1])
                 # print(span[idx + 2: len(span)])
@@ -148,7 +147,7 @@ def createSpans():  # combines noun chunks and entities into a single Token. Doe
             spans.append(span)
 
     for span in spans:
-        if span[0].dep_ == "det":
+        if span[0].dep_ == "det":  # exclude the first determiner, we don't want it.
             span[1: len(span)].merge()
         else:
             span.merge()
@@ -159,7 +158,7 @@ if __name__ == '__main__':
     nlp = spacy.load('en')
 
     for line in sys.stdin:
-        if line.strip() == "":
+        if line.strip() == "":  # empty line cannot be parsed, causes crashes if not skipped
             continue
 
         doc = nlp(line.strip())
