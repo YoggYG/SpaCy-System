@@ -81,7 +81,7 @@ def getXOfY(X, Y, person=False):
     if person:
         predicateObjects = getCodesFromString(X)
     else:
-        predicateObjects = ["No person here"]  # there needs to be 1 item in the predicateObjects list for the loop
+        predicateObjects = ["No person here"]  # there needs to be 1 item in the predicateObjects list for the loop to work
 
     for predicate in predicates:
         for object in objects:
@@ -118,7 +118,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y
                     Y = YToken.text
                     X = XToken.text
 
-                    if getXOfY(X, Y, True) or getXOfY(X, Y):
+                    if getXOfY(X, Y, True) or getXOfY(X, Y):  # first check the person strat, then the object strat
                         return True
 
     return False
@@ -141,6 +141,7 @@ def createSpans():  # combines noun chunks and entities into a single Token. Doe
 
                 if idx + 2 < len(span):  # exception for the case of "New York's"
                     spans.append(span[idx + 2: len(span)])
+
                 break
 
         if not changed:
@@ -160,9 +161,10 @@ if __name__ == '__main__':
     for line in sys.stdin:
         if line.strip() == "":
             continue
-        
+
         doc = nlp(line.strip())
-        createSpans()
+        createSpans()   # ideally this is not done in advance, but dynamically at runtime.
+                        # Degree of merges could then depend on the current strategy.
 
         rootIndex = getIndexOfRoot(doc)
 
