@@ -2,6 +2,7 @@ import sys
 import requests
 import spacy
 import untangle
+import itertools
 
 
 def listExampleQuestions():
@@ -41,13 +42,45 @@ def getCodesFromString(word, isProperty=False):
     return codes
 
 
-def constructSimpleQuery(predicateCode, objectCode, extraLines=""):
+def beginningOfQuery():
     return '''
-        SELECT ?itemLabel WHERE {
-            SERVICE wikibase:label {bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en".}
-            wd:''' + objectCode + ''' wdt:''' + predicateCode + ''' ?item.''' + extraLines + '''
-        }
-        '''
+    SELECT ?itemLabel WHERE {
+        SERVICE wikibase:label {bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en".}
+    '''
+
+
+def endOfQuery():
+    return '''
+    }
+    '''
+
+
+def makeSimpleLine(predicateCode, objectCode):
+    return '''
+    wd:''' + objectCode + ''' wdt:''' + predicateCode + ''' ?item.
+    '''
+
+
+def constructSimpleQuery(predicateCode, objectCodes, extraLines=""):
+    query = beginningOfQuery()
+    for objectCode in objectCodes:
+        query += makeSimpleLine(predicateCode, objectCode)
+
+    return query + extraLines + endOfQuery()
+
+
+def makeTimeFilterLine(predicateCode, objectCode):
+    return '''
+    wd:''' + objectCode + ''' p:''' + predicateCode + ''' [pq:P585 ?date; ps:''' + predicateCode + ''' ?item].
+    '''
+
+
+def constructTimeFilterQuery(predicateCode, objectCodes, extraLines=""):
+    query = beginningOfQuery()
+    for objectCode in objectCodes:
+        query += makeTimeFilterLine(predicateCode, objectCode)
+
+    return query + extraLines + '''filter(YEAR(?date) = ''' + year + ''').''' + endOfQuery()
 
 
 def extractAnswerListFromResult(result):
@@ -60,8 +93,11 @@ def extractAnswerListFromResult(result):
     return answers
 
 
-def getSimpleAnswer(predicateCode, objectCode, extraLines=""):
-    query = constructSimpleQuery(predicateCode, objectCode, extraLines)
+def getSimpleAnswer(predicateCode, objectCodes, extraLines=""):
+    if needsTimeFilter:
+        query = constructTimeFilterQuery(predicateCode, objectCodes, extraLines)
+    else:
+        query = constructSimpleQuery(predicateCode, objectCodes, extraLines)
 
     request = requests.get("https://query.wikidata.org/sparql?query=" + query)
 
@@ -74,26 +110,49 @@ def getIndexOfRoot(doc):
             return token.i
 
 
-def getXOfY(X, Y, person=False):
+# def product(*args, **kwds):
+#     # product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
+#     # product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
+#     pools = map(tuple, args) * kwds.get('repeat', 1)
+#     result = [[]]
+#     for pool in pools:
+#         result = [x+[y] for x in result for y in pool]
+#     for prod in result:
+#         yield list(prod)
+
+
+def createAllObjectCombinations(objectList):
+    result = list(itertools.product(*objectList))
+    print(result)
+    return result
+
+
+def getXOfY(X, Ylist):
+    objectList = []
     predicates = getCodesFromString(X, True)
-    objects = getCodesFromString(Y)
+    for Y in Ylist:
+        objectList.append(getCodesFromString(Y))
 
-    if person:
-        predicateObjects = getCodesFromString(X)
-    else:
-        predicateObjects = ["No person here"]  # there needs to be 1 item in the predicateObjects list for the loop to work
+    predicateObjects = getCodesFromString(X)
+    predicateObjects.append("")  # add an empty object. This is used to test without the extra line, in case we are not looking for a person.
 
-    for predicate in predicates:
-        for object in objects:
-            for predicateObject in predicateObjects:
-                if person:  # person has "position held" an instance of/subset of X
+    print(predicates)
+    print(predicateObjects)
+
+    print(objectList)
+    objectCombinations = createAllObjectCombinations(objectList)
+
+    for predicateObject in predicateObjects:
+        for objectCombination in objectCombinations:
+            for predicate in predicates:
+                if predicateObject != "":  # person has "position held" an instance of/subset of X
                     extraLines = '''
                     ?item wdt:P39 [wdt:P31|wdt:P279* wd:''' + predicateObject + '''].
                     '''
                 else:
                     extraLines = ""  # empty
 
-                answers = getSimpleAnswer(predicate, object, extraLines)
+                answers = getSimpleAnswer(predicate, objectCombination, extraLines)
 
                 if len(answers) > 0:
                     for answer in answers:  # print all answers of this query
@@ -104,6 +163,16 @@ def getXOfY(X, Y, person=False):
     return False
 
 
+def conjunctsOfToken(parentToken):
+    result = []  # list creation like this is necessary. Otherwise all characters are seen as an item.
+    result.append(parentToken.text)
+    for token in parentToken.children:
+        if token.dep_ == "conj":
+            result.extend(conjunctsOfToken(token))
+
+    return result
+
+
 def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
     rootToken = doc[rootIndex]
     for XToken in rootToken.children:
@@ -111,46 +180,75 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
         if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
             for YToken in XToken.children:
                 if YToken.dep_ in ("poss", "prep"):  # Y is a (grand)child of X
+                    Y = []
+                    Y.append(YToken.text)
                     if YToken.dep_ == "prep":
-                        YToken = YToken.right_edge  # YToken = "of", so the right edge is the actual Y
+                        firstChildIdx = 0
+                        for child in YToken.children:
+                            if firstChildIdx == 0:
+                                firstChildIdx = child.i  # YToken = "of", so the first child is the actual Y
 
-                    Y = YToken.text
+                        YToken = doc[firstChildIdx]
+                        Y = conjunctsOfToken(YToken)
+
                     X = XToken.text
+                    print(Y)
 
-                    if getXOfY(X, Y, True) or getXOfY(X, Y):  # first check the person strat, then the object strat
+                    if getXOfY(X, Y):  # first check the person strat, then the object strat
                         return True
 
     return False
 
 
+def makeSpanSingular(span):
+    # May be done in the aliasing. Needs to be done for "anthems" to "anthem", but maybe that's the only exception.
+    pass
+
+
 def createSpans():  # combines noun chunks and entities into a single Token. Does not include the determiner.
-    raw_spans = list(doc.ents) + list(doc.noun_chunks)
-    spans = []
-    # for span in raw_spans:
-    #     print(span)
-    for span in raw_spans:
-        changed = False
-        for idx in range(len(span)):
-            token = span[idx]
-            if token.dep_ == "poss":  # Do not merge noun chunks with a genitive in it. We need that.
-                changed = True
-                # print(span[0: idx + 1])
-                # print(span[idx + 2: len(span)])
-                spans.append(span[0: idx + 1])
+    for spanType in range(2):
+        spans = []
 
-                if idx + 2 < len(span):  # exception for the case of "New York's"
-                    spans.append(span[idx + 2: len(span)])
-
-                break
-
-        if not changed:
-            spans.append(span)
-
-    for span in spans:
-        if span[0].dep_ == "det":  # exclude the first determiner, we don't want it.
-            span[1: len(span)].merge()
+        if spanType == 0:
+            raw_spans = list(doc.ents)
         else:
-            span.merge()
+            raw_spans = list(doc.noun_chunks)
+
+        # for span in raw_spans:
+        #     print(span)
+
+        for span in raw_spans:
+            changed = False
+            for idx in range(len(span)):
+                token = span[idx]
+                if token.dep_ == "poss":  # Do not merge noun chunks with a genitive in it. We need that.
+                    changed = True
+                    # print(span[0: idx + 1])
+                    # print(span[idx + 2: len(span)])
+                    spans.append(span[0: idx + 1])
+
+                    if idx + 2 < len(span):  # exception for the case of "New York's"
+                        spans.append(span[idx + 2:])
+
+                    break
+
+            if not changed:
+                spans.append(span)
+
+        for span in spans:
+            makeSpanSingular(span)
+            if span[0].dep_ == "det":  # exclude the first determiner, we don't want it.
+                span[1:].merge()
+            else:
+                span.merge()
+
+
+def applyAliasing():
+    """
+    Replaces words found in our JSON with the aliases the solver needs to solve the query.
+    :return:
+    """
+    pass
 
 
 if __name__ == '__main__':
@@ -161,15 +259,28 @@ if __name__ == '__main__':
         if line.strip() == "":  # empty line cannot be parsed, causes crashes if not skipped
             continue
 
+        needsTimeFilter = False
+        year = 0
+
+        applyAliasing()
+
         doc = nlp(line.strip())
         createSpans()   # ideally this is not done in advance, but dynamically at runtime.
                         # Degree of merges could then depend on the current strategy.
 
         rootIndex = getIndexOfRoot(doc)
 
-        # for token in doc[rootIndex].subtree:
-        #     print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_)))
+        for token in doc[rootIndex].subtree:
+            print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
+            if token.dep_ == "pobj" and token.tag_ == "CD":
+                needsTimeFilter = True
+                year = token.text
+
+        if needsTimeFilter:
+            if standardStrategy(doc, rootIndex):
+                continue
+            needsTimeFilter = False
 
         if not standardStrategy(doc, rootIndex):
-            print("No solution found, try rephrasing your query")
+            print("Yes")  # Default answer.
 
