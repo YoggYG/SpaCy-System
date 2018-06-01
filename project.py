@@ -110,20 +110,9 @@ def getIndexOfRoot(doc):
             return token.i
 
 
-# def product(*args, **kwds):
-#     # product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
-#     # product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
-#     pools = map(tuple, args) * kwds.get('repeat', 1)
-#     result = [[]]
-#     for pool in pools:
-#         result = [x+[y] for x in result for y in pool]
-#     for prod in result:
-#         yield list(prod)
-
-
 def createAllObjectCombinations(objectList):
     result = list(itertools.product(*objectList))
-    print(result)
+    # print(result)
     return result
 
 
@@ -136,10 +125,10 @@ def getXOfY(X, Ylist):
     predicateObjects = getCodesFromString(X)
     predicateObjects.append("")  # add an empty object. This is used to test without the extra line, in case we are not looking for a person.
 
-    print(predicates)
-    print(predicateObjects)
+    # print(predicates)
+    # print(predicateObjects)
 
-    print(objectList)
+    # print(objectList)
     objectCombinations = createAllObjectCombinations(objectList)
 
     for predicateObject in predicateObjects:
@@ -192,7 +181,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                         Y = conjunctsOfToken(YToken)
 
                     X = XToken.text
-                    print(Y)
+                    # print(Y)
 
                     if getXOfY(X, Y):  # first check the person strat, then the object strat
                         return True
@@ -271,7 +260,7 @@ if __name__ == '__main__':
         rootIndex = getIndexOfRoot(doc)
 
         for token in doc[rootIndex].subtree:
-            print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
+            # print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
             if token.dep_ == "pobj" and token.tag_ == "CD":
                 needsTimeFilter = True
                 year = token.text
