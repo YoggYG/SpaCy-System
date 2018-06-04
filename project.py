@@ -4,6 +4,10 @@ import spacy
 import untangle
 import itertools
 
+from aliases import Aliases
+
+
+aliases = Aliases()
 
 def listExampleQuestions():
     print("Using \"ctrl-Z\" to exit the program does not free the memory of the program instance. "
@@ -272,4 +276,3 @@ if __name__ == '__main__':
 
         if not standardStrategy(doc, rootIndex):
             print("Yes")  # Default answer.
-
