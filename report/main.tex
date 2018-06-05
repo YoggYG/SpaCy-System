@@ -2,7 +2,6 @@
 \usepackage[utf8]{inputenc}
 
 \title{Language Technology}
-\author{Jochem Baas, Job Talle \& the other guys whose surnames I forgot}
 \date{June 2018}
 
 \begin{document}
@@ -10,10 +9,39 @@
 \maketitle
 
 \section{Introduction}
+A system which can answer geography related questions has been developed using python and the \emph{spaCy} library. The system aims to answer as many English language questions as possible. In order to do this, language has to be parsed and understood. Once the question is understood sufficiently, queries are sent to \emph{Wikidata} to gather answers.
 
 \section{Implementation}
+The system employs several tactics to be able to answer given questions.
+
+\subsection{Aliases}
+Before any syntactic analysis is performed, \emph{aliases} in the question are resolved. This entails replacing certain terms that cannot be understood by terms that can. For example, the term \emph{highest peak} is not a property that can be queried in Wikidata; \emph{highest point} on the other hand is accepted. The first will be replaced by the latter to ensure the sentence can be understood by the system.
+
+The alias pass gets its data from a number of \emph{.json} files from a certain directory. Every file contains two data members:
+
+\begin{enumerate}
+    \item A \emph{property}, which is the term all aliases will change into.
+    \item A list of \emph{aliases}; if any of the terms in this list are found, they are replaced by the \emph{property} above.
+\end{enumerate}
+
+\subsection{Syntactic breakdown}
+The question is broken down into its syntactic parts using the spaCy library. Depending on the parts of the sentence, different strategies may be chosen.
+
+\begin{itemize}
+    \item The syntax may indicate that an answer is related to a specific point in time. For example, a question could ask for the population in a country at the year 1960. If this is inferred from the syntax, a time filter flag is set. Filtering for time requires additional information in the Wikidata query. In our implementation, time filtering for a specific year is supported.
+    \item Analyzing the syntax gives tells us what property of what thing is asked for. For example, a question may take the form of \emph{What is X of Y?}. If multiple answers are required, the question likely takes the form \emph{What are the X's of Y?}. These formulations can also be reordered or recursive, e.g. \emph{What is the X of the Z of Y?}. The syntax tells us how the question parts are nested.
+    \item Conjunctions can exist in a question. An example of such a question is: \emph{What country borders France and Germany?}. A poor solver would answer just the question \emph{What country borders France?} and skip Germany altogether; our solver forms a conjunction from the last two countries and includes them in the query.
+\end{itemize}
+
+\subsection{Persons or properties}
+A question may ask for a person instead of a property. When querying for a person, a slightly different strategy is required, and the syntax will use different words to indicate this.
+
+\subsection{If all else fails...}
+Finally, if all strategies used to understand the question have failed or if the Wikidata query returns nothing, the system will have no answer to give. No answer is always a wrong answer. In order to have a nonzero chance of giving a correct answer, the system will output \emph{Yes}.
 
 \section{Challenges \& solutions}
+\subsection{Validating the system}
+\subsection{Wikidata limitations}
 
 \section{Conclusion}
 
