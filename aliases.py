@@ -10,6 +10,13 @@ class Aliases:
             self.property = property
             self.aliases = aliases
 
+        def parse(self, sentence):
+            for alias in self.aliases:
+                sentence = sentence.replace(alias, self.property)
+
+            return sentence
+
+
     DIRECTORY = "aliases/"
 
     def __init__(self):
@@ -25,3 +32,9 @@ class Aliases:
         set = Aliases.Set(data["property"], data["aliases"])
 
         self.sets.append(set)
+
+    def parse(self, sentence):
+        for set in self.sets:
+            sentence = set.parse(sentence)
+
+        return sentence

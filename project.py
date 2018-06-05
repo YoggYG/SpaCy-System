@@ -252,12 +252,14 @@ if __name__ == '__main__':
         if line.strip() == "":  # empty line cannot be parsed, causes crashes if not skipped
             continue
 
+        line = aliases.parse(line.strip());
+        
         needsTimeFilter = False
         year = 0
 
         applyAliasing()
 
-        doc = nlp(line.strip())
+        doc = nlp(line)
         createSpans()   # ideally this is not done in advance, but dynamically at runtime.
                         # Degree of merges could then depend on the current strategy.
 
