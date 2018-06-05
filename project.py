@@ -148,9 +148,15 @@ def getXOfY(X, Ylist):
                 answers = getSimpleAnswer(predicate, objectCombination, extraLines)
 
                 if len(answers) > 0:
-                    for answer in answers:  # print all answers of this query
-                        print(answer)
+                    res = questionID
 
+                    for answer in answers:  # print all answers of this query
+                        res += "\t" + answer
+
+                    with open(answerFile, "a+") as file:
+                        file.write(res + "\n")
+
+                    print(res)
                     return True  # if the query returned an answer, stop searching
 
     return False
@@ -193,19 +199,43 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
     return False
 
 
-def makeSpanSingular(span):
-    # May be done in the aliasing. Needs to be done for "anthems" to "anthem", but maybe that's the only exception.
-    pass
+def makeCustomSpans():
+    phraseDefinitions = [  # if more of these phrases have to be defined, a seperate file to store them would be nice.
+        "head of state",
+        "head of government",
+        "kingdom of the netherlands",
+        "age of majority"
+    ]
+    res = []
+
+    for doc_idx in range(len(doc)):
+        for phrase in phraseDefinitions:
+            wordList = phrase.split()  # split the words in the phrase into a list to loop over
+            if doc_idx + len(wordList) > len(doc):
+                continue
+
+            match = True
+            for word_idx in range(len(wordList)):
+                if doc[doc_idx + word_idx].lemma_ != wordList[word_idx]:
+                    match = False
+                    break
+
+            if match is True:
+                res.append(doc[doc_idx: doc_idx + len(wordList)])
+
+    return res
 
 
-def createSpans():  # combines noun chunks and entities into a single Token. Does not include the determiner.
-    for spanType in range(2):
+def mergeSpans():  # combines noun chunks and entities into a single Token. Does not include the determiner.
+    for spanType in range(3):
         spans = []
 
         if spanType == 0:
             raw_spans = list(doc.ents)
-        else:
+        elif spanType == 1:
             raw_spans = list(doc.noun_chunks)
+        else:
+            raw_spans = makeCustomSpans()
 
         # for span in raw_spans:
         #     print(span)
@@ -229,44 +259,51 @@ def createSpans():  # combines noun chunks and entities into a single Token. Doe
                 spans.append(span)
 
         for span in spans:
-            makeSpanSingular(span)
             if span[0].dep_ == "det":  # exclude the first determiner, we don't want it.
                 span[1:].merge()
             else:
                 span.merge()
 
 
-def applyAliasing():
-    """
-    Replaces words found in our JSON with the aliases the solver needs to solve the query.
-    :return:
-    """
-    pass
-
-
 if __name__ == '__main__':
     listExampleQuestions()
     nlp = spacy.load('en')
+    answerFile = "answers.txt"
+    with open(answerFile, "w") as file:
+        file.write("")
 
     for line in sys.stdin:
         if line.strip() == "":  # empty line cannot be parsed, causes crashes if not skipped
             continue
 
-        line = aliases.parse(line.strip());
+        lineList = line.split('\t')
+
+        if len(lineList) < 1:
+            continue
+
+        if len(lineList) == 1:  # solely for testing, so that we don't have to
+            questionID = ""
+            line = aliases.parse(lineList[0].strip())
+        else:
+            questionID = lineList[0]
+            line = aliases.parse(lineList[1].strip())
+
+        if line == "":  # Double check.
+            continue
+
+        print(line)
         
         needsTimeFilter = False
         year = 0
 
-        applyAliasing()
-
         doc = nlp(line)
-        createSpans()   # ideally this is not done in advance, but dynamically at runtime.
+        mergeSpans()   # ideally this is not done in advance, but dynamically at runtime.
                         # Degree of merges could then depend on the current strategy.
 
         rootIndex = getIndexOfRoot(doc)
 
         for token in doc[rootIndex].subtree:
-            # print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
+            print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
             if token.dep_ == "pobj" and token.tag_ == "CD":
                 needsTimeFilter = True
                 year = token.text
@@ -277,4 +314,6 @@ if __name__ == '__main__':
             needsTimeFilter = False
 
         if not standardStrategy(doc, rootIndex):
-            print("Yes")  # Default answer.
+            with open(answerFile, "a+") as file:
+                file.write(questionID + "\tYes\n")  # Default answer.
+            print(questionID + "\tYes")  # Default answer.

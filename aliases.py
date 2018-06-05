@@ -16,7 +16,6 @@ class Aliases:
 
             return sentence
 
-
     DIRECTORY = "aliases/"
 
     def __init__(self):
@@ -34,7 +33,10 @@ class Aliases:
         self.sets.append(set)
 
     def parse(self, sentence):
-        for set in self.sets:
-            sentence = set.parse(sentence)
+        while True:  # Apply the aliasing until no more change (some aliases may depend on others)
+            old_sentence = sentence
+            for set in self.sets:
+                sentence = set.parse(sentence)
 
-        return sentence
+            if old_sentence == sentence:
+                return sentence

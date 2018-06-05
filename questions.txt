@@ -1,0 +1,575 @@
+ sXXXXXXX	What are the satellites of Mars?
+ s2977419	Between which dates Austro-Hungarian Empire existed?
+ s2761041	Body of water that is located next to Paris?
+ s2762161	By which nations were the United Nations founded?
+ s2772841	Can you tell me which timezones there are in the continent of Australia?
+ s2762161	Chichen Itza is part of what country?
+ s2974797	Could you give me all geysers in Iceland?
+ s2455951	Do the Pyrenees cross Andorra?
+ s2615703	Europe shares borders with?
+ s2364328	From high to low, what are the highest and lowest points in the European Netherlands?
+ s2364328	From where to where does the Rhine flow?
+ s2889439	Give the name of the supercontinent that existed during the late paleozoic era.
+ s2865300	How big is the area covered by the Sahara desert?
+ s2515970	How big is the Atlantic Ocean
+ s2386844	How big is the surface of the sahara desert?
+ s2957531	How deep is the Black Sea?
+ s2986280	How deep is the deepest point of the Earth?
+ s2197367	How deep is the Grand Canyon?
+ s2986280	How do we call a allotrope of carbon?
+ s2784866	How far above sea level is the highest point in North America?
+ s3157423	How high above sea level is the highest point in India, called Kanchenjunga?
+ s2909073	How high above the sea level is Groningen elevated?
+ s2938928	How high is Mount Kilimanjaro?
+ s2762161	How high is the highest point in Europe?
+ s2762161	How is the capital of Iceland named?
+ s2455951	How is the highest point of Slovenia called?
+ s2644789	How is the type of biome called where the tree growth is hindered by low temperatures and short growing seasons?
+ s2745135	How large is the area of Liechtenstein?
+ s3135144	How large is the city of Fukuoka?
+ s2890216	How long is the Equator?
+ s2386844	How long is the longest river in Asia?
+ s2683423	How long is the Nile?
+ s2990571	How long is the river Nile?
+ s2536420	How many bodies of water are located in or next to The Netherlands?
+ s2748150	How many citizens does Africa have?
+ s2615371	How many citizens does Moscow had in 2014?
+ s2615371	How many citizens does the Netherlands had in 2014?
+ s2954524	How many countries border lake Victoria?
+ s2644789	How many countries does the equator pass through?
+ s2455951	How many countries does the Nile cross?
+ s2938928	How many countries does Uganda border on?
+ s2853442	How many days does the longest polar night last at the South Pole?
+ s2986280	How many days does the orbital period of the Earth consist of?
+ s2856743	How many independent states arose out of the dissolution of the Soviet Union?
+ s3249212	How many inhabitants does London, England have in 1901?
+ s2615371	How many meters above sealevel is the highest point on earth?
+ s3219496	How many meters below sealevel is the deepest point of the Pacific Ocean?
+ s2615371	How many meters below sealevel is the lowest known point on Earth?
+ s2455951	How many million inhabitants did Europe have in 1900?
+ s2986280	How many Oceans does the World Ocean consist of?
+ s2909073	How many official languages does South-Africa have?
+ s2683423	How many people lived in Berlin in 1600?
+ s2954524	How many people live in Serbia?
+ s2738694	How many people were living in the United States of America on 2010?
+ s2644789	How many percent of the earth is covered with water?
+ s2644789	How many provinces has the Netherlands?
+ s2740761	 How many rivers flow into Lake Superior?
+ s3249212	How many sister cities does London have?
+ s3135144	How many sister cities does Vancouver have?
+ s3219496	How many square kilometers is the area of the Andes?
+ s2974797	How much does the world weigh?
+ s2938928	How much has the HDI in Uganda increased since 1995?
+ s2386844	How much water flows through the colorado river?
+ s2990571	How tall is mount everest?
+ s2890216	How tall is Mount Everest?
+ s2748150	If you were in the city of Turin, what country would you be in?
+ s2212781	In what continent lies the Mount Everest?
+ s2945029	In what countries do the Alps lie?
+ s2364328	In what country and continent does Mount Ararat lie?
+ s2901560	In what country do kangaroos live?
+ s2364328	In what country is the Arc de Triomphe located?
+ s3219496	In what country is the highest point of the world?
+ s2468360	In what country is the highest point on Earth located?
+ s2969041	In what country is the Seine river located?
+ s2901560	In what country was Alan (Mathison) Turing born?
+ s2784866	In what location was the person after whom the highest mountain on earth was named buried?
+ s2757656	In what province is the capital of the Netherlands situated?
+ s2938928	In what year did Cambodia first have over ten million people living in it?
+ s2732947	In what year is Mexico founded?
+ s2784866	In what year was the Czech Republic founded?
+ s3219496	In what year was the total feritility rate in India 3311?
+ s2953293	In which city is The Kuip located?
+ s2748150	In which city is the Trevi fountain located?
+ s2762161	In which city was the head of government of the Netherlands born?
+ s2745135	In which continent is finland located?
+ s2515970	In which continent is the country China located
+ s2986280	In which continent is the highest mountain of the Earth?
+ s2683423	In which continent Malaysia?
+ s2655012	In which countries can the river Rhine be found?
+ s3219305	In which countries is the Rhine?
+ s2953293	In which countries is the Sahara desert located?
+ s3157423	In which country can you visit Machu Pichu?
+ s3092836	In which country does the Abor flow?
+ s2197367	In which country is Mount Everest?
+ s3212599	In which country is Pratt's Bottom located?
+ s3071723	In which country is the 'Bridge of No Return' situated?
+ s2890216	In which country is the hightest point of the Carpathian Mountains located?
+ s2953293	In which country is the Mount Everest located?
+ s2853442	In which country was the hottest place on Earth situated in 1935?
+ s2853442	In which european country was the last tornado?
+ s2990571	In which state lies the city of Milwaukee?
+ s2762161	In which states of the United States of America is Yellowstone National Park located??
+ s2865300	In which time zone is Hong Kong located?
+ s2515970	In which time zones is Ecuador located?
+ s2762161	In which year was the Ijsselmeer in the Netherlands created?
+ s3141217	Is Australia a continent?
+ s2731517	Is Belgium a member of the EU?
+ s2364328	Is Europe part of Eurasia?
+ sXXXXXXX	What is gemology?
+ s2909073	Is Germany a republic?
+ s2772841	Is it correct that Berlin is the capital of France? If no, can you tell me what the correct capital is?
+ s3177963	Is it true, that the Vatican has the smallest population on earth?
+ sXXXXXXX	What is the elevation of Machu Pichu?
+ s2974797	Is the European Union a supranational organisation?
+ s3177963	Is the majority of the people living in cities in the United States?
+ s2481359	Is Turkey part of Europe?
+ s3141217	Is yogyakarta a city?
+ sXXXXXXX	What kind of government does the Netherlands have?
+ s2986280	List all administrative territorial entities in the Netherlands?
+ s2745135	List all countries Paraguay shares a border with.
+ s2536420	List all of the capital cities of South Africa.
+ s2945029	List official languages there are in the Netherlands?
+ s3177963	List the 3 countries with fastest economic growth in order (based on GDP)
+ s3177963	List the non-European countries that were ranked higher in developement than the Netherlands, according to the Human Development Index
+ s3135144	List the official languages of New Zealand.
+ s2856743	List the official languages of Switzerland
+ s315723	List the tributaries of the Jhelum River which flows through Punjab.
+ s2901560	Montevideo is the capital of what South American country?
+ s3157423	Name the capital of the Andaman and Nicobar Islands.
+ s3135144	name the deepest point of Indian Ocean.
+ s2761041	Name the French and English nicknames for Paris?
+ s2740761	 Name the Mediterranean country with the smallest population
+ s2536420	Name the motto of Canada
+ s2740761	 Name the South American countries intersected by the equator
+ s2889439	Name the three largest cities from three different countries
+ s2740761	 Name the three longest rivers in Australia
+ s2889439	Name the two countries with the highest population in the world
+ s2761041	Of how many square kilometres does Berlin exist?
+ s2655012	Of which continents is the Kingdom of the Netherlands a part of?
+ sXXXXXXX	How old is Earth?
+ s2772841	On what continent is Mongolia located?
+ s2468360	On what continent is the Sahara desert located?
+ s3212599	On what side of the road do vehicles drive in Kenya?
+ s3219496	On what side of the road do you drive in India?
+ s2909073	On which continent is Italy situated?
+ s2748150	On which continent is Macedonia located?
+ s2938928	On which continent is Tanzania located?
+ s2197367	On which continent is the Onyx River located?
+ s2974797	On which island lies Nanaimo?
+ s3177963	Ouagadougou is the capital of which country?
+ s2901560	Over what countries is the Pyrenees spread?
+ s2212781	Paella was originated in what country?
+ s3177963	Report the number of counties in Hungary
+ s2615703	Scandinavia consists of which countries?
+ s3210812	Since when has Berlin been the capital of Germany?
+ s3157423	State the area of the Indian state of Assam.
+ s3135144	State the capital of Brazil before 1960.
+ s3157423	State the height of Azure Window.
+ s3135144	State the height of the highest peak in Jamaica.
+ s2889439	Tell me, what is the shortest named river on the planet?
+ s2901560	The Caspian Sea is located in which countries?
+ s2212781	The Grand Canyon is located in which state?
+ sXXXXXXX	Are the Hymalayans in Asia?
+ s2615703	The Mount Everest is located in which country?
+ s2212781	The red sea is part of which Ocean?
+ s3212599	The SRD is the currency of what country?
+ sXXXXXXX	Is the Vatican City a city or a country?
+ s2890216	Through how many countries does the Danube run?
+ s2757656	Through what countries does the Rhine flow?
+ s2965690	Through which countries does the Amazon go?
+ s1234567	Through which countries does the amazon river flow?
+ s2954524	Through which countries does the Rhine flow?
+ s2212781	Tortillas, are a traditional dish from what country?
+ s2761041	To what culture does Rome belong to?
+ s2945029	To what realm does Greenland belong?
+ s2953293	To which city does Vatican City shares its borders?
+ s2954524	To which countries do the Canary Islands belong to?
+ s3212599	To which country does the island Svalbard belong?
+ s2856743	To which provinces of Indonesia does the UTC+09:00 time zone apply?
+ s3157423	Valletta is the capital of which country?
+ sXXXXXXX	When was Bucharest founded?
+ sXXXXXXX	What was the longest war?
+ sXXXXXXX	Where was Troy?
+ s2757656	Wat is de langste rivier?
+ s2865300	What are, in order, the 3 largest countries that have spanish as official language?
+ s2957531	What are New Zealand's official languages?
+ s3141217	What are tectonic plates also known as?
+ s3219305	What are the administrative territorial entities of the Netherlands?
+ s2856743	What are the colours of the flag of Nauru?
+ s2977419	What are the continents with area larger than 30m squared kilometers?
+ s2468360	What are the emergency phone numbers in the United Kingdom?
+ s2757656	What are the names of all continents?
+ s2481359	What are the national anthems of the countries that border Germany and Norway?
+ s2990571	What are the official languages in Belgium?
+ s2954524	What are the official languages of Belgium?
+ s2655012	What are the official languages of Canada?
+ s2762161	What are the official languages of Tanzania?
+ s2197367	What are the official languages of the Netherlands?
+ s2901560	What are the official languages of the Netherlands?
+ s3092836	What are the official languages of the Netherlands?
+ s2468360	What are the official languages spoken in the BeNeLux?
+ s2865300	What are the regions of Italy?
+ s2536420	What are the superclasses of geography?
+ s2386844	What are the three biggest capital cities in the USA?
+ s2386844	What are the three biggest ethnic groups in Russia?
+ s2364328	What are the tributaries of the Rhine?
+ s2748150	What cities are sister cities of Tripoli?
+ s2732947	What city is the capital of Poland?
+ s3210812	What colors appear on the Nepali flag?
+ s3212599	What colors are in the Bulgarian flag?
+ s2909073	What colors are in the flag of Poland?
+ s2455951	What countries are constitutional monarchies?
+ s2536420	What countries are member of the Benelux?
+ s2909073	What countries are part of the Benelux
+ s2784866	What countries are part of the Benelux?
+ s2683423	What countries are the Baltic States?
+ s2747871	What countries beginning with the letter "s" belong to the European Union?
+ s2212781	What countries belong to the Benelux?
+ s2455951	What countries border both Venezuela and France?
+ s3212599	What countries does Bulgaria share a border with?
+ s2747871	What country in asia has the most developed population?
+ s2954524	What country is Berlin the capital of?
+ s2481359	What country is Crimea in?
+ s2364328	What country or countries had Constantinople as their capital??
+ s2747871	What country produces the most coffee?
+ s3219305	What currencies do they use in Denmark?
+ s2731517	What currency does the Netherlands have?
+ s2731517	What currency does the United Kingdom have?
+ s2945029	What currency is used in Egypt?
+ s3092836	What does a sundial measure?
+ s2197367	What does GMT stand for?
+ s2644789	What does the abbreviation GIS stand for?
+ s2536420	What does the term economic union mean?
+ s2974797	What is a Fjord?
+ s2889439	What is an academical discipline that studies the earth?
+ s3141217	What is a polder?
+ s3141217	What is a river?
+ s3141217	What is a supervolcano?
+ s2969041	What is Earth's largest continent?
+ s2954524	What is Europe's highest point??
+ s3141217	What is geography?
+ s2748150	What island state was formerly known by the name Formosa?
+ s2615703	What is New York's elevation above sea level?
+ s2731517	What is the age of majority in Belgium?
+ s2615703	What is the anthem of Friesland?
+ s3249212	What is the anthem of Germany?
+ s3219496	What is the anthem of Saint Kitts and Nevis?
+ s2655012	What is the anthem of Singapore?
+ s2731517	What is the anthem of the USSR?
+ s2481359	What is the area of Germany?
+ s2762161	What is the area of Rome?
+ s2986280	What is the Area of Russia?
+ s2772841	What is the area of Serbia in square kilometers?
+ s2965690	What is the area of the continent Antartica?
+ s2740761	 What is the area of the Norwegian Sea?
+ s2853442	What is the average temperature on Earth?
+ s2644789	What is the best known Babylonia world map?
+ s2974797	What is the biggest city in Kyrgyzstan?
+ s2615703	What is the capital city of Kenya?
+ s2969041	what is the capital city of North Holland?
+ s2953293	What is the capital of Argentina?
+ s3210812	What is the capital of Australia?
+ s2865300	What is the capital of Azerbaijan?
+ s2945029	What is the capital of Bhutan?
+ s2655012	What is the capital of China?
+ s2779153	What is the capital of Colombia?
+ s3157423	What is the capital of Denmark?
+ s2197367	What is the capital of India
+ s3219305	What is the capital of Italy?
+ s2644789	What is the capital of Kazakstan?
+ s2965690	What is the capital of Limburg in the Netherlands
+ s3204146	what is the capital of Madagascar?
+ s2683423	What is the capital of Mexico?
+ s2938928	What is the capital of Niger?
+ s2615371	What is the capital of North Korea?
+ s2853442	What is the capital of Papua New Guinea?
+ s2481359	What is the capital of Poland?
+ s3212599	What is the capital of Silly?
+ s3212599	What is the capital of South Africa?
+ s2990571	What is the capital of South-Africa?
+ s2212781	What is the capital of Spain?
+ s2748150	What is the capital of Sweden?
+ s2974797	What is the capital of Switzerland?
+ s2990571	What is the capital of Thailand?
+ s2731517	What is the capital of the European Union?
+ s2468360	What is the capital of the Netherlands?
+ s2731517	What is the capital of the Netherlands?
+ s2745135	What is the capital of the Netherlands?
+ s2954524	What is the capital of the Netherlands?
+s2909073	What is the capital of The Netherlands?
+ s2889439	What is the capital of the province Groningen?
+ s2455951	What is the capital of the republic of Serbia?
+ s2731517	What is the capital of the United Kingdom?
+ s3071723	What is the capital of Uganda?
+ s2757656	What is the capital of Uzbekistan?
+ s2784866	What is the center of the third-largest metropolitan area in the United States?
+ s2738694	What is the continent of the Cyprus belongs in?
+ s2969041	What is the coordinate location of the city Groningen?
+ s2732947	What is the coordinate location of the mountain K2?
+ s2515970	What is the coordinate location of the St James's Palace
+ s2212781	What is the country of origin of pizza?
+ s2364328	What is the current capital of Germany?
+ s2901560	What is the current captical city of The United States of America?
+ s2468360	What is the current currency used in Brazil?
+ s2364328	What is the current name of Constantinople?
+ s2954524	What is the current population of the United States of America?
+ s2732947	What is the deepest part of Earth's ocean called?
+ s2953293	What is the deepest part of Earth's oceans?
+ s2965690	What is the deepest point currently found across the whole Earth?
+ s2969041	what is the deepest point in the Netherlands?
+ s3249212	What is the demonym of Germany?
+ s2615703	What is the driving side in the United Kingdom?
+ s2779153	What is the elevation of groningen compared to the sea level?
+ s2468360	What is the French description of an ocean?
+ s2772841	What is the full name of the state in the United States with the abbreviation MT?
+ s2865300	What is the height of the second highest mountain of the Himalayas?
+ s2536420	What is the highest measured population of the Earth?
+ s2481359	What is the highest mountain in Canada?
+ s2515970	What is the highest mountain in Russia?
+ s2772841	What is the highest mountain in the Russia
+ s2644789	What is the highest mountain in the world?
+ s2732947	What is the highest mountain on earth?
+ s3219305	What is the highest point in Europe
+ s3212599	What is the highest point in Europe?
+ s2745135	What is the highest point in Russia?
+ s2748150	What is the highest point in Sicily?
+ s2655012	What is the highest point of Russia?
+ s2738694	What is the highest point of the himalayas?
+ s3204146	What is the highest unclimbed mountain?
+ s2386844	What is the highest vulcano in the world?
+ s2772841	What is the IATA airport code of Schiphol?
+ s3092836	What is the Internet domain of Antarctica?
+ s2969041	What is the largest city by population?
+ s2757656	What is the largest city of the U.S.A.?
+ s2969041	What is the largest country in South America?
+ s2889439	What is the largest mountain in the universe?
+ s2953293	What is the largest ocean on Earth?
+ s2977419	What is the largest river flowing into the Laptev Sea?
+ s2615703	What is the length of the Elbe?
+ s3219305	What is the length of the river Moselle?
+ s2732947	What is the length of the river Volga?
+ s2738694	What is the located in time zone of the Indonesia?
+ s2779153	What is the longest river in europe?
+ s2977419	What is the longest river in europe?
+ s3219305	What is the longest river in France?
+ s2953293	What is the longest river in the world?
+ s2969041	What is the longest river in the world?
+ s3177963	What is the longest river of the Americas?
+ s3204146	What is the lowest active volcano?
+ s2865300	What is the main tributaries of Lake Ontario ?
+ s2909073	What is the marriageable age in Madagascar for women?
+ s3204146	what is the mobile country code for USA?
+ s2747871	What is the most corrupt country in the world?
+ s2757656	What is the most northern country in Europe?
+ s2747871	What is the most populated city in Europe?
+ s2683423	What is the most populated country in South America?
+ s2747871	What is the most populated Scandinavian country?
+ s2957531	What is the most recent population of the planet Earth?
+ s2761041	What is the motto of Paris?
+ s2901560	What is the motto of South Africa?
+ s2901560	What is the mouth of the watercourse of the Rhine?
+ s2977419	What is the name of a strait between Russia and Alaska
+ s2977419	What is the name of a supercontinent that existed during the late Paleozoic and early Mesozoic eras?
+ s2977419	What is the name of the country that existed between 1918 and 1992 in Europe
+ s2738694	What is the name of the country where the Eiffel Tower is located?
+ s2977419	What is the name of the country which has the highest deepest point?
+ s2615371	What is the name of the deepest known point in Earth's oceans?
+ s2853442	What is the name of the discipline that studies minerals?
+ s2761041	What is the name of the highest mountain in Japan, located in Tokyo?
+ s2615371	What is the name of the highest mountain of Russia?
+ s2853442	What is the name of the longest river in Latin America?
+ s2740761	What is the name of the oldest national park in the United States?
+ s2455951	What is the name of the Spanish anthem?
+ s2740761	What is the name of the tallest mountain in Sweden?
+ s2386844	What is the name of Vatican City in Latin?
+ s2515970	What is the nickname of South-Carolina
+ s2890216	What is the Nominal GDP per Capita in The Netherlands?
+ s2536420	What is the official German name for Germany?
+ s2738694	What is the official language in the Switzerland?
+ s2745135	What is the official language of Chile?
+ s2212781	What is the official language of Greenland?
+ s2986280	What is the opposite of a continent?
+ s2957531	What is the origin of the Danube river?
+ s2957531	What is the perimeter of Tahiti?
+ s3092836	What is the population of Antarctica?
+ s2953293	What is the population of Assen?
+ s2197367	What is the population of Greenland?
+ s3135144	What is the population of Leeuwarden?
+ s2745135	What is the population of Spain?
+ s2515970	What is the population of the capital city of the Netherlands
+ s2784866	What is the population of the capital of the Aragatsotn Region?
+ s2990571	What is the population of the capital of the United States of America?
+ s2969041	What is the population of the city Groningen?
+ s2747871	What is the population of the least populated country in Asia?
+ s2761041	What is the population of Tokyo?
+ s2779153	What is the second highest mountain in the world?
+ s2853442	What is the second highest mountain in the world?
+ s2615371	What is the second highest mountain on earth?
+ s2757656	What is the second largest city of France
+ s2757656	What is the shortest river on earth?
+ s3204146	What is the size of Africa?
+ s2953293	What is the size of Antarctica?
+ s2945029	What is the size of Prague?
+ s2990571	What is the surface area of Russia?
+ s2757656	What is the tallest mountain on earth?
+ s2745135	What is the timezone of Syria?
+ s2655012	What is the total population of Antarctica??
+ s2747871	What is the wealthiest country in South America?
+ s2784866	What is the width of the Dead Sea?
+ s2615703	What is the width of the Sahara?
+ s2644789	What is the world's largest lake?
+ s3071723	What lakes are part of The Great Lakes in the U.S?
+ s2938928	What langauges do they speak in Norway?
+ s2772841	What language do people speak in Kuwait?
+ s2965690	What languages are officially spoken in Ukraine?
+ s3157423	What languages are spoken widely in Sudan?
+ s2969041	What mountain has the highest elevation above sea level?
+ s2957531	What natural material is opposite to a rock?
+ s2957531	What natural material is used to create lava?
+ s2889439	What occupation has the highest average age?
+ s2779153	What place has the lowest elevation compared to sea level?
+ s2779153	What river has a watershed area of 15,300 square kilometers?
+ s2732947	What river runs through Iraq?
+ s2455951	What rivers run through Liechtenstein?
+ s2779153	What sea lies between europe and asia?
+ s3210812	What's the population of Antarctica?
+ s3210812	What's the total population of Europe?
+ s3071723	What two Indian States does Goa share its border with?
+ s2965690	What type of goverment governs the Netherlands.
+ s2536420	What was the birth date of the prime minister of the Czech Republic?
+ s2468360	What was the Earth's population in 1975?
+ s2977419	What was the former name if Istanbul?
+ s2683423	What was the GDP per capita of Bulgaria in 2014?
+ s3219496	What was the inflation rate of Paraguay in 1998?
+ s2515970	What was the place of publication of the anthem of France?
+ s2481359	What was the population of Brazil in 1977?
+ s2856743	What was the population of South Korea in 2010?
+ s2761041	What year was Berlin founded?
+ s2761041	What year was Tokyo founded?
+ s2974797	When did Bonn cease to be the capital of Germany?
+ s2683423	When did Korea separate from Japan?
+ s2683423	When did Lithuania become a member of the European Union?
+ s2683423	When did New York become the capital of the United States of America?
+ s2731517	When did the empire of Nazi Germany fall?
+ s3092836	When did the IJsselmeer originate?
+ s2468360	When did the Prime Minister of Madagascar start his term?
+ s2738694	When is the Norwegian Constitution Day?
+ s2945029	When was Alaska incepted into the United States of America?
+ s2957531	When was Australia first established as a country?
+ s2197367	When was Colombia founded?
+ s2890216	When was the European Union formed?
+ s3249212	When was the inception of Berlin?
+ s3141217	When was the Indian Ocean eathquake?
+ s2853442	When was the last super blue blood moon recorded?
+ s2747871	When was the oldest country in Asia formed?
+ s2965690	When was the United States formed
+ s3210812	When was the USA founded?
+ s2536420	When were the United States of America founded?
+ s3219305	Where are the Apennine mountains?
+ s2945029	Where can the source of the river Volga be found?
+ s2938928	Where does the White Nile originate?
+ s2974797	Where in Antarctica is the highest mountain?
+ s3204146	Where is DRC?
+ s3141217	Where is Singapore?
+ s3141217	Where is South America?
+ s2856743	Where is the Dzyarzhynskaya Hara hill located?
+ s2732947	Where is the Eiffel Tower located?
+ s2212781	Where is the headquarters located of Kentucky Fried Chicken?
+ s3177963	Where is the highest mountain top below 8000 meters? Give the country name.
+ s2747871	Where is the highest point of South Africa?
+ s2779153	Where is the mouth of the Eem Rivier?
+ s3092836	Where is the mouth of the watercourse of the longest river of France?
+ s3092836	Where was the lowest temperature on Earth recorded?
+ s2853442	Where was the most powerful earthquake ever recorded?
+ s2740761	Which African countries lie adjacent to Lake Victoria?
+ s3157423	Which African river flows into the Indian Ocean?
+ s2890216	Which are the administrative territorial regions of the Netherlands?
+ s2865300	Which are the neighbouring countries of Croatia?
+ s2740761	Which Asian countries have a surface area below 1000 square kilometre?
+ s2784866	Which canal is part of the Seven Wonders of the Modern World?
+ s1234567	Which cities have a population of more than 14 million people?
+ s3212599	Which city has the nickname Big Apple?
+ s3210812	Which continent does Turkey belong to?
+ s3204146	Which continents are in Eurasia?
+ s2772841	Which countries are currently part of the United Kingdom?
+ s3204146	Which countries are eight-thousander in?
+ s2644789	Which countries are meant with Alpine countries?
+ s2762161	Which countries are part of the Balkans?
+ s2938928	Which countries are part of the Benelux?
+ s3219496	Which countries are part of the Benelux?
+ s2954524	Which countries are part of the United Kingdom?
+ s2738694	Which countries are the basin countries of the Lake Geneva?
+ s2738694	Which countries are the members of the Benelux politico-economic union?
+ s2990571	Which countries are the Nordic countries?
+ s2455951	Which countries border the North Sea?
+ s2655012	Which countries comprise the "Four Asian Tigers"?
+ s2655012	Which countries comprise Western Europe?
+ s2965690	Which countries does North-Korea share borders with?
+ s2856743	Which countries does Oman share a border with?
+ s2386844	Which countries does the himalayan mountains cover?
+ s2481359	Which countries does the river Po flow through?
+ s2938928	Which countries does the White Nile flow through?
+ s2945029	Which countries form the Benelux?
+ s2481359	Which countries have Alps?
+ s2986280	Which countries in Amerika use the French language?
+ s3177963	Which countrie(s) joined the European Union the later than Estonia?
+ s2945029	Which countries lie on the island of New Guinea?
+ s2197367	Which countries make up the United Kingdom?
+ s2977419	Which countries of post-soviet space have a population over 40m people?
+ s3219496	Which countries share a border with India?
+ s3219305	Which countries share a border with Switzerland?
+ s3210812	Which countries share a border with Uruguay?
+ s3135144	Which countries share the border with the Democratic Republic of the Congo?
+ s2901560	Which countries started using the Euro as a currency after 2010?
+ s3177963	Which country has the bigger population, France or Germany?
+ s2386844	Which country in Asia has the highest nominal GDP per capita?
+ s2386844	Which country in Europe has the eleventh biggest population?
+ s2740761	Which country in South America has the smallest surface area?
+ s2772841	Which country is home to the world heritage site Machu Picchu?
+ s2745135	Which country is Pyongyang the capital of?
+ s3071723	Which country is The Great Barrier Reef located in?
+ s2890216	Which country is the highest gold producer?
+ s2738694	Which country uses the pound sterling as its official currency?
+ s2965690	Which different kinds of ethnic groups live in Japan
+ s2856743	Which ethnic group makes up the majority of the population in the United States?
+ s3071723	Which five places constitute the territory of New York City?
+ s3071723	Which is the highest mountain in Philippines?
+ s3071723	Which is the highest point of the Alps?
+ s2865300	Which is the longest river in Russia?
+ s2890216	Which is the youngest country in the world?
+ s3135144	Which lake takes the water from Missouri river?
+ s3210812	Which language is spoken in Suriname?
+ s3219305	Which languages do to they speak in Finland?
+ s3204146	which mountains are part of Eight-thousander?
+ s2865300	Which ocean has the deepest point ?
+ s2197367	Which oceans and seas surround South America
+ s2957531	Which oceans make up the World Ocean?
+ s2784866	Which of Chongqing's sister cities is situated in Canada?
+ s2364328	Which of the following 4 names refer to the country Japan? Nihon, Nippon, Qing,Land of the Setting Sun
+ s2974797	Which river does the MÃ¼glitz flow into?
+ s2986280	Which river goes through 7 European countries?
+ s2615703	which river inflows the Dead Sea?
+ s2784866	Which river is located in the capital of France?
+ s3071723	Which river originates in the Breg in Germany?
+ s2748150	Which river runs through the Grand Canyon?
+ s2481359	Which rivers flow through both Belgium and Germany?
+ s3092836	Which seas surround Texel?
+ s2889439	Which star is known as the largest star known to man?
+ s3135144	Which state is Bangalore the capital of?
+ s2965690	Which timezone does Singapore lie in
+ s2957531	Which two continents does Europe share a border with?
+ s2732947	Which two continents is Istanbul located on?
+ s3071723	Which two countries is the Gaza strip located between?
+ s2745135	Who are the members of the Benelux?
+ s2909073	Who is the current head of state of Sweden?
+ s2889439	Who is the father of modern geology?
+ s2655012	Who is the head of government of Dubai?
+ s3210812	Who is the head of state of the largest Spanish speaking country?
+ s2990571	Who is the president of France?
+ s2748150	Who is the president of the United States of America?
+ s2732947	Who is the state New York named after?
+ s3092836	Whose faces are carved in Mount Rushmore?
+ s2890216	Whose territory is the Falkland Islands?
+ s2779153	Who was the discoverer of point Nemo?
+ s3219496	Who was the head of goverment of India on 1-1-2001?
+ s2856743	Who was the head of state that preceded the current head of state of Italy?
+ s2731517	Who was the leader of Nazi Germany?
+ s3204146	who was the one to ascent Mount Everest first?
+ s2468360	Who was the president of the United States of America in 1800?
+ s2761041	Who were the founders of Rome?
+ s2856743	Within which countries can Mont Blanc be found?
+ s2909073	With what countries does the Kingdom of the Netherlands share its borders?
+ s2615371	With which countries does Georgia share borders?
+ s2615371	With which countries does North Korea share borders?
+ s1234567	With which countries does Norway share a border?
