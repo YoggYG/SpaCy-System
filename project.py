@@ -242,8 +242,8 @@ def getXofYofZ(X, YList, ZList):  # compound questions (only one level)
                     for compoundPredicateObject in compoundPredicateObjects:
                         if predicateObject != "":  # person has "position held" an instance of/subset of X
                             extraLines = '''
-                                ?item wdt:P39 [wdt:P31|wdt:P279* wd:''' + predicateObject + '''].
-                                '''
+                            ?item wdt:P39 [wdt:P31|wdt:P279* wd:''' + predicateObject + '''].
+                            '''
                         else:
                             extraLines = ""  # empty
 
@@ -262,12 +262,17 @@ def getXofYofZ(X, YList, ZList):  # compound questions (only one level)
     return False
 
 
-def conjunctsOfToken(parentToken):
+def conjunctsOfToken(token):
     result = []  # list creation like this is necessary. Otherwise all characters are seen as an item.
-    result.append(parentToken.text)
-    for token in parentToken.children:
-        if token.dep_ == "conj":
-            result.extend(conjunctsOfToken(token))
+    if len(list(token.children)) == 0:
+        for siblingToken in token.head.children:
+            if siblingToken.dep_ == "punct":  # Do not allow conjunctions with a comma between the last two nouns.
+                return result
+
+    result.append(token.text)
+    for childToken in token.children:
+        if childToken.dep_ == "conj":
+            result.extend(conjunctsOfToken(childToken))
 
     return result
 
@@ -286,6 +291,9 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                         for child in YToken.children:
                             if firstChildIdx == 0:
                                 firstChildIdx = child.i  # YToken = "of", so the first child is the actual Y
+
+                        if firstChildIdx == 0:
+                            continue
 
                         YToken = doc[firstChildIdx]
                         Y = conjunctsOfToken(YToken)
@@ -405,9 +413,20 @@ def setAnswerAmount():
                     break
 
             if match is True:
-                answerAmount = True
-                return
+                return True
 
+    return False
+
+
+def restructureSentence(line):
+    wordList = line.split()
+    if wordList[0] in ("in", "on"):
+        for idx in range(len(wordList)):
+            if wordList[idx] in ("is", "was", "does", "do", "lies", "can"):
+                res = wordList[1] + " is " + " ".join(wordList[2: idx]) + " of " + " ".join(wordList[idx + 1:])
+                return res
+
+    return line
 
 
 if __name__ == '__main__':
@@ -437,17 +456,24 @@ if __name__ == '__main__':
         if line == "":  # Double check.
             continue
 
+        while True:
+            oldLine = line
+            line = restructureSentence(line)
+            if oldLine == line:
+                break
+
+            line = aliases.parse(line)
+
         print(line)
         
         needsTimeFilter = False
         year = 0
-        answerAmount = False  # set to true by checking for "how many"
 
         doc = nlp(line)
         mergeSpans()   # ideally this is not done in advance, but dynamically at runtime.
                         # Degree of merges could then depend on the current strategy.
 
-        setAnswerAmount()
+        answerAmount = setAnswerAmount()  # set to true by checking for "how many"
 
         rootIndex = getIndexOfRoot(doc)
 
