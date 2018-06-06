@@ -9,20 +9,10 @@ from aliases import Aliases
 
 aliases = Aliases()
 
-def listExampleQuestions():
+
+def printInstructions():
     print("Using \"ctrl-Z\" to exit the program does not free the memory of the program instance. "
           "Use \"ctrl-C\" instead.")
-    print("Example questions:")
-    print("What is the population in India?")
-    print("What is the area of Bangladesh?")
-    print("Please give me the highest point in the Alps.")
-    print("What is the province of Heerenveen?")
-    print("What is the country of Bremen?")
-    print("Give me the mayor of the Big Apple")
-    print("Tell me Brazil's president!")
-    print("Who is the king of Canada?")
-    print("Who is the president of Germany?")
-    print("Give me Sweden's highest point please")
 
 
 def getCodesFromString(word, isProperty=False):
@@ -120,10 +110,25 @@ def createAllObjectCombinations(objectList):
     return result
 
 
-def getXOfY(X, Ylist):
+def writeAndPrintAnswers(answers):
+    res = questionID
+
+    if answerAmount is False:
+        for answer in answers:  # print all answers of this query
+            res += "\t" + answer
+    else:
+        res += "\t" + str(len(answers))
+
+    with open(answerFile, "a+") as file:
+        file.write(res + "\n")
+
+    print(res)
+
+
+def getXOfY(X, YList):
     objectList = []
     predicates = getCodesFromString(X, True)
-    for Y in Ylist:
+    for Y in YList:
         objectList.append(getCodesFromString(Y))
 
     predicateObjects = getCodesFromString(X)
@@ -131,8 +136,8 @@ def getXOfY(X, Ylist):
 
     # print(predicates)
     # print(predicateObjects)
-
     # print(objectList)
+
     objectCombinations = createAllObjectCombinations(objectList)
 
     for predicateObject in predicateObjects:
@@ -148,16 +153,111 @@ def getXOfY(X, Ylist):
                 answers = getSimpleAnswer(predicate, objectCombination, extraLines)
 
                 if len(answers) > 0:
-                    res = questionID
+                    writeAndPrintAnswers(answers)
 
-                    for answer in answers:  # print all answers of this query
-                        res += "\t" + answer
-
-                    with open(answerFile, "a+") as file:
-                        file.write(res + "\n")
-
-                    print(res)
                     return True  # if the query returned an answer, stop searching
+
+    return False
+
+
+def makeTimeFilterCompoundLine(predicateCode):
+    return '''
+    ?temp p:''' + predicateCode + ''' [pq:P585 ?date; ps:''' + predicateCode + ''' ?item].
+    '''
+
+
+def makeCompoundLine(predicateCode, objectCode=None):
+    if objectCode is None:
+        return '''
+        ?temp wdt:''' + predicateCode + ''' ?item.
+        '''
+    else:
+        return '''
+        wd:''' + objectCode + ''' wdt:''' + predicateCode + ''' ?temp.
+        '''
+
+
+def constructTimeFilterCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, extraLines):
+    query = beginningOfQuery()
+    for objectCode in objectCodes:
+        query += makeCompoundLine(compoundPredicateCode, objectCode)
+
+    query += makeTimeFilterCompoundLine(predicateCode)
+
+    return query + extraLines + '''filter(YEAR(?date) = ''' + year + ''').''' + endOfQuery()
+
+
+def constructCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, extraLines):
+    query = beginningOfQuery()
+    for objectCode in objectCodes:
+        query += makeCompoundLine(compoundPredicateCode, objectCode)  # Y of Z
+
+    query += makeCompoundLine(predicateCode)  # X of temp
+
+    return query + extraLines + endOfQuery()
+
+
+def getCompoundAnswer(predicateCode, compoundPredicateCode, objectCodes, extraLines=""):
+    if needsTimeFilter:
+        query = constructTimeFilterCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, extraLines)
+    else:
+        query = constructCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, extraLines)
+
+    request = requests.get("https://query.wikidata.org/sparql?query=" + query)
+
+    return extractAnswerListFromResult(request.text)
+
+
+def getXofYofZ(X, YList, ZList):  # compound questions (only one level)
+    if len(YList) != 1:
+        print("YList is length " + str(len(YList)))
+
+    objectList = []
+    predicates = getCodesFromString(X, True)
+
+    Y = YList[0]
+
+    compoundPredicates = getCodesFromString(Y, True)
+    compoundPredicateObjects = getCodesFromString(Y)  # In case the middle compound is a person.
+
+    compoundPredicateObjects.append("")
+
+    for Z in ZList:
+        objectList.append(getCodesFromString(Z))
+
+    predicateObjects = getCodesFromString(X)
+    predicateObjects.append(
+        "")  # add an empty object. This is used to test without the extra line, in case we are not looking for a person.
+
+    # print(predicates)
+    # print(predicateObjects)
+    # print(objectList)
+
+    objectCombinations = createAllObjectCombinations(objectList)
+
+    for predicateObject in predicateObjects:
+        for objectCombination in objectCombinations:
+            for predicate in predicates:
+                for compoundPredicate in compoundPredicates:
+                    for compoundPredicateObject in compoundPredicateObjects:
+                        if predicateObject != "":  # person has "position held" an instance of/subset of X
+                            extraLines = '''
+                                ?item wdt:P39 [wdt:P31|wdt:P279* wd:''' + predicateObject + '''].
+                                '''
+                        else:
+                            extraLines = ""  # empty
+
+                        if compoundPredicateObject != "":
+                            extraLines += '''
+                            ?temp wdt:P39 [wdt:P31|wdt:P279* wd:''' + compoundPredicateObject + '''].
+                            '''
+
+                        answers = getCompoundAnswer(predicate, compoundPredicate, objectCombination, extraLines)
+
+                        if len(answers) > 0:
+                            writeAndPrintAnswers(answers)
+
+                            return True  # if the query returned an answer, stop searching
 
     return False
 
@@ -193,6 +293,27 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                     X = XToken.text
                     # print(Y)
 
+                    for ZToken in YToken.children:
+                        if ZToken.dep_ in ("poss", "prep"):
+                            Z = []
+                            if ZToken.tag_ == "CD":
+                                continue
+                            Z.append(ZToken.text)
+                            if ZToken.dep_ == "prep":
+                                firstChildIdx = 0
+                                for child in ZToken.children:
+                                    if firstChildIdx == 0 and child.tag_ != "CD":
+                                        firstChildIdx = child.i
+
+                                if firstChildIdx == 0:  # only second child is a year, so no compound question.
+                                    continue
+
+                                ZToken = doc[firstChildIdx]
+                                Z = conjunctsOfToken(ZToken)
+
+                            if getXofYofZ(X, Y, Z):
+                                return True
+
                     if getXOfY(X, Y):  # first check the person strat, then the object strat
                         return True
 
@@ -204,7 +325,8 @@ def makeCustomSpans():
         "head of state",
         "head of government",
         "kingdom of the netherlands",
-        "age of majority"
+        "age of majority",
+        "date of birth"
     ]
     res = []
 
@@ -265,10 +387,34 @@ def mergeSpans():  # combines noun chunks and entities into a single Token. Does
                 span.merge()
 
 
+def setAnswerAmount():
+    phraseDefinitions = [
+        "how many"
+    ]
+
+    for doc_idx in range(len(doc)):
+        for phrase in phraseDefinitions:
+            wordList = phrase.split()  # split the words in the phrase into a list to loop over
+            if doc_idx + len(wordList) > len(doc):
+                continue
+
+            match = True
+            for word_idx in range(len(wordList)):
+                if doc[doc_idx + word_idx].lemma_ != wordList[word_idx]:
+                    match = False
+                    break
+
+            if match is True:
+                answerAmount = True
+                return
+
+
+
 if __name__ == '__main__':
-    listExampleQuestions()
+    printInstructions()
     nlp = spacy.load('en')
     answerFile = "answers.txt"
+
     with open(answerFile, "w") as file:
         file.write("")
 
@@ -281,7 +427,7 @@ if __name__ == '__main__':
         if len(lineList) < 1:
             continue
 
-        if len(lineList) == 1:  # solely for testing, so that we don't have to
+        if len(lineList) == 1:  # solely for testing, so that we don't have to use official format
             questionID = ""
             line = aliases.parse(lineList[0].strip())
         else:
@@ -295,16 +441,19 @@ if __name__ == '__main__':
         
         needsTimeFilter = False
         year = 0
+        answerAmount = False  # set to true by checking for "how many"
 
         doc = nlp(line)
         mergeSpans()   # ideally this is not done in advance, but dynamically at runtime.
                         # Degree of merges could then depend on the current strategy.
 
+        setAnswerAmount()
+
         rootIndex = getIndexOfRoot(doc)
 
         for token in doc[rootIndex].subtree:
             print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
-            if token.dep_ == "pobj" and token.tag_ == "CD":
+            if token.dep_ == "pobj" and token.tag_ == "CD" and not needsTimeFilter:  # save the first of multiple years
                 needsTimeFilter = True
                 year = token.text
 

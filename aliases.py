@@ -33,6 +33,7 @@ class Aliases:
         self.sets.append(set)
 
     def parse(self, sentence):
+        sentence[0].lower()
         while True:  # Apply the aliasing until no more change (some aliases may depend on others)
             old_sentence = sentence
             for set in self.sets:
