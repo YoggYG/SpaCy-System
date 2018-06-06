@@ -32,8 +32,14 @@ class Aliases:
 
         self.sets.append(set)
 
+    def firstLower(self, sentence):
+        if len(sentence) == 0:
+            return sentence
+
+        return sentence[0].lower() + sentence[1:]
+
     def parse(self, sentence):
-        sentence[0].lower()
+        sentence = self.firstLower(sentence)
         while True:  # Apply the aliasing until no more change (some aliases may depend on others)
             old_sentence = sentence
             for set in self.sets:
