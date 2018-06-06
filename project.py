@@ -334,7 +334,8 @@ def makeCustomSpans():
         "head of government",
         "kingdom of the netherlands",
         "age of majority",
-        "date of birth"
+        "date of birth",
+        "country of origin"
     ]
     res = []
 
@@ -423,7 +424,10 @@ def restructureSentence(line):
     if wordList[0] in ("in", "on"):
         for idx in range(len(wordList)):
             if wordList[idx] in ("is", "was", "does", "do", "lies", "can"):
-                res = wordList[1] + " is " + " ".join(wordList[2: idx]) + " of " + " ".join(wordList[idx + 1:])
+                maxIdx = len(wordList)
+                if wordList[-1] in ("lie?", "live?", "flow?"):
+                    maxIdx -= 1
+                res = wordList[1] + " is " + " ".join(wordList[2: idx]) + " of " + " ".join(wordList[idx + 1: maxIdx])
                 return res
 
     return line
