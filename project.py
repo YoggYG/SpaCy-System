@@ -290,6 +290,45 @@ def conjunctsOfToken(token):
     return result
 
 
+def subjectObjectStrategy(doc, rootIndex):  # X verb Y (of Z)
+    rootToken = doc[rootIndex]
+    for XToken in rootToken.children:
+        if XToken.dep_ in ("nsubj", "attr", "dobj"):
+            for YToken in rootToken.children:
+                if YToken in ("nsubj", "attr", "dobj"):
+                    if YToken.i == XToken.i:
+                        continue
+
+                    Y = conjunctsOfToken(YToken)
+                    X = XToken.text
+
+                    for ZToken in YToken.children:
+                        if ZToken.dep_ in ("poss", "prep"):
+                            Z = []
+                            if ZToken.tag_ == "CD":
+                                continue
+                            Z.append(ZToken.text)
+                            if ZToken.dep_ == "prep":
+                                firstChildIdx = 0
+                                for child in ZToken.children:
+                                    if firstChildIdx == 0 and child.tag_ != "CD":
+                                        firstChildIdx = child.i
+
+                                if firstChildIdx == 0:  # only second child is a year, so no compound question.
+                                    continue
+
+                                ZToken = doc[firstChildIdx]
+                                Z = conjunctsOfToken(ZToken)
+
+                            if getXofYofZ(X, Y, Z):
+                                return True
+
+                    if getXOfY(X, Y):
+                        return True
+
+    return False
+
+
 def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
     rootToken = doc[rootIndex]
     for XToken in rootToken.children:
@@ -507,7 +546,12 @@ if __name__ == '__main__':
                 continue
             needsTimeFilter = False
 
-        if not standardStrategy(doc, rootIndex):
-            with open(answerFile, "a+") as file:
-                file.write(questionID + "\tYes\n")  # Default answer.
-            print(questionID + "\tYes")  # Default answer.
+        if standardStrategy(doc, rootIndex):
+            continue
+        
+        if subjectObjectStrategy(doc, rootIndex):
+            continue
+
+        with open(answerFile, "a+") as file:
+            file.write(questionID + "\tYes\n")  # Default answer.
+        print(questionID + "\tYes")  # Default answer.
