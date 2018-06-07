@@ -313,7 +313,7 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y
 
 def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
     rootToken = doc[rootIndex]
-    for XToken in rootToken.children:
+    for XToken in rootToken.subtree:
         # print('\t'.join((XToken.text, XToken.lemma_, XToken.pos_, XToken.tag_, XToken.dep_, XToken.head.lemma_)))
         if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
             for YToken in XToken.children:
@@ -323,6 +323,10 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                     if YToken.dep_ == "prep":
                         firstChildIdx = 0
                         for child in YToken.children:
+                            if child.tag_ in ("VB", "VDT"):
+                                firstChildIdx = 0
+                                break
+
                             if firstChildIdx == 0:
                                 firstChildIdx = child.i  # YToken = "of", so the first child is the actual Y
 
@@ -333,7 +337,6 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                         Y = conjunctsOfToken(YToken)
 
                     X = XToken.text
-                    # print(Y)
 
                     for ZToken in YToken.children:
                         if ZToken.dep_ in ("poss", "prep"):
@@ -344,6 +347,10 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                             if ZToken.dep_ == "prep":
                                 firstChildIdx = 0
                                 for child in ZToken.children:
+                                    if child.tag_ in ("VB", "VDT"):
+                                        firstChildIdx = 0
+                                        break
+                                
                                     if firstChildIdx == 0 and child.tag_ != "CD":
                                         firstChildIdx = child.i
 
