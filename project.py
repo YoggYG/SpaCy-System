@@ -295,7 +295,7 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y (of Z)
     for XToken in rootToken.children:
         if XToken.dep_ in ("nsubj", "attr", "dobj"):
             for YToken in rootToken.children:
-                if YToken in ("nsubj", "attr", "dobj"):
+                if YToken.dep_ in ("nsubj", "attr", "dobj"):
                     if YToken.i == XToken.i:
                         continue
 
