@@ -305,9 +305,6 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y
                     if len(Y) == 0:
                     	Y.append(YToken.text)
 
-                    print(X)
-                    print(Y)
-
                     if getXOfY(X, Y):
                         return True
 
