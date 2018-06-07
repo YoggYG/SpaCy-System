@@ -348,7 +348,9 @@ def makeCustomSpans():
         "kingdom of the netherlands",
         "age of majority",
         "date of birth",
-        "country of origin"
+        "country of origin",
+        "gdp per capita",
+        "place of publication"
     ]
     res = []
 
