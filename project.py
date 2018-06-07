@@ -290,7 +290,7 @@ def conjunctsOfToken(token):
     return result
 
 
-def subjectObjectStrategy(doc, rootIndex):  # X verb Y (of Z)
+def subjectObjectStrategy(doc, rootIndex):  # X verb Y
     rootToken = doc[rootIndex]
     for XToken in rootToken.children:
         if XToken.dep_ in ("nsubj", "attr", "dobj"):
@@ -299,29 +299,11 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y (of Z)
                     if YToken.i == XToken.i:
                         continue
 
-                    Y = conjunctsOfToken(YToken)
                     X = XToken.text
+                    Y = conjunctsOfToken(YToken)
 
-                    for ZToken in YToken.children:
-                        if ZToken.dep_ in ("poss", "prep"):
-                            Z = []
-                            if ZToken.tag_ == "CD":
-                                continue
-                            Z.append(ZToken.text)
-                            if ZToken.dep_ == "prep":
-                                firstChildIdx = 0
-                                for child in ZToken.children:
-                                    if firstChildIdx == 0 and child.tag_ != "CD":
-                                        firstChildIdx = child.i
-
-                                if firstChildIdx == 0:  # only second child is a year, so no compound question.
-                                    continue
-
-                                ZToken = doc[firstChildIdx]
-                                Z = conjunctsOfToken(ZToken)
-
-                            if getXofYofZ(X, Y, Z):
-                                return True
+                    if len(Y) == 0:
+                    	Y.append(YToken.text)
 
                     if getXOfY(X, Y):
                         return True
