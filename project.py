@@ -323,8 +323,14 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                     if YToken.dep_ == "prep":
                         firstChildIdx = 0
                         for child in YToken.children:
-                            if child.tag_ in ("WP", "WDT"):
-                                firstChildIdx = 0
+                            badChild = False
+                            for grandChild in child.children:
+                                if grandChild.tag_ in ("WP", "WDT"):
+                                    firstChildIdx = 0
+                                    badChild = True
+                                    break
+
+                            if badChild:
                                 break
 
                             if firstChildIdx == 0:
@@ -338,6 +344,9 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
 
                     X = XToken.text
 
+                    print(X)
+                    print(Y)
+
                     for ZToken in YToken.children:
                         if ZToken.dep_ in ("poss", "prep"):
                             Z = []
@@ -347,10 +356,15 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                             if ZToken.dep_ == "prep":
                                 firstChildIdx = 0
                                 for child in ZToken.children:
-                                    if child.tag_ in ("WP", "WDT"):
-                                        firstChildIdx = 0
+                                    badChild = False
+                                    for grandChild in child.children:
+                                        if grandChild.tag_ in ("WP", "WDT"):
+                                            firstChildIdx = 0
+                                            badChild = True
+                                            break
+
+                                    if badChild:
                                         break
-                                
                                     if firstChildIdx == 0 and child.tag_ != "CD":
                                         firstChildIdx = child.i
 
