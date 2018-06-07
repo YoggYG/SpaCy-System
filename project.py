@@ -39,7 +39,7 @@ def getCodesFromString(word, isProperty=False):
 def beginningOfQuery():
     return '''
     SELECT ?itemLabel WHERE {
-        SERVICE wikibase:label {bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en".}
+        SERVICE wikibase:label {bd:serviceParam wikibase:language "en".}
     '''
 
 
@@ -78,10 +78,21 @@ def constructTimeFilterQuery(predicateCode, objectCodes, extraLines=""):
 
 
 def extractAnswerListFromResult(result):
+    if result.split()[0] == "SPARQL-QUERY:":
+        print("Query Timeout Exception Caught.")
+        return []
+
     results = untangle.parse(result)
 
     answers = []
     for result in results.sparql.results.children:
+        if result.binding.literal["xml:lang"] is None:
+            if result.binding.literal.cdata[0] == 'Q':
+                continue
+
+        if result.binding.literal.cdata in answers:
+            continue
+
         answers.append(result.binding.literal.cdata)
 
     return answers
@@ -105,9 +116,7 @@ def getIndexOfRoot(doc):
 
 
 def createAllObjectCombinations(objectList):
-    result = list(itertools.product(*objectList))
-    # print(result)
-    return result
+    return list(itertools.product(*objectList))
 
 
 def writeAndPrintAnswers(answers):
@@ -125,14 +134,20 @@ def writeAndPrintAnswers(answers):
     print(res)
 
 
+def areValid(answers):
+    if len(answers) > 0:
+        return True
+
+    return False
+
+
 def getXOfY(X, YList):
     objectList = []
     predicates = getCodesFromString(X, True)
     for Y in YList:
         objectList.append(getCodesFromString(Y))
 
-    predicateObjects = getCodesFromString(X)
-    predicateObjects.append("")  # add an empty object. This is used to test without the extra line, in case we are not looking for a person.
+    predicateObjects = definePredicateObjectLines(getCodesFromString(X))
 
     # print(predicates)
     # print(predicateObjects)
@@ -143,16 +158,11 @@ def getXOfY(X, YList):
     for predicateObject in predicateObjects:
         for objectCombination in objectCombinations:
             for predicate in predicates:
-                if predicateObject != "":  # person has "position held" an instance of/subset of X
-                    extraLines = '''
-                    ?item wdt:P39 [wdt:P31|wdt:P279* wd:''' + predicateObject + '''].
-                    '''
-                else:
-                    extraLines = ""  # empty
+                extraLines = predicateObject
 
                 answers = getSimpleAnswer(predicate, objectCombination, extraLines)
 
-                if len(answers) > 0:
+                if areValid(answers):
                     writeAndPrintAnswers(answers)
 
                     return True  # if the query returned an answer, stop searching
@@ -208,26 +218,39 @@ def getCompoundAnswer(predicateCode, compoundPredicateCode, objectCodes, extraLi
     return extractAnswerListFromResult(request.text)
 
 
+def definePredicateObjectLines(objects, compound=False):
+    if compound:
+        name = "?temp"
+    else:
+        name = "?item"
+
+    res = []
+    for object in objects:
+        line = '''
+        ''' + name + ''' wdt:P39|wdt:P31* [wdt:P31|wdt:P279* wd:''' + object + '''].
+        '''
+        res.append(line)
+
+    res.append("\n")
+    return res
+
+
 def getXofYofZ(X, YList, ZList):  # compound questions (only one level)
     if len(YList) != 1:
         print("YList is length " + str(len(YList)))
 
-    objectList = []
     predicates = getCodesFromString(X, True)
+    predicateObjects = definePredicateObjectLines(getCodesFromString(X))
 
     Y = YList[0]
 
     compoundPredicates = getCodesFromString(Y, True)
-    compoundPredicateObjects = getCodesFromString(Y)  # In case the middle compound is a person.
+    compoundPredicateObjects = definePredicateObjectLines(getCodesFromString(Y), True)
 
-    compoundPredicateObjects.append("")
+    objectList = []
 
     for Z in ZList:
         objectList.append(getCodesFromString(Z))
-
-    predicateObjects = getCodesFromString(X)
-    predicateObjects.append(
-        "")  # add an empty object. This is used to test without the extra line, in case we are not looking for a person.
 
     # print(predicates)
     # print(predicateObjects)
@@ -236,25 +259,15 @@ def getXofYofZ(X, YList, ZList):  # compound questions (only one level)
     objectCombinations = createAllObjectCombinations(objectList)
 
     for predicateObject in predicateObjects:
-        for objectCombination in objectCombinations:
-            for predicate in predicates:
-                for compoundPredicate in compoundPredicates:
-                    for compoundPredicateObject in compoundPredicateObjects:
-                        if predicateObject != "":  # person has "position held" an instance of/subset of X
-                            extraLines = '''
-                            ?item wdt:P39 [wdt:P31|wdt:P279* wd:''' + predicateObject + '''].
-                            '''
-                        else:
-                            extraLines = ""  # empty
-
-                        if compoundPredicateObject != "":
-                            extraLines += '''
-                            ?temp wdt:P39 [wdt:P31|wdt:P279* wd:''' + compoundPredicateObject + '''].
-                            '''
+        for compoundPredicateObject in compoundPredicateObjects:
+            for objectCombination in objectCombinations:
+                for predicate in predicates:
+                    for compoundPredicate in compoundPredicates:
+                        extraLines = predicateObject + compoundPredicateObject
 
                         answers = getCompoundAnswer(predicate, compoundPredicate, objectCombination, extraLines)
 
-                        if len(answers) > 0:
+                        if areValid(answers):
                             writeAndPrintAnswers(answers)
 
                             return True  # if the query returned an answer, stop searching
