@@ -292,9 +292,9 @@ def conjunctsOfToken(token):
 
 def subjectObjectStrategy(doc, rootIndex):  # X verb Y
     rootToken = doc[rootIndex]
-    for XToken in rootToken.children:
-        if XToken.dep_ in ("nsubj", "attr", "dobj"):
-            for YToken in rootToken.children:
+    for XToken in rootToken.subtree:
+        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj"):
+            for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj"):
                     if YToken.i == XToken.i:
                         continue
@@ -304,6 +304,9 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y
 
                     if len(Y) == 0:
                     	Y.append(YToken.text)
+
+                    print(X)
+                    print(Y)
 
                     if getXOfY(X, Y):
                         return True
@@ -531,6 +534,7 @@ if __name__ == '__main__':
         if standardStrategy(doc, rootIndex):
             continue
         
+        print("Trying subject/object strategy next")
         if subjectObjectStrategy(doc, rootIndex):
             continue
 
