@@ -343,10 +343,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                         Y = conjunctsOfToken(YToken)
 
                     X = XToken.text
-
-                    print(X)
-                    print(Y)
-
+                    
                     for ZToken in YToken.children:
                         if ZToken.dep_ in ("poss", "prep"):
                             Z = []
