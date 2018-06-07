@@ -323,7 +323,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                     if YToken.dep_ == "prep":
                         firstChildIdx = 0
                         for child in YToken.children:
-                            if child.tag_ in ("VB", "VDT"):
+                            if child.tag_ in ("WP", "WDT"):
                                 firstChildIdx = 0
                                 break
 
@@ -347,7 +347,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                             if ZToken.dep_ == "prep":
                                 firstChildIdx = 0
                                 for child in ZToken.children:
-                                    if child.tag_ in ("VB", "VDT"):
+                                    if child.tag_ in ("WP", "WDT"):
                                         firstChildIdx = 0
                                         break
                                 
