@@ -1,19 +1,25 @@
 import spacy
+import json
 
 
 class SyntaxParser:
     LANGUAGE = "en"
+    CUSTOM_PHRASES = "syntax/customphrases.json"
 
     def __init__(self):
         self.spacy = spacy.load(SyntaxParser.LANGUAGE)
+        self.custom_phrases = SyntaxParser.load_custom_phrases()
 
     def parse(self, question):
         question.set_syntax(self.spacy(question.text))
 
-        SyntaxParser.merge_spans(question.syntax)
+        self.merge_spans(question.syntax)
 
     @staticmethod
-    def merge_spans(syntax):
+    def load_custom_phrases():
+        return json.load(open(SyntaxParser.CUSTOM_PHRASES))["phrases"]
+
+    def merge_spans(self, syntax):
         for spanType in range(3):
             spans = []
 
@@ -22,7 +28,7 @@ class SyntaxParser:
             elif spanType == 1:
                 raw_spans = list(syntax.noun_chunks)
             else:
-                raw_spans = SyntaxParser.make_custom_spans(syntax)
+                raw_spans = self.make_custom_spans(syntax)
 
             for span in raw_spans:
                 changed = False
@@ -47,24 +53,13 @@ class SyntaxParser:
                 else:
                     span.merge()
 
-    @staticmethod
-    def make_custom_spans(syntax):
-        phrase_definitions = [
-            # if more of these phrases have to be defined, a seperate file to store them would be nice.
-            "head of state",
-            "head of government",
-            "kingdom of the netherlands",
-            "age of majority",
-            "date of birth",
-            "country of origin",
-            "gdp per capita",
-            "place of publication"
-        ]
+    def make_custom_spans(self, syntax):
+        phrase_definitions = self.custom_phrases
+        print(phrase_definitions)
         result = []
 
         for doc_idx in range(len(syntax)):
             for phrase in phrase_definitions:
-                # split the words in the phrase into a list to loop over
                 words = phrase.split()
 
                 if doc_idx + len(words) > len(syntax):
