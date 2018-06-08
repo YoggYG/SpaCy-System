@@ -4,10 +4,8 @@ import spacy
 import untangle
 import itertools
 
-from aliases import Aliases
-
-
-aliases = Aliases()
+from preprocess import PreProcess
+from question import Question
 
 
 def printInstructions():
@@ -120,7 +118,7 @@ def createAllObjectCombinations(objectList):
 
 
 def writeAndPrintAnswers(answers):
-    res = questionID
+    res = question.id
 
     if answerAmount is False:
         for answer in answers:  # print all answers of this query
@@ -343,7 +341,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
                         Y = conjunctsOfToken(YToken)
 
                     X = XToken.text
-                    
+
                     for ZToken in YToken.children:
                         if ZToken.dep_ in ("poss", "prep"):
                             Z = []
@@ -472,25 +470,12 @@ def setAnswerAmount():
 
     return False
 
-
-def restructureSentence(line):
-    wordList = line.split()
-    if wordList[0] in ("in", "on"):
-        for idx in range(len(wordList)):
-            if wordList[idx] in ("is", "was", "does", "do", "lies", "can"):
-                maxIdx = len(wordList)
-                if wordList[-1] in ("lie?", "live?", "flow?"):
-                    maxIdx -= 1
-                res = wordList[1] + " is " + " ".join(wordList[2: idx]) + " of " + " ".join(wordList[idx + 1: maxIdx])
-                return res
-
-    return line
-
-
 if __name__ == '__main__':
     printInstructions()
     nlp = spacy.load('en')
     answerFile = "answers.txt"
+
+    pre_process = PreProcess()
 
     with open(answerFile, "w") as file:
         file.write("")
@@ -499,35 +484,27 @@ if __name__ == '__main__':
         if line.strip() == "":  # empty line cannot be parsed, causes crashes if not skipped
             continue
 
-        lineList = line.split('\t')
+        lines = line.split('\t')
 
-        if len(lineList) < 1:
+        if not lines:
             continue
 
-        if len(lineList) == 1:  # solely for testing, so that we don't have to use official format
-            questionID = ""
-            line = aliases.parse(lineList[0].strip())
+        if len(lines) == 1:  # solely for testing, so that we don't have to use official format
+            question = Question("", lines[0].strip())
         else:
-            questionID = lineList[0]
-            line = aliases.parse(lineList[1].strip())
+            question = Question(lines[0], lines[1].strip())
 
-        if line == "":  # Double check.
+        if not question.is_valid():
             continue
 
-        while True:
-            oldLine = line
-            line = restructureSentence(line)
-            if oldLine == line:
-                break
+        PreProcess().process(question)
 
-            line = aliases.parse(line)
+        print(question.text)
 
-        print(line)
-        
         needsTimeFilter = False
         year = 0
 
-        doc = nlp(line)
+        doc = nlp(question.text)
         mergeSpans()   # ideally this is not done in advance, but dynamically at runtime.
                         # Degree of merges could then depend on the current strategy.
 
@@ -548,11 +525,11 @@ if __name__ == '__main__':
 
         if standardStrategy(doc, rootIndex):
             continue
-        
+
         print("Trying subject/object strategy next")
         if subjectObjectStrategy(doc, rootIndex):
             continue
 
         with open(answerFile, "a+") as file:
-            file.write(questionID + "\tYes\n")  # Default answer.
-        print(questionID + "\tYes")  # Default answer.
+            file.write(question.id + "\tYes\n")  # Default answer.
+        print(question.id + "\tYes")  # Default answer.

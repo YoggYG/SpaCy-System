@@ -40,6 +40,7 @@ class Aliases:
 
     def parse(self, sentence):
         sentence = self.firstLower(sentence)
+
         while True:  # Apply the aliasing until no more change (some aliases may depend on others)
             old_sentence = sentence
             for set in self.sets:
