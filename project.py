@@ -286,12 +286,15 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
         if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
+            X = XToken.text
             for YToken in rootToken.subtree:
-                if YToken.dep_ in ("nsubj", "attr", "dobj", "nsubjpass"):
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
                     if YToken.i == XToken.i:
                         continue
 
-                    X = XToken.text
+                    if YToken.head.head.i == XToken.i:  # same as default strategy
+                        continue
+
                     Y = conjunctsOfToken(YToken)
 
                     if len(Y) == 0:
@@ -303,65 +306,50 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y
     return False
 
 
+def getCorrectChildToken(doc, token):
+    if token.tag_ == "CD":
+        return None
+
+    if token.dep_ == "prep":
+        firstChildIdx = 0
+        for child in token.children:
+            for grandChild in child.children:
+                if grandChild.tag_ in ("WP", "WDT"):
+                    return None
+
+            if firstChildIdx == 0 and child.tag_ != "CD":
+                firstChildIdx = child.i
+
+        if firstChildIdx == 0:  # No valid child
+            return None
+
+        token = doc[firstChildIdx]
+
+    return token
+
+
 def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
         # print('\t'.join((XToken.text, XToken.lemma_, XToken.pos_, XToken.tag_, XToken.dep_, XToken.head.lemma_)))
         if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
+            X = XToken.text
+
             for YToken in XToken.children:
                 if YToken.dep_ in ("poss", "prep"):  # Y is a (grand)child of X
-                    Y = []
-                    Y.append(YToken.text)
-                    if YToken.dep_ == "prep":
-                        firstChildIdx = 0
-                        for child in YToken.children:
-                            badChild = False
-                            for grandChild in child.children:
-                                if grandChild.tag_ in ("WP", "WDT"):
-                                    firstChildIdx = 0
-                                    badChild = True
-                                    break
+                    YToken = getCorrectChildToken(doc, YToken)
+                    if YToken is None:
+                        continue
 
-                            if badChild:
-                                break
-
-                            if firstChildIdx == 0:
-                                firstChildIdx = child.i  # YToken = "of", so the first child is the actual Y
-
-                        if firstChildIdx == 0:
-                            continue
-
-                        YToken = doc[firstChildIdx]
-                        Y = conjunctsOfToken(YToken)
-
-                    X = XToken.text
+                    Y = conjunctsOfToken(YToken)
 
                     for ZToken in YToken.children:
                         if ZToken.dep_ in ("poss", "prep"):
-                            Z = []
-                            if ZToken.tag_ == "CD":
+                            ZToken = getCorrectChildToken(doc, ZToken)
+                            if ZToken is None:
                                 continue
-                            Z.append(ZToken.text)
-                            if ZToken.dep_ == "prep":
-                                firstChildIdx = 0
-                                for child in ZToken.children:
-                                    badChild = False
-                                    for grandChild in child.children:
-                                        if grandChild.tag_ in ("WP", "WDT"):
-                                            firstChildIdx = 0
-                                            badChild = True
-                                            break
 
-                                    if badChild:
-                                        break
-                                    if firstChildIdx == 0 and child.tag_ != "CD":
-                                        firstChildIdx = child.i
-
-                                if firstChildIdx == 0:  # only second child is a year, so no compound question.
-                                    continue
-
-                                ZToken = doc[firstChildIdx]
-                                Z = conjunctsOfToken(ZToken)
+                            Z = conjunctsOfToken(ZToken)
 
                             if getXofYofZ(X, Y, Z):
                                 return True
