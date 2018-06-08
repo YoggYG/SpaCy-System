@@ -4,6 +4,7 @@ import spacy
 import untangle
 import itertools
 
+from syntaxparser import SyntaxParser
 from preprocess import PreProcess
 from question import Question
 
@@ -476,6 +477,7 @@ if __name__ == '__main__':
     answerFile = "answers.txt"
 
     pre_process = PreProcess()
+    syntax_parser = SyntaxParser()
 
     with open(answerFile, "w") as file:
         file.write("")
@@ -497,9 +499,10 @@ if __name__ == '__main__':
         if not question.is_valid():
             continue
 
-        PreProcess().process(question)
+        pre_process.process(question)
+        syntax_parser.parse(question)
 
-        print(question.text)
+        print(question)
 
         doc = nlp(question.text)
         mergeSpans()   # ideally this is not done in advance, but dynamically at runtime.

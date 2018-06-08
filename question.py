@@ -8,6 +8,9 @@ class Question:
         self.text = text
         self.time_filter = None
 
+    def __str__(self):
+        return self.text
+
     def is_valid(self):
         if self.text == "":
             return False
