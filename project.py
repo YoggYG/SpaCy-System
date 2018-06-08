@@ -72,7 +72,7 @@ def constructTimeFilterQuery(predicateCode, objectCodes, extraLines=""):
     for objectCode in objectCodes:
         query += makeTimeFilterLine(predicateCode, objectCode)
 
-    return query + extraLines + '''filter(YEAR(?date) = ''' + year + ''').''' + endOfQuery()
+    return query + extraLines + '''filter(YEAR(?date) = ''' + question.time_filter.year + ''').''' + endOfQuery()
 
 
 def extractAnswerListFromResult(result):
@@ -97,7 +97,7 @@ def extractAnswerListFromResult(result):
 
 
 def getSimpleAnswer(predicateCode, objectCodes, extraLines=""):
-    if needsTimeFilter:
+    if question.time_filter:
         query = constructTimeFilterQuery(predicateCode, objectCodes, extraLines)
     else:
         query = constructSimpleQuery(predicateCode, objectCodes, extraLines)
@@ -192,7 +192,7 @@ def constructTimeFilterCompoundQuery(predicateCode, compoundPredicateCode, objec
 
     query += makeTimeFilterCompoundLine(predicateCode)
 
-    return query + extraLines + '''filter(YEAR(?date) = ''' + year + ''').''' + endOfQuery()
+    return query + extraLines + '''filter(YEAR(?date) = ''' + question.time_filter.year + ''').''' + endOfQuery()
 
 
 def constructCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, extraLines):
@@ -206,7 +206,7 @@ def constructCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, ex
 
 
 def getCompoundAnswer(predicateCode, compoundPredicateCode, objectCodes, extraLines=""):
-    if needsTimeFilter:
+    if question.time_filter:
         query = constructTimeFilterCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, extraLines)
     else:
         query = constructCompoundQuery(predicateCode, compoundPredicateCode, objectCodes, extraLines)
@@ -501,9 +501,6 @@ if __name__ == '__main__':
 
         print(question.text)
 
-        needsTimeFilter = False
-        year = 0
-
         doc = nlp(question.text)
         mergeSpans()   # ideally this is not done in advance, but dynamically at runtime.
                         # Degree of merges could then depend on the current strategy.
@@ -514,14 +511,14 @@ if __name__ == '__main__':
 
         for token in doc[rootIndex].subtree:
             print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
-            if token.dep_ == "pobj" and token.tag_ == "CD" and not needsTimeFilter:  # save the first of multiple years
-                needsTimeFilter = True
-                year = token.text
+            if token.dep_ == "pobj" and token.tag_ == "CD" and not question.time_filter:  # save the first of multiple years
+                question.set_time_filter(token.text)
 
-        if needsTimeFilter:
+        if question.time_filter:
             if standardStrategy(doc, rootIndex):
                 continue
-            needsTimeFilter = False
+
+            question.remove_time_filter()
 
         if standardStrategy(doc, rootIndex):
             continue
