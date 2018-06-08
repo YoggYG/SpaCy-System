@@ -107,12 +107,6 @@ def getSimpleAnswer(predicateCode, objectCodes, extraLines=""):
     return extractAnswerListFromResult(request.text)
 
 
-def getIndexOfRoot(doc):
-    for token in doc:
-        if token.dep_ == "ROOT":
-            return token.i
-
-
 def createAllObjectCombinations(objectList):
     return list(itertools.product(*objectList))
 
@@ -301,7 +295,7 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y
                     Y = conjunctsOfToken(YToken)
 
                     if len(Y) == 0:
-                    	Y.append(YToken.text)
+                        Y.append(YToken.text)
 
                     if getXOfY(X, Y):
                         return True
@@ -410,24 +404,22 @@ if __name__ == '__main__':
 
         syntax_parser.parse(question)
 
-        rootIndex = getIndexOfRoot(question.syntax)
-
-        for token in question.syntax[rootIndex].subtree:
+        for token in question.syntax[question.syntax_root].subtree:
             print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
             if token.dep_ == "pobj" and token.tag_ == "CD" and not question.time_filter:  # save the first of multiple years
                 question.set_time_filter(token.text)
 
         if question.time_filter:
-            if standardStrategy(question.syntax, rootIndex):
+            if standardStrategy(question.syntax, question.syntax_root):
                 continue
 
             question.remove_time_filter()
 
-        if standardStrategy(question.syntax, rootIndex):
+        if standardStrategy(question.syntax, question.syntax_root):
             continue
 
         print("Trying subject/object strategy next")
-        if subjectObjectStrategy(question.syntax, rootIndex):
+        if subjectObjectStrategy(question.syntax, question.syntax_root):
             continue
 
         with open(answerFile, "a+") as file:

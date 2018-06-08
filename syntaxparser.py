@@ -20,6 +20,24 @@ class SyntaxParser:
         if self.has_multiple_answers(question.syntax):
             question.set_multiple_answers()
 
+        SyntaxParser.find_root(question)
+
+    @staticmethod
+    def find_root(question):
+        for token in question.syntax:
+            if token.dep_ == "ROOT":
+                question.set_syntax_root_index(token.i)
+
+                return
+
+    @staticmethod
+    def load_custom_phrases():
+        return json.load(open(SyntaxParser.CUSTOM_PHRASES))["phrases"]
+
+    @staticmethod
+    def load_plural_phrases():
+        return json.load(open(SyntaxParser.PLURAL_PHRASES))["phrases"]
+
     def has_multiple_answers(self, syntax):
         for doc_idx in range(len(syntax)):
             for phrase in self.plural_phrases:
@@ -39,14 +57,6 @@ class SyntaxParser:
                     return True
 
         return False
-
-    @staticmethod
-    def load_custom_phrases():
-        return json.load(open(SyntaxParser.CUSTOM_PHRASES))["phrases"]
-
-    @staticmethod
-    def load_plural_phrases():
-        return json.load(open(SyntaxParser.PLURAL_PHRASES))["phrases"]
 
     def merge_spans(self, syntax):
         for spanType in range(3):

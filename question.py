@@ -9,6 +9,7 @@ class Question:
         self.time_filter = None
         self.syntax = None
         self.multiple_answers = False
+        self.syntax_root = None
 
     def __str__(self):
         return self.text
@@ -30,3 +31,6 @@ class Question:
 
     def set_multiple_answers(self):
         self.multiple_answers = True
+
+    def set_syntax_root_index(self, index):
+        self.syntax_root = index
