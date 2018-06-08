@@ -1,6 +1,5 @@
 import sys
 import requests
-import spacy
 import untangle
 import itertools
 
@@ -378,91 +377,20 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
 
     return False
 
-
-def makeCustomSpans():
-    phraseDefinitions = [  # if more of these phrases have to be defined, a seperate file to store them would be nice.
-        "head of state",
-        "head of government",
-        "kingdom of the netherlands",
-        "age of majority",
-        "date of birth",
-        "country of origin",
-        "gdp per capita",
-        "place of publication"
-    ]
-    res = []
-
-    for doc_idx in range(len(doc)):
-        for phrase in phraseDefinitions:
-            wordList = phrase.split()  # split the words in the phrase into a list to loop over
-            if doc_idx + len(wordList) > len(doc):
-                continue
-
-            match = True
-            for word_idx in range(len(wordList)):
-                if doc[doc_idx + word_idx].lemma_ != wordList[word_idx]:
-                    match = False
-                    break
-
-            if match is True:
-                res.append(doc[doc_idx: doc_idx + len(wordList)])
-
-    return res
-
-
-def mergeSpans():  # combines noun chunks and entities into a single Token. Does not include the determiner.
-    for spanType in range(3):
-        spans = []
-
-        if spanType == 0:
-            raw_spans = list(doc.ents)
-        elif spanType == 1:
-            raw_spans = list(doc.noun_chunks)
-        else:
-            raw_spans = makeCustomSpans()
-
-        # for span in raw_spans:
-        #     print(span)
-
-        for span in raw_spans:
-            changed = False
-            for idx in range(len(span)):
-                token = span[idx]
-                if token.dep_ == "poss":  # Do not merge noun chunks with a genitive in it. We need that.
-                    changed = True
-                    # print(span[0: idx + 1])
-                    # print(span[idx + 2: len(span)])
-                    spans.append(span[0: idx + 1])
-
-                    if idx + 2 < len(span):  # exception for the case of "New York's"
-                        spans.append(span[idx + 2:])
-
-                    break
-
-            if not changed:
-                spans.append(span)
-
-        for span in spans:
-            if span[0].dep_ == "det":  # exclude the first determiner, we don't want it.
-                span[1:].merge()
-            else:
-                span.merge()
-
-
 def setAnswerAmount():
     phraseDefinitions = [
         "how many"
     ]
 
-    for doc_idx in range(len(doc)):
+    for doc_idx in range(len(question.syntax)):
         for phrase in phraseDefinitions:
             wordList = phrase.split()  # split the words in the phrase into a list to loop over
-            if doc_idx + len(wordList) > len(doc):
+            if doc_idx + len(wordList) > len(question.syntax):
                 continue
 
             match = True
             for word_idx in range(len(wordList)):
-                if doc[doc_idx + word_idx].lemma_ != wordList[word_idx]:
+                if question.syntax[doc_idx + word_idx].lemma_ != wordList[word_idx]:
                     match = False
                     break
 
@@ -471,9 +399,9 @@ def setAnswerAmount():
 
     return False
 
+
 if __name__ == '__main__':
     printInstructions()
-    nlp = spacy.load('en')
     answerFile = "answers.txt"
 
     pre_process = PreProcess()
@@ -500,34 +428,30 @@ if __name__ == '__main__':
             continue
 
         pre_process.process(question)
-        syntax_parser.parse(question)
-
         print(question)
 
-        doc = nlp(question.text)
-        mergeSpans()   # ideally this is not done in advance, but dynamically at runtime.
-                        # Degree of merges could then depend on the current strategy.
+        syntax_parser.parse(question)
 
         answerAmount = setAnswerAmount()  # set to true by checking for "how many"
 
-        rootIndex = getIndexOfRoot(doc)
+        rootIndex = getIndexOfRoot(question.syntax)
 
-        for token in doc[rootIndex].subtree:
+        for token in question.syntax[rootIndex].subtree:
             print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
             if token.dep_ == "pobj" and token.tag_ == "CD" and not question.time_filter:  # save the first of multiple years
                 question.set_time_filter(token.text)
 
         if question.time_filter:
-            if standardStrategy(doc, rootIndex):
+            if standardStrategy(question.syntax, rootIndex):
                 continue
 
             question.remove_time_filter()
 
-        if standardStrategy(doc, rootIndex):
+        if standardStrategy(question.syntax, rootIndex):
             continue
 
         print("Trying subject/object strategy next")
-        if subjectObjectStrategy(doc, rootIndex):
+        if subjectObjectStrategy(question.syntax, rootIndex):
             continue
 
         with open(answerFile, "a+") as file:

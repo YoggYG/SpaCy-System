@@ -7,6 +7,7 @@ class Question:
         self.id = id
         self.text = text
         self.time_filter = None
+        self.syntax = None
 
     def __str__(self):
         return self.text
@@ -22,3 +23,6 @@ class Question:
 
     def remove_time_filter(self):
         self.time_filter = None
+
+    def set_syntax(self, syntax):
+        self.syntax = syntax
