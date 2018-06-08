@@ -5,19 +5,48 @@ import json
 class SyntaxParser:
     LANGUAGE = "en"
     CUSTOM_PHRASES = "syntax/customphrases.json"
+    PLURAL_PHRASES = "syntax/pluralphrases.json"
 
     def __init__(self):
         self.spacy = spacy.load(SyntaxParser.LANGUAGE)
         self.custom_phrases = SyntaxParser.load_custom_phrases()
+        self.plural_phrases = SyntaxParser.load_plural_phrases()
 
     def parse(self, question):
         question.set_syntax(self.spacy(question.text))
 
         self.merge_spans(question.syntax)
 
+        if self.has_multiple_answers(question.syntax):
+            question.set_multiple_answers()
+
+    def has_multiple_answers(self, syntax):
+        for doc_idx in range(len(syntax)):
+            for phrase in self.plural_phrases:
+                word_list = phrase.split()
+
+                if doc_idx + len(word_list) > len(syntax):
+                    continue
+
+                match = True
+
+                for word_idx in range(len(word_list)):
+                    if syntax[doc_idx + word_idx].lemma_ != word_list[word_idx]:
+                        match = False
+                        break
+
+                if match:
+                    return True
+
+        return False
+
     @staticmethod
     def load_custom_phrases():
         return json.load(open(SyntaxParser.CUSTOM_PHRASES))["phrases"]
+
+    @staticmethod
+    def load_plural_phrases():
+        return json.load(open(SyntaxParser.PLURAL_PHRASES))["phrases"]
 
     def merge_spans(self, syntax):
         for spanType in range(3):
@@ -55,7 +84,6 @@ class SyntaxParser:
 
     def make_custom_spans(self, syntax):
         phrase_definitions = self.custom_phrases
-        print(phrase_definitions)
         result = []
 
         for doc_idx in range(len(syntax)):

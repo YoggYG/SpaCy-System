@@ -120,7 +120,7 @@ def createAllObjectCombinations(objectList):
 def writeAndPrintAnswers(answers):
     res = question.id
 
-    if answerAmount is False:
+    if not question.multiple_answers:
         for answer in answers:  # print all answers of this query
             res += "\t" + answer
     else:
@@ -377,28 +377,6 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
 
     return False
 
-def setAnswerAmount():
-    phraseDefinitions = [
-        "how many"
-    ]
-
-    for doc_idx in range(len(question.syntax)):
-        for phrase in phraseDefinitions:
-            wordList = phrase.split()  # split the words in the phrase into a list to loop over
-            if doc_idx + len(wordList) > len(question.syntax):
-                continue
-
-            match = True
-            for word_idx in range(len(wordList)):
-                if question.syntax[doc_idx + word_idx].lemma_ != wordList[word_idx]:
-                    match = False
-                    break
-
-            if match is True:
-                return True
-
-    return False
-
 
 if __name__ == '__main__':
     printInstructions()
@@ -431,8 +409,6 @@ if __name__ == '__main__':
         print(question)
 
         syntax_parser.parse(question)
-
-        answerAmount = setAnswerAmount()  # set to true by checking for "how many"
 
         rootIndex = getIndexOfRoot(question.syntax)
 

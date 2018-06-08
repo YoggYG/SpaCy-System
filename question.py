@@ -8,6 +8,7 @@ class Question:
         self.text = text
         self.time_filter = None
         self.syntax = None
+        self.multiple_answers = False
 
     def __str__(self):
         return self.text
@@ -26,3 +27,6 @@ class Question:
 
     def set_syntax(self, syntax):
         self.syntax = syntax
+
+    def set_multiple_answers(self):
+        self.multiple_answers = True
