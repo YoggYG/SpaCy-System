@@ -373,6 +373,9 @@ def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answ
 
     return False
 
+def yesNoQuestions(line):
+    print("Yes")
+    return True
 
 if __name__ == '__main__':
     printInstructions()
@@ -416,6 +419,10 @@ if __name__ == '__main__':
                 continue
 
             question.remove_time_filter()
+
+        if question.text.split(" ", 1)[0] == "is": #check if the first word is is
+            if yesNoQuestions(question.text):       #perform yes/no function
+                continue
 
         if standardStrategy(question.syntax, question.syntax_root):
             continue
