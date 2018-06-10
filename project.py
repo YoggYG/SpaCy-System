@@ -142,9 +142,9 @@ def getXOfY(X, YList):
 
     predicateObjects = definePredicateObjectLines(getCodesFromString(X))
 
-    # print(predicates)
-    # print(predicateObjects)
-    # print(objectList)
+    #print(predicates)
+    #print(predicateObjects)
+    #print(objectList)
 
     objectCombinations = createAllObjectCombinations(objectList)
 
@@ -375,22 +375,39 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
 
 def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answer, "what is the tallest mountain?")
     rootToken = doc[rootIndex]
+
     for XToken in rootToken.subtree:
-        # print('\t'.join((XToken.text, XToken.lemma_, XToken.pos_, XToken.tag_, XToken.dep_, XToken.head.lemma_)))
         if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
             X = XToken.text
-
             Y = ["the earth"]
 
             if getXOfY(X, Y):
-                 return True
-
+                return True
     return False
 
-def riverStrategy(doc, rootIndex):  # X verb Y
+def whereIsStrategy(doc, rootIndex):  # Where is X
+    rootToken = doc[rootIndex]
+
+    for XToken in rootToken.subtree:
+        if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
+            X = XToken.text
+
+            if not isInstanceOf(X, "country") and not isInstanceOf(X, "continent"):
+                if getXOfY("country", [X]):
+                    return True
+            
+            if not isInstanceOf(X, "continent"):
+                if getXOfY("continent", [X]):
+                    return True
+
+            if getXOfY("coordinate location", [X]):
+                return True
+    return False
+
+def riverStrategy(doc, rootIndex):  # just some shit for rivers
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
-        if XToken.lemma_ in ("from", "origin", "start", "originate"):
+        if XToken.lemma_ in ("from", "origin", "start", "originate", "begin"):
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
                     if isInstanceOf(YToken.lemma_, "river"):
@@ -398,6 +415,20 @@ def riverStrategy(doc, rootIndex):  # X verb Y
                         if getXOfY("origin of the watercourse", [YToken.lemma_]):
                             return True
                         if getXOfY("tributary", [YToken.lemma_]):
+                            return True
+        elif XToken.lemma_ in ("end", "mouth", "finish", "to"):
+            for YToken in rootToken.subtree:
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
+                    if isInstanceOf(YToken.text, "river"):
+                        #print(YToken.lemma_)
+                        if getXOfY("mouth of the watercourse", [YToken.lemma_]):
+                            return True
+        elif XToken.lemma_ in ("through", "cross", "pass"):
+            for YToken in rootToken.subtree:
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
+                    if isInstanceOf(YToken.text, "river"):
+                        #print(YToken.lemma_)
+                        if getXOfY("country", [YToken.lemma_]):
                             return True
     return False
 
@@ -504,6 +535,10 @@ if __name__ == '__main__':
         if standardStrategy(question.syntax, question.syntax_root):
             continue
 
+        print("Trying river strategy next")
+        if riverStrategy(question.syntax, question.syntax_root):
+            continue
+
         print("Trying subject/object strategy next")
         if subjectObjectStrategy(question.syntax, question.syntax_root):
             continue
@@ -512,9 +547,10 @@ if __name__ == '__main__':
         if earthStrategy(question.syntax, question.syntax_root):
             continue
 
-        print("Trying river strategy next")
-        if riverStrategy(question.syntax, question.syntax_root):
-            continue
+        print("Trying where is strategy next")
+        if question.text.split(" ", 1)[0] == "where": #check if the first word is is
+            if whereIsStrategy(question.syntax, question.syntax_root):
+                continue
 
         print("Guessing")
 
