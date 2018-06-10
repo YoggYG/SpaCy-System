@@ -53,6 +53,11 @@ def makeSimpleLine(predicateCode, objectCode):
     wd:''' + objectCode + ''' wdt:''' + predicateCode + ''' ?item.
     '''
 
+def makeReverseLine(predicateCode, objectCode):
+    return '''
+    ?item wdt:''' + predicateCode +  ''' wd:''' + objectCode + '''.
+    '''
+
 
 def constructSimpleQuery(predicateCode, objectCodes, extraLines=""):
     query = beginningOfQuery()
@@ -60,6 +65,15 @@ def constructSimpleQuery(predicateCode, objectCodes, extraLines=""):
         query += makeSimpleLine(predicateCode, objectCode)
 
     return query + extraLines + endOfQuery()
+
+def constructReverseQuery(predicateCode, objectCodes, filterCodes):
+    query = beginningOfQuery()
+    for objectCode in objectCodes:
+        for filterCode in filterCodes:
+            query += makeReverseLine(predicateCode, objectCode)
+            query += makeReverseLine("P31" , filterCode)
+
+    return query + endOfQuery()
 
 
 def makeTimeFilterLine(predicateCode, objectCode):
@@ -102,6 +116,14 @@ def getSimpleAnswer(predicateCode, objectCodes, extraLines=""):
         query = constructTimeFilterQuery(predicateCode, objectCodes, extraLines)
     else:
         query = constructSimpleQuery(predicateCode, objectCodes, extraLines)
+
+    request = requests.get("https://query.wikidata.org/sparql?query=" + query)
+
+    return extractAnswerListFromResult(request.text)
+
+def getReverseAnswer(predicateCode, objectCodes, filterCodes):
+    
+    query = constructReverseQuery(predicateCode, objectCodes, filterCodes)
 
     request = requests.get("https://query.wikidata.org/sparql?query=" + query)
 
@@ -158,6 +180,37 @@ def getXOfY(X, YList):
                 if areValid(answers):
                     writeAndPrintAnswers(answers)
 
+                    return True  # if the query returned an answer, stop searching
+
+    return False
+
+def getY(X, ZList, Filter):
+    
+    objectList = []
+    predicates = getCodesFromString(X, True)
+    for Z in ZList:
+        objectList.append(getCodesFromString(Z))
+
+    objectCombinations = createAllObjectCombinations(objectList)
+
+    filterList = []
+    for F in Filter:
+        filterList.append(getCodesFromString(F))
+
+    filterCombinations = createAllObjectCombinations(filterList)
+
+    #print(predicates)
+    #print(objectCombinations)
+    #print(filterCombinations)
+
+    for objectCombination in objectCombinations:
+        for predicate in predicates:
+            for filterCombination in filterCombinations:
+
+                answers = getReverseAnswer(predicate, objectCombination, filterCombination)
+
+                if areValid(answers):
+                    writeAndPrintAnswers(answers)
                     return True  # if the query returned an answer, stop searching
 
     return False
@@ -430,6 +483,28 @@ def riverStrategy(doc, rootIndex):  # just some shit for rivers
                         #print(YToken.lemma_)
                         if getXOfY("country", [YToken.lemma_]):
                             return True
+                    
+    return False
+
+def findAllThatApply(doc, rootIndex):
+    rootToken = doc[rootIndex]
+    for XToken in rootToken.subtree:
+        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "ROOT") and not XToken.lemma_ in ("what", "where", "which"):
+            X = XToken.text
+            for YToken in rootToken.subtree:
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "ROOT") and not YToken.lemma_ in ("what", "where", "which"):
+                    if YToken.i == XToken.i:
+                        continue
+
+                    if YToken.head.head.i == XToken.i:  # same as default strategy
+                        continue
+
+                    if isInstanceOf(X, "country"):
+                        if getY("country", [X], [YToken.lemma_]):
+                            return True
+                        if getY("country", [X], [YToken.text]):
+                            return True
+
     return False
 
 def binarysparql(entity, property):
@@ -528,6 +603,9 @@ if __name__ == '__main__':
 
             question.remove_time_filter()
 
+        if question.text.split(" ", 1)[0] == "how" and question.text.split(" ", 1)[1].split(" ", 1)[0] == "many": #just for good measure
+            question.set_multiple_answers()                                                         #sometimes it fails without
+
         if question.text.split(" ", 1)[0] == "is": #check if the first word is is
             if yesNoQuestions(question.text):       #perform yes/no function
                 continue
@@ -545,6 +623,10 @@ if __name__ == '__main__':
 
         print("Trying earth strategy next")
         if earthStrategy(question.syntax, question.syntax_root):
+            continue
+
+        print("Trying find all that apply strategy next")
+        if findAllThatApply(question.syntax, question.syntax_root):
             continue
 
         print("Trying where is strategy next")
