@@ -53,6 +53,7 @@ def makeSimpleLine(predicateCode, objectCode):
     wd:''' + objectCode + ''' wdt:''' + predicateCode + ''' ?item.
     '''
 
+
 def makeReverseLine(predicateCode, objectCode):
     return '''
     ?item wdt:''' + predicateCode +  ''' wd:''' + objectCode + '''.
@@ -65,6 +66,7 @@ def constructSimpleQuery(predicateCode, objectCodes, extraLines=""):
         query += makeSimpleLine(predicateCode, objectCode)
 
     return query + extraLines + endOfQuery()
+
 
 def constructReverseQuery(predicateCode, objectCodes, filterCodes):
     query = beginningOfQuery()
@@ -120,6 +122,7 @@ def getSimpleAnswer(predicateCode, objectCodes, extraLines=""):
     request = requests.get("https://query.wikidata.org/sparql?query=" + query)
 
     return extractAnswerListFromResult(request.text)
+
 
 def getReverseAnswer(predicateCode, objectCodes, filterCodes):
     
@@ -184,6 +187,7 @@ def getXOfY(X, YList):
 
     return False
 
+
 def getY(X, ZList, Filter):
     
     objectList = []
@@ -214,6 +218,7 @@ def getY(X, ZList, Filter):
                     return True  # if the query returned an answer, stop searching
 
     return False
+
 
 def isInstanceOf(X, Code):
     objectList = []
@@ -426,6 +431,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
 
     return False
 
+
 def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answer, "what is the tallest mountain?")
     rootToken = doc[rootIndex]
 
@@ -437,6 +443,7 @@ def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answ
             if getXOfY(X, Y):
                 return True
     return False
+
 
 def whereIsStrategy(doc, rootIndex):  # Where is X
     rootToken = doc[rootIndex]
@@ -456,6 +463,7 @@ def whereIsStrategy(doc, rootIndex):  # Where is X
             if getXOfY("coordinate location", [X]):
                 return True
     return False
+
 
 def riverStrategy(doc, rootIndex):  # just some shit for rivers
     rootToken = doc[rootIndex]
@@ -486,6 +494,7 @@ def riverStrategy(doc, rootIndex):  # just some shit for rivers
                     
     return False
 
+
 def findAllThatApply(doc, rootIndex):
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
@@ -507,6 +516,7 @@ def findAllThatApply(doc, rootIndex):
 
     return False
 
+
 def binarysparql(entity, property):
     sparqlurl = 'https://query.wikidata.org/sparql'
     query = 'SELECT * WHERE { wd:'+entity+' wdt:'+property+' ?answer. ?answer rdfs:label ?text}'
@@ -517,6 +527,7 @@ def binarysparql(entity, property):
             answers.append(item)
     return answers
 
+
 def yesNoQuestions(line):
     print("YES NO")
     wdapi = 'https://www.wikidata.org/w/api.php'
@@ -524,6 +535,7 @@ def yesNoQuestions(line):
     m = re.search('(?:Is |is ) ?(.*) (?:the |a |an) ?(.*) of (?:the |a |an )?(.*)\?', line) #Is X the Y of Z?
     n = re.search('(?:Is |is ) ?(.*) (?:a |an ) ?(.*)\?', line) #Is Australia a continent?
     o = re.search('(?:Is |is ) ?(.*) ?(.*) (?:the |a |an )?(.*)\?', line) #Is X Y Y?
+    # VARIABLE 'o' IS NOT USED. TODO?
     if m is not None:                                        # Failsafe for when malformed queries occur
         entity = m.group(1)
         property = m.group(2)
@@ -540,9 +552,10 @@ def yesNoQuestions(line):
                 property_id = result['id']
                 for answers in binarysparql(entity_id, property_id):
                     if posedAnswer.lower() == answers['text']['value'].lower():
-                        print('Yes')
+                        writeAndPrintAnswers(["Yes"])
                         return True
-    elif n is not None: 
+
+    elif n is not None:
         entity = n.group(1)
         posedAnswer = n.group(2)
         #print("2", entity, 'is instance of' , posedAnswer)
@@ -553,12 +566,15 @@ def yesNoQuestions(line):
             property_id = 'P31'
             for answers in binarysparql(entity_id, property_id):
                 if posedAnswer.lower() == answers['text']['value'].lower():
-                    print('Yes')
+                    writeAndPrintAnswers(["Yes"])
                     return True 
+
     else:
         return False
-    print('No')
+
+    writeAndPrintAnswers(["No"])  # unreachable?
     return True
+
 
 if __name__ == '__main__':
     printInstructions()
@@ -635,7 +651,4 @@ if __name__ == '__main__':
                 continue
 
         print("Guessing")
-
-        with open(answerFile, "a+") as file:
-            file.write(question.id + "\tYes\n")  # Default answer.
-        print(question.id + "\tYes")  # Default answer.
+        writeAndPrintAnswers(["Yes"])  # Default answer
