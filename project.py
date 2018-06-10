@@ -359,6 +359,20 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
 
     return False
 
+def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answer, "what is the tallest mountain?")
+    rootToken = doc[rootIndex]
+    for XToken in rootToken.subtree:
+        # print('\t'.join((XToken.text, XToken.lemma_, XToken.pos_, XToken.tag_, XToken.dep_, XToken.head.lemma_)))
+        if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
+            X = XToken.text
+
+            Y = ["the earth"]
+
+            if getXOfY(X, Y):
+                 return True
+
+    return False
+
 
 if __name__ == '__main__':
     printInstructions()
@@ -408,6 +422,10 @@ if __name__ == '__main__':
 
         print("Trying subject/object strategy next")
         if subjectObjectStrategy(question.syntax, question.syntax_root):
+            continue
+
+        print("Trying earth strategy next")
+        if earthStrategy(question.syntax, question.syntax_root):
             continue
 
         with open(answerFile, "a+") as file:
