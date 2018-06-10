@@ -432,7 +432,7 @@ def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answ
     for XToken in rootToken.subtree:
         if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
             X = XToken.text
-            Y = ["the earth"]
+            Y = ["earth"]
 
             if getXOfY(X, Y):
                 return True
