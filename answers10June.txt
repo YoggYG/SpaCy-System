@@ -1,0 +1,575 @@
+ sXXXXXXX	Phobos	Deimos
+ s2977419	Switzerland	Liechtenstein	Ottoman Empire	Russian Empire	Prussia	German Empire	Kingdom of Saxony	Kingdom of Bavaria	Kingdom of Italy	Kingdom of Romania	Kingdom of Serbia	Kingdom of Montenegro	Principality of Serbia	Principality of Montenegro	Romania
+ s2761041	Seine basin
+ s2762161	Yes
+ s2772841	UTC+11:30	UTC+11:00	UTC+10:30	UTC+10:00	UTC+09:30	UTC+08:00	UTC+07:00	UTC+06:30	UTC+05:00
+ s2762161	Mexico
+ s2974797	Yes
+ s2455951	Yes
+ s2615703	Africa	Asia
+ s2364328	Yes
+ s2364328	Yes
+ s2889439	ตำบลธาตุ
+ s2865300	9200000
+ s2515970	106460000
+ s2386844	9200000
+ s2957531	2206
+ s2986280	-10994
+ s2197367	1300
+ s2986280	12.011
+ s2784866	6190
+ s3157423	8586
+ s2909073	7
+ s2938928	5895
+ s2762161	5642
+ s2762161	Reykjavík
+ s2455951	Triglav
+ s2644789	scientific journal
+ s2745135	160
+ s3135144	340030000
+ s2890216	40075
+ s2386844	21
+ s2683423	6853
+ s2990571	6853
+ s2536420	Yes
+ s2748150	1100000000
+ s2615371	12108257
+ s2615371	16829289
+ s2954524	Yes
+ s2644789	Yes
+ s2455951	1
+ s2938928	Yes
+ s2853442	Yes
+ s2986280	Yes
+ s2856743	Yes
+ s3249212	6226494	6510000
+ s2615371	8848	6263.47
+ s3219496	-10994
+ s2615371	1126
+ s2455951	423000000
+ s2986280	Yes
+ s2909073	Yes
+ s2683423	Yes
+ s2954524	Yes
+ s2738694	Yes
+ s2644789	Yes
+ s2644789	Yes
+ s2740761	Yes
+ s3249212	30
+ s3135144	10
+ s3219496	3370000
+ s2974797	Yes
+ s2938928	0.319
+ s2386844	Yes
+ s2990571	8848
+ s2890216	8848
+ s2748150	BEVlK0dQ0Gc
+ s2212781	Asia
+ s2945029	Italy	Switzerland	Austria	France	Germany	Slovenia	Monaco	Liechtenstein
+ s2364328	India
+ s2901560	Australia
+ s2364328	France
+ s3219496	Ecuador	Nepal
+ s2468360	Ecuador	Nepal
+ s2969041	Canada
+ s2901560	France
+ s2784866	Mount Everest	Chimborazo
+ s2757656	North Holland
+ s2938928	1981-11-02T00:00:00Z
+ s2732947	Yes
+ s2784866	1940-01-01T00:00:00Z
+ s3219496	1940-01-01T00:00:00Z
+ s2953293	Middelburg
+ s2748150	Rome
+ s2762161	Stratford-on-Avon
+ s2745135	Europe
+ s2515970	United Kingdom
+ s2986280	Asia
+ s2683423	Yes
+ s2655012	United States of America
+ s3219305	Switzerland	Austria	Netherlands	France	Germany	Liechtenstein
+ s2953293	Chad
+ s3157423	Japan
+ s3092836	Uganda
+ s2197367	Nepal
+ s3212599	United Kingdom
+ s3071723	United Kingdom
+ s2890216	United Kingdom
+ s2953293	Nepal
+ s2853442	United States of America
+ s2853442	Yes
+ s2990571	United States of America
+ s2762161	Donald Trump
+ s2865300	UTC+08:00
+ s2515970	UTC−05:00	UTC−06:00
+ s2762161	1932-01-01T00:00:00Z
+ s3141217	Yes
+ s2731517	language isolate
+ s2364328	Yes
+ sXXXXXXX	Yes
+ s2909073	Yes
+ s2772841	Paris
+ s3177963	Yes
+ sXXXXXXX	7970
+ s2974797	Yes
+ s3177963	African Americans	Native Americans in the United States	White American	Asian American
+ s2481359	Yes
+ s3141217	Yes
+ sXXXXXXX	Mark Rutte
+ s2986280	Yes
+ s2745135	Brazil	Argentina	Bolivia
+ s2536420	Yes
+ s2945029	Dutch
+ s3177963	Yes
+ s3177963	0.787	0.799	0.829	0.861	0.877	0.891	0.909	0.919	0.92	0.922
+ s3135144	English	New Zealand Sign Language	MÄ�ori
+ s2856743	French	German	Italian
+ s315723	Yes
+ s2901560	Uruguay	Mercosur	Montevideo Department
+ s3157423	Yes
+ s3135144	Diamantina Deep
+ s2761041	Yes
+ s2740761	Yes
+ s2536420	A Mari Usque Ad Mare
+ s2740761	Yes
+ s2889439	Yes
+ s2740761	Yes
+ s2889439	Yes
+ s2761041	891.12
+ s2655012	Yes
+ sXXXXXXX	Yes
+ s2772841	Asia
+ s2468360	Africa
+ s3212599	165-179
+ s3219496	4276
+ s2909073	Europe
+ s2748150	Europe
+ s2938928	Africa
+ s2197367	Antarctica
+ s2974797	Yes
+ s3177963	Burkina Faso	Centre Region, Burkina Faso	Republic of Upper Volta	French Upper Volta	Kadiogo Province
+ s2901560	Spain	France	Andorra
+ s2212781	Spain
+ s3177963	26
+ s2615703	Norway	Sweden	Denmark
+ s3210812	Berlin
+ s3157423	78438
+ s3135144	Brasília
+ s3157423	28
+ s3135144	2256
+ s2889439	Five Ws
+ s2901560	Iran
+ s2212781	United States of America
+ sXXXXXXX	Yes
+ s2615703	Nepal
+ s2212781	Five Ws
+ s3212599	Suriname
+ sXXXXXXX	Yes
+ s2890216	Yes
+ s2757656	Switzerland	Austria	Netherlands	France	Germany	Liechtenstein
+ s2965690	United States of America
+ s1234567	Brazil	Peru	Ecuador	Colombia
+ s2954524	Switzerland	Austria	Netherlands	France	Germany	Liechtenstein
+ s2212781	Mexico
+ s2761041	Yes
+ s2945029	Yes
+ s2953293	Vatican City
+ s2954524	Spain
+ s3212599	Iceland
+ s2856743	Yes
+ s3157423	Malta
+ sXXXXXXX	Yes
+ sXXXXXXX	Yes
+ sXXXXXXX	Yes
+ s2757656	Yes
+ s2865300	Yes
+ s2957531	English	New Zealand Sign Language	MÄ�ori
+ s3141217	Yes
+ s3219305	Yes
+ s2856743	Yes
+ s2977419	Yes
+ s2468360	Yes
+ s2757656	Yes
+ s2481359	India
+ s2990571	French	German	Dutch
+ s2954524	French	German	Dutch
+ s2655012	French	English
+ s2762161	English	Swahili
+ s2197367	Dutch
+ s2901560	Dutch
+ s3092836	Dutch
+ s2468360	French	Dutch
+ s2865300	Ellis County
+ s2536420	Yes
+ s2386844	Yes
+ s2386844	Yes
+ s2364328	Yes
+ s2748150	Yes
+ s2732947	Warsaw
+ s3210812	Yes
+ s3212599	Yes
+ s2909073	Yes
+ s2455951	Yes
+ s2536420	political union	economic union
+ s2909073	Belgium	Luxembourg	Netherlands
+ s2784866	Belgium	Luxembourg	Netherlands
+ s2683423	Yes
+ s2747871	United States of America
+ s2212781	Belgium	Luxembourg	Netherlands
+ s2455951	Brazil	Kingdom of the Netherlands
+ s3212599	Greece	Turkey	Black Sea	Romania	Republic of Macedonia	Serbia
+ s2747871	United Kingdom
+ s2954524	Germany
+ s2481359	Russia	Ukraine
+ s2364328	Ottoman Empire	Byzantine Empire
+ s2747871	Yes
+ s3219305	Yes
+ s2731517	Euro
+ s2731517	pound sterling
+ s2945029	Egyptian pound
+ s3092836	Yes
+ s2197367	Yes
+ s2644789	Yes
+ s2536420	Yes
+ s2974797	Yes
+ s2889439	Yes
+ s3141217	Yes
+ s3141217	Yes
+ s3141217	Yes
+ s2969041	Yes
+ s2954524	Mount Elbrus
+ s3141217	Yes
+ s2748150	English
+ s2615703	11
+ s2731517	18
+ s2615703	De Alde Friezen
+ s3249212	Das Lied der Deutschen
+ s3219496	O Land of Beauty!
+ s2655012	Majulah Singapura
+ s2731517	The Internationale	National Anthem of the Soviet Union
+ s2481359	357408.74
+ s2762161	1287.36
+ s2986280	17075400	17125191	17125200
+ s2772841	88361
+ s2965690	14146
+ s2740761	1383000
+ s2853442	Yes
+ s2644789	Yes
+ s2974797	Yes
+ s2615703	Nairobi
+ s2969041	Haarlem
+ s2953293	Buenos Aires
+ s3210812	Canberra
+ s2865300	Baku
+ s2945029	Thimphu
+ s2655012	Beijing
+ s2779153	Bogotá
+ s3157423	Copenhagen
+ s2197367	New Delhi
+ s3219305	Rome
+ s2644789	Astana
+ s2965690	Maastricht
+ s3204146	Antananarivo
+ s2683423	Mexico City
+ s2938928	Niamey
+ s2615371	Pyongyang
+ s2853442	Port Moresby
+ s2481359	Warsaw
+ s3212599	Silly
+ s3212599	Pretoria
+ s2990571	Pretoria
+ s2212781	Madrid
+ s2748150	Stockholm
+ s2974797	Bern
+ s2990571	Bangkok
+ s2731517	Brussels
+ s2468360	Amsterdam
+ s2731517	Amsterdam
+ s2745135	Amsterdam
+ s2954524	Amsterdam
+s2909073	Amsterdam
+ s2889439	Halifax
+ s2455951	Belgrade
+ s2731517	London
+ s3071723	Kampala
+ s2757656	Tashkent
+ s2784866	Yes
+ s2738694	Yes
+ s2969041	Point(6.55 53.216666666)
+ s2732947	Point(-75.2094 40.0017)
+ s2515970	Point(-0.18916667 51.53527778)	Point(-0.188964 51.535466)
+ s2212781	Italy
+ s2364328	Berlin
+ s2901560	Yes
+ s2468360	Brazilian real
+ s2364328	लखनऊ
+ s2954524	323952889
+ s2732947	Yes
+ s2953293	Yes
+ s2965690	Yes
+ s2969041	Zuidplaspolder
+ s3249212	ألمانية	alemany	German	allemand	német	tedesco	alemão	ألمان	Němka	Deutsche	Deutscher	גרמני	tedeschi	გერმანელი	Duitser	german	немец	немка	немцы	Немац	Немци	німці	ألماني	немски	জার্মান	alemanya	alemanys	Němec	tysker	γερμανίδα	γερμανίδες	γερμανοί	γερμανός	germano	allemande	גרמנייה	Germaniano	tedesca	Duitse	tyskar	alemã	germani	nemțoaică	Немица	tysk	німець	німкеня	Döüdschä	Deutänan	tedesche	deutx
+ s2615703	left
+ s2779153	7
+ s2468360	Yes
+ s2772841	India
+ s2865300	8848
+ s2536420	Yes
+ s2481359	Mount Logan
+ s2515970	Mount Elbrus
+ s2772841	Mount Elbrus
+ s2644789	Mount Everest	Chimborazo
+ s2732947	Mount Everest	Chimborazo
+ s3219305	Mount Elbrus
+ s3212599	Mount Elbrus
+ s2745135	Mount Elbrus
+ s2748150	Mount Etna
+ s2655012	Mount Elbrus
+ s2738694	Mount Everest
+ s3204146	Yes
+ s2386844	Yes
+ s2772841	AMS
+ s3092836	.aq
+ s2969041	Yes
+ s2757656	Yes
+ s2969041	Yes
+ s2889439	Yes
+ s2953293	Yes
+ s2977419	Yes
+ s2615703	1091
+ s3219305	99
+ s2732947	3530
+ s2738694	UTC+05:30
+ s2779153	Yes
+ s2977419	Yes
+ s3219305	Yes
+ s2953293	Yes
+ s2969041	Yes
+ s3177963	Yes
+ s3204146	Yes
+ s2865300	Yes
+ s2909073	17	18
+ s3204146	312	313	316	311	310
+ s2747871	Yes
+ s2757656	Yes
+ s2747871	Yes
+ s2683423	Yes
+ s2747871	Yes
+ s2957531	7530103737
+ s2761041	Fluctuat nec mergitur
+ s2901560	Unity in diversity
+ s2901560	North Sea
+ s2977419	English
+ s2977419	English
+ s2977419	English
+ s2738694	English
+ s2977419	English
+ s2615371	English
+ s2853442	English
+ s2761041	ふじさん
+ s2615371	English
+ s2853442	English
+ s2740761	English
+ s2455951	English
+ s2740761	English
+ s2386844	Status Civitatis VaticanÃ¦
+ s2515970	The Palmetto State
+ s2890216	44299.77
+ s2536420	Yes
+ s2738694	French	German	Italian
+ s2745135	Spanish
+ s2212781	Greenlandic
+ s2986280	ocean
+ s2957531	What I Like About You
+ s2957531	132
+ s3092836	5000
+ s2953293	67329
+ s2197367	56295
+ s3135144	108891
+ s2745135	46528024
+ s2515970	851573
+ s2784866	21600
+ s2990571	658893
+ s2969041	200952
+ s2747871	4164252000
+ s2761041	13784212
+ s2779153	Yes
+ s2853442	Yes
+ s2615371	Yes
+ s2757656	Yes
+ s2757656	Yes
+ s3204146	30221532
+ s2953293	14000000
+ s2945029	496
+ s2990571	17075400	17125191	17125200
+ s2757656	Mount Everest	Chimborazo
+ s2745135	UTC+03:00	UTC+02:00
+ s2655012	5000
+ s2747871	Yes
+ s2784866	18
+ s2615703	1800
+ s2644789	Yes
+ s3071723	Lake Ontario	Lake Superior	Lake Erie	Lake Michiganâ€“Huron
+ s2938928	Yes
+ s2772841	English
+ s2965690	Ukrainian
+ s3157423	Arabic	English
+ s2969041	Yes
+ s2957531	Yes
+ s2957531	Yes
+ s2889439	Yes
+ s2779153	Malaysia
+ s2779153	Yes
+ s2732947	Yes
+ s2455951	Yes
+ s2779153	Africa
+ s3210812	5000
+ s3210812	741447158
+ s3071723	Karnataka	Maharashtra
+ s2965690	educational institution
+ s2536420	1954-09-02T00:00:00Z
+ s2468360	4068109000
+ s2977419	Yes
+ s2683423	17208
+ s3219496	14.6
+ s2515970	Strasbourg
+ s2481359	113455308
+ s2856743	49410366
+ s2761041	Yes
+ s2761041	Yes
+ s2974797	Berlin
+ s2683423	Yes
+ s2683423	supranational organisation	economic union	regional organization
+ s2683423	Washington, D.C.
+ s2731517	Yes
+ s3092836	Yes
+ s2468360	Olivier Mahafaly Solonandrasana
+ s2738694	Yes
+ s2945029	Yes
+ s2957531	Australia
+ s2197367	Yes
+ s2890216	Yes
+ s3249212	1237-01-01T00:00:00Z
+ s3141217	Yes
+ s2853442	Yes
+ s2747871	Yes
+ s2965690	Yes
+ s3210812	Yes
+ s2536420	Yes
+ s3219305	Yes
+ s2945029	Yes
+ s2938928	Yes
+ s2974797	Vinson Massif
+ s3204146	Yes
+ s3141217	Yes
+ s3141217	Yes
+ s2856743	Yes
+ s2732947	Yes
+ s2212781	Louisville
+ s3177963	Yes
+ s2747871	Mafadi
+ s2779153	Yes
+ s3092836	Yes
+ s3092836	Yes
+ s2853442	Yes
+ s2740761	Yes
+ s3157423	Yes
+ s2890216	Yes
+ s2865300	Hungary	Slovenia	Bosnia and Herzegovina	Montenegro	Serbia	Liberland
+ s2740761	Yes
+ s2784866	Tango in the Night
+ s1234567	Yes
+ s3212599	Yes
+ s3210812	Yes
+ s3204146	Yes
+ s2772841	British Isles
+ s3204146	Yes
+ s2644789	Yes
+ s2762161	Mustafa Sandal
+ s2938928	Belgium	Luxembourg	Netherlands
+ s3219496	Belgium	Luxembourg	Netherlands
+ s2954524	British Isles
+ s2738694	Switzerland	France
+ s2738694	Yes
+ s2990571	Yes
+ s2455951	Atlantic Ocean	Skagerrak	English Channel
+ s2655012	Yes
+ s2655012	Yes
+ s2965690	United States of America
+ s2856743	Oman
+ s2386844	Yes
+ s2481359	Spain
+ s2938928	Tanzania	South Sudan	Democratic Republic of the Congo	Uganda	Rwanda	Sudan
+ s2945029	Yes
+ s2481359	Italy	Switzerland	Austria	France	Germany	Slovenia	Monaco	Liechtenstein
+ s2986280	Austria	Germany
+ s3177963	Yes
+ s2945029	Yes
+ s2197367	United Kingdom
+ s2977419	Brazil
+ s3219496	People's Republic of China	Myanmar	Nepal	Pakistan	Bangladesh	Bhutan
+ s3219305	Italy	Austria	France	Germany	Liechtenstein
+ s3210812	Brazil	Argentina
+ s3135144	United States of America
+ s2901560	Ireland	Spain	Belgium	Luxembourg	Finland	Lithuania	Italy	Austria	Greece	Portugal	France	Germany	Estonia	Latvia	Slovakia	Slovenia	Andorra	Cyprus	Malta	Monaco	Vatican City	San Marino	Kingdom of the Netherlands
+ s3177963	Yes
+ s2386844	United Kingdom
+ s2386844	Sweden
+ s2740761	France
+ s2772841	United States of America
+ s2745135	North Korea
+ s3071723	Australia
+ s2890216	Yes
+ s2738694	United Kingdom
+ s2965690	Yes
+ s2856743	White American	African Americans	Native Americans in the United States	Asian American
+ s3071723	Yes
+ s3071723	Mount Apo
+ s3071723	Mont Blanc
+ s2865300	Yes
+ s2890216	Yes
+ s3135144	Canyon Ferry Lake
+ s3210812	Dutch
+ s3219305	English
+ s3204146	Mount Everest	K2	Kanchenjunga	Shishapangma	Nanga Parbat	Dhaulagiri	Lhotse	Makalu	Manaslu	Cho Oyu	Broad Peak	Gasherbrum II	Gasherbrum	Annapurna I
+ s2865300	Yes
+ s2197367	Yes
+ s2957531	Yes
+ s2784866	Yes
+ s2364328	United Kingdom
+ s2974797	Yes
+ s2986280	Yes
+ s2615703	Jordan River
+ s2784866	Yes
+ s3071723	Danube
+ s2748150	Colorado River basin
+ s2481359	Yes
+ s3092836	Yes
+ s2889439	1934-01-01T00:00:00Z
+ s3135144	India
+ s2965690	Singapore Standard Time	UTC+08:00
+ s2957531	Africa	Asia
+ s2732947	Yes
+ s3071723	Yes
+ s2745135	49
+ s2909073	Carl XVI Gustaf of Sweden
+ s2889439	parent	man
+ s2655012	Mohammed bin Rashid Al Maktoum
+ s3210812	public office	statesperson
+ s2990571	Emmanuel Macron
+ s2748150	Donald Trump
+ s2732947	Yes
+ s3092836	Yes
+ s2890216	United Kingdom	Argentina
+ s2779153	researcher
+ s3219496	anatomical structure	anatomical region
+ s2856743	Sergio Mattarella
+ s2731517	Adolf Hitler	Paul von Hindenburg	Karl DÃ¶nitz
+ s3204146	Yes
+ s2468360	Donald Trump
+ s2761041	Romulus	Remus
+ s2856743	Italy	France
+ s2909073	Kingdom of the Netherlands
+ s2615371	United States of America
+ s2615371	United States of America
+ s1234567	Finland	Sweden	Denmark	Russia	European Union
