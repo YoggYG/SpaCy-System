@@ -162,6 +162,19 @@ def getXOfY(X, YList):
 
     return False
 
+def isInstanceOf(X, Code):
+    objectList = []
+    objectList.append(getCodesFromString(X))
+    objectCombinations = createAllObjectCombinations(objectList)
+    for objectCombination in objectCombinations:
+        answers = getSimpleAnswer("P31", objectCombination)
+
+        if areValid(answers):
+            for a in answers:
+                if a == Code:
+                    return True
+    return False
+
 
 def makeTimeFilterCompoundLine(predicateCode):
     return '''
@@ -374,6 +387,20 @@ def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answ
 
     return False
 
+def riverStrategy(doc, rootIndex):  # X verb Y
+    rootToken = doc[rootIndex]
+    for XToken in rootToken.subtree:
+        if XToken.lemma_ in ("from", "origin", "start", "originate"):
+            for YToken in rootToken.subtree:
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
+                    if isInstanceOf(YToken.lemma_, "river"):
+                        #print(YToken.lemma_)
+                        if getXOfY("origin of the watercourse", [YToken.lemma_]):
+                            return True
+                        if getXOfY("tributary", [YToken.lemma_]):
+                            return True
+    return False
+
 def binarysparql(entity, property):
     sparqlurl = 'https://query.wikidata.org/sparql'
     query = 'SELECT * WHERE { wd:'+entity+' wdt:'+property+' ?answer. ?answer rdfs:label ?text}'
@@ -484,6 +511,12 @@ if __name__ == '__main__':
         print("Trying earth strategy next")
         if earthStrategy(question.syntax, question.syntax_root):
             continue
+
+        print("Trying river strategy next")
+        if riverStrategy(question.syntax, question.syntax_root):
+            continue
+
+        print("Guessing")
 
         with open(answerFile, "a+") as file:
             file.write(question.id + "\tYes\n")  # Default answer.
