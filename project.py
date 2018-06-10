@@ -2,6 +2,7 @@ import sys
 import requests
 import untangle
 import itertools
+import re
 
 from syntaxparser import SyntaxParser
 from preprocess import PreProcess
@@ -373,8 +374,41 @@ def earthStrategy(doc, rootIndex):  # give me X of "the earth" (in order to answ
 
     return False
 
+def binarysparql(entity, property):
+    sparqlurl = 'https://query.wikidata.org/sparql'
+    query = 'SELECT * WHERE { wd:'+entity+' wdt:'+property+' ?answer. ?answer rdfs:label ?text}'
+    data = requests.post(sparqlurl, params={'query': query, 'format': 'json'}).json()
+    answers = []
+    for item in data['results']['bindings']:
+        if item['text']['xml:lang'] == 'en':
+            answers.append(item)
+    return answers
+
 def yesNoQuestions(line):
-    print("Yes")
+    wdapi = 'https://www.wikidata.org/w/api.php'
+    wdparams = {'action': 'wbsearchentities', 'language': 'en', 'format': 'json'}
+    m = re.search('(?:Is |is ) ?(.*) (?:the |a |an ) ?(.*) of (?:the |a |an )?(.*)\?', line)
+    if m is not None:                                        # Failsafe for when malformed queries occur
+        posedAnswer = m.group(1)
+        property = m.group(2)
+        entity = m.group(3)
+        #print(posedAnswer, property, entity)
+        wdparams['search'] = entity
+        json = requests.get(wdapi, wdparams).json()
+        for result in json['search']:
+            entity_id = result['id']
+            wdparams['search'] = property
+            wdparams['type'] = 'property'
+            json = requests.get(wdapi, wdparams).json()
+            for result in json['search']:
+                property_id = result['id']
+                for answers in binarysparql(entity_id, property_id):
+                    if posedAnswer.lower() == answers['text']['value'].lower():
+                        print('Yes')
+                        return True
+    else:
+        return False
+    print('No')
     return True
 
 if __name__ == '__main__':
