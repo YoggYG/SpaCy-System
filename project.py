@@ -385,14 +385,17 @@ def binarysparql(entity, property):
     return answers
 
 def yesNoQuestions(line):
+    print("YES NO")
     wdapi = 'https://www.wikidata.org/w/api.php'
     wdparams = {'action': 'wbsearchentities', 'language': 'en', 'format': 'json'}
-    m = re.search('(?:Is |is ) ?(.*) (?:the |a |an ) ?(.*) of (?:the |a |an )?(.*)\?', line)
+    m = re.search('(?:Is |is ) ?(.*) (?:the |a |an) ?(.*) of (?:the |a |an )?(.*)\?', line) #Is X the Y of Z?
+    n = re.search('(?:Is |is ) ?(.*) (?:a |an ) ?(.*)\?', line) #Is Australia a continent?
+    o = re.search('(?:Is |is ) ?(.*) ?(.*) (?:the |a |an )?(.*)\?', line) #Is X Y Y?
     if m is not None:                                        # Failsafe for when malformed queries occur
-        posedAnswer = m.group(1)
+        entity = m.group(1)
         property = m.group(2)
-        entity = m.group(3)
-        #print(posedAnswer, property, entity)
+        posedAnswer = m.group(3)
+        #print("1", "e", entity, "p", property, "a", posedAnswer)
         wdparams['search'] = entity
         json = requests.get(wdapi, wdparams).json()
         for result in json['search']:
@@ -406,6 +409,19 @@ def yesNoQuestions(line):
                     if posedAnswer.lower() == answers['text']['value'].lower():
                         print('Yes')
                         return True
+    elif n is not None: 
+        entity = n.group(1)
+        posedAnswer = n.group(2)
+        #print("2", entity, 'is instance of' , posedAnswer)
+        wdparams['search'] = entity
+        json = requests.get(wdapi, wdparams).json()
+        for result in json['search']:
+            entity_id = result['id']
+            property_id = 'P31'
+            for answers in binarysparql(entity_id, property_id):
+                if posedAnswer.lower() == answers['text']['value'].lower():
+                    print('Yes')
+                    return True 
     else:
         return False
     print('No')
