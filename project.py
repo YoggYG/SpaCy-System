@@ -360,7 +360,7 @@ def subjectObjectStrategy(doc, rootIndex):  # X verb Y
         if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "pobj||prep"):
             X = XToken.text
             for YToken in rootToken.subtree:
-                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "npadvmod"):
                     if YToken.i == XToken.i:
                         continue
 
