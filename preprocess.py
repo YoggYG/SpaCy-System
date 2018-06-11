@@ -27,8 +27,12 @@ class PreProcess:
                     if words[-1] in ("lie?", "live?", "flow?"):
                         max_index -= 1
 
-                    res = words[1] + " is " + " ".join(words[2: idx]) + " of " + " ".join(
-                        words[idx + 1: max_index])
+                    if idx == 2:
+                        res = " ".join(words[1: max_index])
+
+                    else:
+                        res = words[1] + " is " + " ".join(words[2: idx]) + " of " + " ".join(
+                            words[idx + 1: max_index])
 
                     question.text = res
 
