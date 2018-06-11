@@ -62,9 +62,9 @@ class SyntaxParser:
         for spanType in range(3):
             spans = []
 
-            if spanType == 0:
+            if spanType == 1:
                 raw_spans = list(syntax.ents)
-            elif spanType == 1:
+            elif spanType == 2:
                 raw_spans = list(syntax.noun_chunks)
             else:
                 raw_spans = self.make_custom_spans(syntax)
@@ -88,6 +88,8 @@ class SyntaxParser:
 
             for span in spans:
                 if span[0].dep_ == "det":  # exclude the first determiner, we don't want it.
+                    if len(span) == 1:
+                        continue
                     span[1:].merge()
                 else:
                     span.merge()
@@ -111,6 +113,7 @@ class SyntaxParser:
                         break
 
                 if match is True:
+                    print(syntax[doc_idx: doc_idx + len(words)])
                     result.append(syntax[doc_idx: doc_idx + len(words)])
 
         return result
