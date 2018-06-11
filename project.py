@@ -357,7 +357,7 @@ def conjunctsOfToken(token):
 def subjectObjectStrategy(doc, rootIndex):  # X verb Y
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
-        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
+        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "pobj||prep"):
             X = XToken.text
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
