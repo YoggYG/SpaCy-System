@@ -230,7 +230,7 @@ def getY(X, ZList, Filter):
     return False
 
 
-def isInstanceOf(X, Code):
+def isInstanceOf(X, Codes):
     objectList = []
     objectList.append(getCodesFromString(X))
     objectCombinations = createAllObjectCombinations(objectList)
@@ -239,8 +239,9 @@ def isInstanceOf(X, Code):
 
         if areValid(answers):
             for a in answers:
-                if a == Code:
-                    return True
+                for Code in Codes:
+                    if a == Code:
+                        return True
     return False
 
 
@@ -465,11 +466,11 @@ def whereIsStrategy(doc, rootIndex):  # Where is X
         if XToken.dep_ in ("nsubj", "attr", "dobj", "nsubjpass", "pobj"):  # X is one of the root's children with one of these dependencies
             X = XToken.text
 
-            if not isInstanceOf(X, "country") and not isInstanceOf(X, "continent"):
+            if not isInstanceOf(X, ["country"]) and not isInstanceOf(X, ["continent"]):
                 if getXOfY("country", [X]):
                     return True
             
-            if not isInstanceOf(X, "continent"):
+            if not isInstanceOf(X, ["continent"]):
                 if getXOfY("continent", [X]):
                     return True
 
@@ -484,7 +485,7 @@ def riverStrategy(doc, rootIndex):  # just some shit for rivers
         if XToken.lemma_ in ("from", "origin", "start", "originate", "begin"):
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
-                    if isInstanceOf(YToken.lemma_, "river"):
+                    if isInstanceOf(YToken.lemma_, ["river"]):
                         #print(YToken.lemma_)
                         if getXOfY("origin of the watercourse", [YToken.lemma_]):
                             return True
@@ -493,14 +494,14 @@ def riverStrategy(doc, rootIndex):  # just some shit for rivers
         elif XToken.lemma_ in ("end", "mouth", "finish", "to"):
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
-                    if isInstanceOf(YToken.text, "river"):
+                    if isInstanceOf(YToken.text, ["river"]):
                         #print(YToken.lemma_)
                         if getXOfY("mouth of the watercourse", [YToken.lemma_]):
                             return True
         elif XToken.lemma_ in ("through", "cross", "pass"):
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
-                    if isInstanceOf(YToken.text, "river"):
+                    if isInstanceOf(YToken.text, ["river"]):
                         #print(YToken.lemma_)
                         if getXOfY("country", [YToken.lemma_]):
                             return True
@@ -521,7 +522,7 @@ def findAllThatApply(doc, rootIndex):
                     if YToken.head.head.i == XToken.i and YToken.dep_ == "pobj":  # same as default strategy
                         continue
 
-                    if isInstanceOf(X, "country"):
+                    if isInstanceOf(X, ["country"]):
                         if getY("country", [X], [YToken.lemma_]):
                             return True
                         if getY("country", [X], [YToken.text]):
