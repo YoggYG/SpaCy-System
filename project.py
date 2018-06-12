@@ -26,14 +26,14 @@ def getCodesFromString(word, isProperty=False):
     
     if isProperty:  # returns property codes "Pxx"
         params['type'] = 'property'
-        if word in ("province", "administrative territorial entities"):  # override for 'contains' instead of 'located in'
+        if word in ("province", "administrative territorial entities", "administrative territorial region"):  # override for 'contains' instead of 'located in'
         	return ["P150"]
 
-        if word in ("part"):
+        if word in ("part", "region"):
         	codes.append("P150")
 
     else:
-    	if word in ("part", "border", "area", "population", "elevation", "depth", "highest point", "height", "administrative territorial entities"): # Time efficiency.
+    	if word in ("part", "region", "border", "area", "population", "elevation", "depth", "highest point", "height", "administrative territorial entities", "administrative territorial region"): # Time efficiency.
     		return []
 
     params['search'] = word
