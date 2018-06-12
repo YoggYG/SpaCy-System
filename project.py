@@ -512,16 +512,18 @@ def riverStrategy(doc, rootIndex):  # just some shit for rivers
 def findAllThatApply(doc, rootIndex):
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
-        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "ROOT") and not XToken.lemma_ in ("what", "where", "which"):
+        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass") and not XToken.lemma_ in ("what", "where", "which"):
             X = XToken.text
             for YToken in rootToken.subtree:
-                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "ROOT") and not YToken.lemma_ in ("what", "where", "which"):
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass") and not YToken.lemma_ in ("what", "where", "which"):
                     if YToken.i == XToken.i:
                         continue
 
                     if YToken.head.head.i == XToken.i and YToken.dep_ == "pobj":  # same as default strategy
                         continue
-
+                    
+                    print(X)
+                    print(YToken.lemma_)
                     if isInstanceOf(X, ["country"]):
                         if getY("country", [X], [YToken.lemma_]):
                             return True
