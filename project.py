@@ -585,8 +585,29 @@ def yesNoQuestions(line):
     else:
         return False
 
-    writeAndPrintAnswers(["No"])  # unreachable?
+    writeAndPrintAnswers(["No"])
     return True
+
+
+def descriptionStrategy(doc, rootIndex):
+    for token in doc[rootIndex].subtree:
+        if token.dep_ in ("attr", "nsubj") and token.tag_ != "WP":
+            for qCode in getCodesFromString(token.text):
+                query = '''
+                SELECT ?itemDescription WHERE {
+                  SERVICE wikibase:label {bd:serviceParam wikibase:language "en".}
+                  bind(wd:''' + qCode + ''' as ?item).
+                }
+                '''
+                request = requests.get("https://query.wikidata.org/sparql?query=" + query)
+                answers = extractAnswerListFromResult(request.text)
+
+                if areValid(answers):
+                    writeAndPrintAnswers(answers)
+
+                    return True
+
+    return False
 
 
 if __name__ == '__main__':
@@ -637,6 +658,10 @@ if __name__ == '__main__':
 
         if question.text.split(" ", 1)[0] == "is": #check if the first word is is
             if yesNoQuestions(question.text):       #perform yes/no function
+                continue
+
+        if question.text.split(" ", 3)[0] == "what" and question.text.split(" ", 3)[1] == "is" and question.text.split(" ", 3)[2] == "a":
+            if descriptionStrategy(question.syntax, question.syntax_root):
                 continue
 
         if standardStrategy(question.syntax, question.syntax_root):
