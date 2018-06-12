@@ -116,7 +116,7 @@ class SyntaxParser:
                         break
 
                 if match is True:
-                    print(syntax[doc_idx: doc_idx + len(words)])
+                    # print(syntax[doc_idx: doc_idx + len(words)])
                     result.append(syntax[doc_idx: doc_idx + len(words)])
 
         return result

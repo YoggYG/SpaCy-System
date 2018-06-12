@@ -101,7 +101,7 @@ def constructTimeFilterQuery(predicateCode, objectCodes, extraLines=""):
 
 def extractAnswerListFromResult(result):
     if result.split()[0] == "SPARQL-QUERY:":
-        print("Query Timeout Exception Caught.")
+        # print("Query Timeout Exception Caught.")
         return []
 
     results = untangle.parse(result)
@@ -177,9 +177,9 @@ def getXOfY(X, YList):
 
     predicateObjects = definePredicateObjectLines(getCodesFromString(X))
 
-    #print(predicates)
-    #print(predicateObjects)
-    #print(objectList)
+    # print(predicates)
+    # print(predicateObjects)
+    # print(objectList)
 
     objectCombinations = createAllObjectCombinations(objectList)
 
@@ -213,9 +213,9 @@ def getY(X, ZList, Filter):
 
     filterCombinations = createAllObjectCombinations(filterList)
 
-    #print(predicates)
-    #print(objectCombinations)
-    #print(filterCombinations)
+    # print(predicates)
+    # print(objectCombinations)
+    # print(filterCombinations)
 
     for objectCombination in objectCombinations:
         for predicate in predicates:
@@ -311,8 +311,8 @@ def definePredicateObjectLines(objects, compound=False):
 
 
 def getXofYofZ(X, YList, ZList):  # compound questions (only one level)
-    if len(YList) != 1:
-        print("YList is length " + str(len(YList)))
+    # if len(YList) != 1:
+    #     print("YList is length " + str(len(YList)))
 
     predicates = getCodesFromString(X, True)
     predicateObjects = definePredicateObjectLines(getCodesFromString(X))
@@ -562,7 +562,7 @@ def binarysparql(entity, property):
 
 
 def yesNoQuestions(line):
-    print("YES NO")
+    # print("YES NO")
     wdapi = 'https://www.wikidata.org/w/api.php'
     wdparams = {'action': 'wbsearchentities', 'language': 'en', 'format': 'json'}
     m = re.search('(?:Is |is ) ?(.*) (?:the |a |an) ?(.*) of (?:the |a |an )?(.*)\?', line) #Is X the Y of Z?
@@ -573,7 +573,7 @@ def yesNoQuestions(line):
         entity = m.group(1)
         property = m.group(2)
         posedAnswer = m.group(3)
-        #print("1", "e", entity, "p", property, "a", posedAnswer)
+        # print("1", "e", entity, "p", property, "a", posedAnswer)
         wdparams['search'] = entity
         json = requests.get(wdapi, wdparams).json()
         for result in json['search']:
@@ -591,7 +591,7 @@ def yesNoQuestions(line):
     elif n is not None:
         entity = n.group(1)
         posedAnswer = n.group(2)
-        #print("2", entity, 'is instance of' , posedAnswer)
+        # print("2", entity, 'is instance of' , posedAnswer)
         wdparams['search'] = entity
         json = requests.get(wdapi, wdparams).json()
         for result in json['search']:
@@ -660,12 +660,12 @@ if __name__ == '__main__':
             continue
 
         pre_process.process(question)
-        print(question)
+        # print(question)
 
         syntax_parser.parse(question)
 
         for token in question.syntax[question.syntax_root].subtree:
-            print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
+            # print('\t'.join((token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.lemma_, str(token.i))))
             if token.dep_ == "pobj" and token.tag_ == "CD" and not question.time_filter:  # save the first of multiple years
                 question.set_time_filter(token.text)
 
@@ -683,43 +683,43 @@ if __name__ == '__main__':
                 continue
         
         if question.text.split(" ", 3)[0] == "what" and question.text.split(" ", 3)[1] == "is" and question.text.split(" ", 3)[2] == "a":
-            print("Trying description strategy next")
+            # print("Trying description strategy next")
             if descriptionStrategy(question.syntax, question.syntax_root):
                 continue
 
-        print("Trying member strategy next")
+        # print("Trying member strategy next")
         if memberStrategy(question.syntax, question.syntax_root):
             continue
 
-        print("Trying standard strategy next")
+        # print("Trying standard strategy next")
         if standardStrategy(question.syntax, question.syntax_root):
             continue
 
-        print("Trying river strategy next")
+        # print("Trying river strategy next")
         if riverStrategy(question.syntax, question.syntax_root):
             continue
 
-        print("Trying subject/object strategy next")
+        # print("Trying subject/object strategy next")
         if subjectObjectStrategy(question.syntax, question.syntax_root):
             continue
 
-        print("Trying earth strategy next")
+        # print("Trying earth strategy next")
         if earthStrategy(question.syntax, question.syntax_root):
             continue
 
-        print("Trying where is strategy next")
+        # print("Trying where is strategy next")
         if question.text.split(" ", 1)[0] == "where": #check if the first word is where
             if whereIsStrategy(question.syntax, question.syntax_root):
                 continue
 
-        print("Trying find all that apply strategy next")
+        # print("Trying find all that apply strategy next")
         if findAllThatApply(question.syntax, question.syntax_root):
             continue
 
         if question.text.split(" ", 3)[0] == "what" and question.text.split(" ", 3)[1] == "is":
-            print("Trying description strategy next")
+            # print("Trying description strategy next")
             if descriptionStrategy(question.syntax, question.syntax_root):
                 continue
 
-        print("Guessing")
+        # print("Guessing")
         writeAndPrintAnswers(["Yes"])  # Default answer
