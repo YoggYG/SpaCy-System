@@ -535,6 +535,7 @@ def findAllThatApply(doc, rootIndex):
 
     return False
 
+
 def memberStrategy(doc, rootIndex):
     rootToken = doc[rootIndex]
     cont = False
