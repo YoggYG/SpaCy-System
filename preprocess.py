@@ -37,7 +37,7 @@ class PreProcess:
                     question.text = res
 
         elif words[0] in ("list", "state") and len(words) > 1:
-            res = "name " + " ".join(words[1:])
+            question.text = "name " + " ".join(words[1:])
 
         self.process_aliases(question)
 
