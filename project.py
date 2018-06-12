@@ -111,6 +111,9 @@ def extractAnswerListFromResult(result):
 
     answers = []
     for result in results.sparql.results.children:
+        if len(result.children) < 1:
+            continue
+        
         if result.binding.literal["xml:lang"] is None:
             if result.binding.literal.cdata[0] == 'Q':
                 continue
