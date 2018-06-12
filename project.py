@@ -27,14 +27,14 @@ def getCodesFromString(word, isProperty=False):
     if isProperty:  # returns property codes "Pxx"
         params['type'] = 'property'
         if word in ("province", "administrative territorial entities", "administrative territorial region"):  # override for 'contains' instead of 'located in'
-        	return ["P150"]
+            return ["P150"]
 
         if word in ("part", "region"):
-        	codes.append("P150")
+            codes.append("P150")
 
     else:
-    	if word in ("part", "region", "border", "area", "population", "elevation", "depth", "highest point", "height", "administrative territorial entities", "administrative territorial region"): # Time efficiency.
-    		return []
+        if word in ("part", "region", "border", "area", "population", "elevation", "depth", "highest point", "height", "administrative territorial entities", "administrative territorial region"): # Time efficiency.
+            return []
 
     params['search'] = word
     json = requests.get(url, params).json()
@@ -230,7 +230,7 @@ def getY(X, ZList, Filter):
     return False
 
 
-def isInstanceOf(X, Code):
+def isInstanceOf(X, Codes):
     objectList = []
     objectList.append(getCodesFromString(X))
     objectCombinations = createAllObjectCombinations(objectList)
@@ -239,8 +239,9 @@ def isInstanceOf(X, Code):
 
         if areValid(answers):
             for a in answers:
-                if a == Code:
-                    return True
+                for Code in Codes:
+                    if a == Code:
+                        return True
     return False
 
 
@@ -465,11 +466,11 @@ def whereIsStrategy(doc, rootIndex):  # Where is X
         if XToken.dep_ in ("nsubj", "attr", "dobj", "nsubjpass", "pobj"):  # X is one of the root's children with one of these dependencies
             X = XToken.text
 
-            if not isInstanceOf(X, "country") and not isInstanceOf(X, "continent"):
+            if not isInstanceOf(X, ["country"]) and not isInstanceOf(X, ["continent"]):
                 if getXOfY("country", [X]):
                     return True
             
-            if not isInstanceOf(X, "continent"):
+            if not isInstanceOf(X, ["continent"]):
                 if getXOfY("continent", [X]):
                     return True
 
@@ -484,7 +485,7 @@ def riverStrategy(doc, rootIndex):  # just some shit for rivers
         if XToken.lemma_ in ("from", "origin", "start", "originate", "begin"):
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
-                    if isInstanceOf(YToken.lemma_, "river"):
+                    if isInstanceOf(YToken.lemma_, ["river"]):
                         #print(YToken.lemma_)
                         if getXOfY("origin of the watercourse", [YToken.lemma_]):
                             return True
@@ -493,14 +494,14 @@ def riverStrategy(doc, rootIndex):  # just some shit for rivers
         elif XToken.lemma_ in ("end", "mouth", "finish", "to"):
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
-                    if isInstanceOf(YToken.text, "river"):
+                    if isInstanceOf(YToken.text, ["river"]):
                         #print(YToken.lemma_)
                         if getXOfY("mouth of the watercourse", [YToken.lemma_]):
                             return True
         elif XToken.lemma_ in ("through", "cross", "pass"):
             for YToken in rootToken.subtree:
                 if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass"):
-                    if isInstanceOf(YToken.text, "river"):
+                    if isInstanceOf(YToken.text, ["river"]):
                         #print(YToken.lemma_)
                         if getXOfY("country", [YToken.lemma_]):
                             return True
@@ -521,12 +522,30 @@ def findAllThatApply(doc, rootIndex):
                     if YToken.head.head.i == XToken.i and YToken.dep_ == "pobj":  # same as default strategy
                         continue
 
-                    if isInstanceOf(X, "country"):
+                    if isInstanceOf(X, ["country"]):
                         if getY("country", [X], [YToken.lemma_]):
                             return True
                         if getY("country", [X], [YToken.text]):
                             return True
+                    if isInstanceOf(X, ["continent"]):
+                        if getY("continent", [X], [YToken.lemma_]):
+                            return True
+                        if getY("continent", [X], [YToken.text]):
+                            return True
 
+    return False
+
+def memberStrategy(doc, rootIndex):
+    rootToken = doc[rootIndex]
+    cont = False
+    for XToken in rootToken.subtree:
+        if XToken.lemma_ in ("member", "part"):
+            cont = True
+    if cont:
+        for YToken in rootToken.subtree:
+            if isInstanceOf(YToken.text, ["supranational organisation", "supranational organization", "intergovernmental organisation", "intergovernmental organization", "regional organisation", "regional organization"]):
+                if getY("member of", [YToken.text], ["country"]):
+                    return True          
     return False
 
 
@@ -659,11 +678,16 @@ if __name__ == '__main__':
         if question.text.split(" ", 1)[0] == "is": #check if the first word is is
             if yesNoQuestions(question.text):       #perform yes/no function
                 continue
-
+        
         if question.text.split(" ", 3)[0] == "what" and question.text.split(" ", 3)[1] == "is" and question.text.split(" ", 3)[2] == "a":
             if descriptionStrategy(question.syntax, question.syntax_root):
                 continue
 
+        print("Trying member strategy next")
+        if memberStrategy(question.syntax, question.syntax_root):
+            continue
+
+        print("Trying standard strategy next")
         if standardStrategy(question.syntax, question.syntax_root):
             continue
 

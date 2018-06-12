@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 
 \title{Language Technology}
+\author{Nicholas Kees Dupuis, Robin Heiminge, Jochem Baas \& Job Talle}
 \date{June 2018}
 
 \begin{document}
@@ -9,7 +10,7 @@
 \maketitle
 
 \section{Introduction}
-A system which can answer geography related questions has been developed using python and the \emph{spaCy} library. The system aims to answer as many English language questions as possible. In order to do this, language has to be parsed and understood. Once the question is understood sufficiently, queries are sent to \emph{Wikidata} to gather answers.
+A system which can answer geography related questions has been developed using python and the \emph{spaCy} library. The system aims to answer as many English language questions within this domain as possible. In order to do this, language has to be parsed and understood. Once the question is understood sufficiently, \emph{sparql} queries are sent to \emph{Wikidata} to gather answers.
 
 \section{Implementation}
 The system employs several tactics to be able to answer given questions.
@@ -24,25 +25,99 @@ The alias pass gets its data from a number of \emph{.json} files from a certain 
     \item A list of \emph{aliases}; if any of the terms in this list are found, they are replaced by the \emph{property} above.
 \end{enumerate}
 
+Aliases are replaced recursively since replaced aliases may form aliases of something as well.
+
+\subsection{Restructuring}
+Before syntactic analysis breakdown takes place, a sentence may be restructured. It may occur that two syntactically different formulations of a question are semantically equal, but one is harder to parse than the other. Additionally, it is easier to make a system that accepts a smaller amount of formulations. Therefore, the restructuring phase aims to reduce the number of sentence structures before the question is analyzed semantically.
+
+An example of restructuring is demonstrated. Consider the two questions below:
+
+\begin{enumerate}
+    \item In what country does Berlin lie?
+    \item What is the country of Berlin?
+\end{enumerate}
+
+The system has been written to answer questions in the form \emph{what is X of Y?} (like the second item), but not queries in the form \emph{in what X is Y?} (the first item). Both questions ask for the same answer. Therefore, the restructuring phase recognizes the first question and rephrases it as the second question before progressing further through the system.
+
+Rephrasing the question may yield new formulations eligible for alias parsing. Therefore, the aliasing phase runs again if a sentence was restructured.
+
 \subsection{Syntactic breakdown}
-The question is broken down into its syntactic parts using the spaCy library. Depending on the parts of the sentence, different strategies may be chosen.
+The question is broken down into its syntactic parts using the spaCy library. Depending on the parts of the sentence, different strategies may be chosen. This pass chooses a strategy depending on the following clues:
 
 \begin{itemize}
     \item The syntax may indicate that an answer is related to a specific point in time. For example, a question could ask for the population in a country at the year 1960. If this is inferred from the syntax, a time filter flag is set. Filtering for time requires additional information in the Wikidata query. In our implementation, time filtering for a specific year is supported.
-    \item Analyzing the syntax gives tells us what property of what thing is asked for. For example, a question may take the form of \emph{What is X of Y?}. If multiple answers are required, the question likely takes the form \emph{What are the X's of Y?}. These formulations can also be reordered or recursive, e.g. \emph{What is the X of the Z of Y?}. The syntax tells us how the question parts are nested.
+    \item Analyzing the syntax gives tells us what property of what thing is asked for. For example, a question may take the form of \emph{What is X of Y?}. If multiple answers are required, the question likely takes the form \emph{What are the X's of Y?}. These formulations can also be reordered or recursive, e.g. \emph{What is the X of (the Z of Y?)}. The syntax tells us how the question parts are nested.
     \item Conjunctions can exist in a question. An example of such a question is: \emph{What country borders France and Germany?}. A poor solver would answer just the question \emph{What country borders France?} and skip Germany altogether; our solver forms a conjunction from the last two countries and includes them in the query.
+    \item We have defined several formulations which tell us the question asks for more than one answer. If e.g. \emph{how many} is part of the question, we know multiple answers are required. This hint is stored while breaking down the sentence, and later determines which answering strategy is used. A list of formulations hinting to the multiple answers requirement is stored outside of the program to streamline the development and debugging process; it is loaded and used when the program runs.
+    \item Because the domain of the questions is limited, several recurring compound properties may be queried for. Examples are \emph{head of state}, \emph{country of origin} and \emph{gdp per capita}. We do not want the system to break down these terms any further; we'd like to parse them as one phrase. Therefore, we group them to prevent the syntactic analysis from trying to query what for example the literal head of a state would be. A list of commonly seen compound terms was created and maintained by us while improving the system, and this list is loaded and used by the system when it runs.
 \end{itemize}
 
-\subsection{Persons or properties}
-A question may ask for a person instead of a property. When querying for a person, a slightly different strategy is required, and the syntax will use different words to indicate this.
+\subsection{Strategies}
+When all the aforementioned passes have been traversed, the sentence is ready for parsing. Flags or hints may have been added (does the answer relate to a specific point in time, are multiple answers required and so forth), and restructuring may have been applied. Answering strategies are now used to answer the question with its associated hints to help in this process. Some strategies are only called when specific flags have been raised. Most strategies however are tried. If they yield an answer, this answer is shown to the user; if not, the next strategy is tried. The strategies are documented below in the order they are attempted.
+
+\subsubsection{Yes or no questions}
+The yes or no strategy takes questions in the form \emph{Is X an Y?}, \emph{Is X the Y of Z?} or \emph{Is X Y?}. These statements are then verified, which may yield \emph{Yes} or \emph{No} as an answer. If the question does not take any of the supported forms, the next strategy is tried.
+
+\subsubsection{Standard strategy}
+The standard strategy takes questions in the general form \emph{Give the X of Y}. As mentioned before, sentences are sometimes restructured to fit this format.
+
+\subsubsection{River strategy}
+Because river related questions often have recurring structures, a dedicated strategy was made for them. River questions relate to river origins, paths and ends.
+
+\subsubsection{Subject - object strategy}
+The subject object strategy answers questions in the form \emph{X <verb> Y?}. Possible formulations are \emph{Does Austria border Germany?} or \emph{Belgium has which neighbours?}.
+
+\subsubsection{Earth strategy}
+Several test questions have forms similar to \emph{What is the tallest mountain on earth?}. Since all questions relate to geography, \emph{earth} can be seen as a global qualifier; it could be replaced by \emph{of all}. A specific strategy facilitates answering these questions.
+
+\subsubsection{Find all strategy}
+The find all strategy was devised to answer questions in the form \emph{Find all X of Y}. An example query could be \emph{Give me all the rivers of Spain.}. The strategy queries all the instances that apply to constraint \emph{Y}.
+
+\subsubsection{Where is strategy}
+Questions in the form \emph{Where is X?} can be answered by the where is strategy. If \emph{X} is not a continent or a country, the answer is most likely a country. If \emph{X} is a country, the answer is probably a continent. The question \emph{Where is Antwerp?} will be answered with \emph{Belgium}.
 
 \subsection{If all else fails...}
-Finally, if all strategies used to understand the question have failed or if the Wikidata query returns nothing, the system will have no answer to give. No answer is always a wrong answer. In order to have a nonzero chance of giving a correct answer, the system will output \emph{Yes}.
+Finally, if all strategies used to understand the question have failed or if the Wikidata query returns nothing, the system will have no answer to give. No answer is always a wrong answer. In order to have a nonzero chance of giving a correct answer, the system will output \emph{Yes}. This is also the most common answer seen in the 100 test questions we have used to build the system.
 
-\section{Challenges \& solutions}
-\subsection{Validating the system}
-\subsection{Wikidata limitations}
+\section{Results}
 
-\section{Conclusion}
+\section{Discussion}
+The final version of the system contains many different answering strategies that are strongly aimed at specifically worded questions in a specific domain. This benefits the performance of the system since 100 possible test questions are available to us; we know these wordings occur often. This does make the system vulnerable for over fitting; it may reduce the chance of correctly answering a question with unrecognized wording because it can be wrongly classified as a differently worded question. A more general question answering system would have to lean more heavily on the syntax inferred from spaCy, because the number of question wordings is too big to prepare the system for in practice.
+
+If the system would be improved on, further modularization would be beneficial. The external \emph{.json} files help already, but a next step would be creating a common base class for all strategies and factoring each strategy into their own file and class. Different combinations of strategies can then be tested for total performance. New strategies could also easily be added to the existing system.
+
+Currently, the system takes relatively long to answer questions. The vast majority of time is spend waiting for \emph{sparql} queries. The service seems to be relatively slow. Reducing the number of queries would therefore improve performance. Unfortunately, the design of our system sends many queries since several strategies are probed until one of them answers. A way to reduce calls within this design would be caching query responses.
+
+\section{Appendix: accountability}
+\subsection{Nicholas Kees Dupuis}
+\begin{itemize}
+    \item Yes or no answering strategy.
+\end{itemize}
+
+\subsection{Robin Heiminge}
+\begin{itemize}
+    \item The earth, river and where strategies.
+    \item Parsing of special symbols.
+    \item System validation \& iteration.
+    \item Rephrasing tactics.
+\end{itemize}
+
+\subsection{Jochem Baas}
+\begin{itemize}
+    \item Global program structure.
+    \item SpaCy querying and deconstruction system.
+    \item Multiply answering strategies.
+    \item System validation \& iteration.
+    \item Query restructuring.
+\end{itemize}
+
+\subsection{Job Talle}
+\begin{itemize}
+    \item Report \& documentation.
+    \item Code maintenance \& modularization.
+    \item Implementation of a database of \emph{.json} files to prevent hardcoded constants.
+    \item The aliasing pass.
+\end{itemize}
 
 \end{document}
+
