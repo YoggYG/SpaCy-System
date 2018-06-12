@@ -505,8 +505,8 @@ def findAllThatApply(doc, rootIndex):
                     if YToken.i == XToken.i:
                         continue
 
-                    if YToken.head.head.i == XToken.i:  # same as default strategy
-                        continue
+                    # if YToken.head.head.i == XToken.i:  # same as default strategy
+                    #     continue
 
                     if isInstanceOf(X, "country"):
                         if getY("country", [X], [YToken.lemma_]):
