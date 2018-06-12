@@ -527,6 +527,11 @@ def findAllThatApply(doc, rootIndex):
                             return True
                         if getY("country", [X], [YToken.text]):
                             return True
+                    if isInstanceOf(X, ["continent"]):
+                        if getY("continent", [X], [YToken.lemma_]):
+                            return True
+                        if getY("continent", [X], [YToken.text]):
+                            return True
 
     return False
 
