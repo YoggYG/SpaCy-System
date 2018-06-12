@@ -22,13 +22,23 @@ def getCodesFromString(word, isProperty=False):
         'format': 'json'
     }
 
+    codes = []
+    
     if isProperty:  # returns property codes "Pxx"
         params['type'] = 'property'
+        if word in ("province", "administrative territorial entities"):  # override for 'contains' instead of 'located in'
+        	return ["P150"]
+
+        if word in ("part"):
+        	codes.append("P150")
+
+    else:
+    	if word in ("part", "border", "area", "population", "elevation", "depth", "highest point", "height", "administrative territorial entities"): # Time efficiency.
+    		return []
 
     params['search'] = word
     json = requests.get(url, params).json()
 
-    codes = []
     for result in json['search']:
         codes.append("{}".format(result['id']))
 
@@ -357,10 +367,10 @@ def conjunctsOfToken(token):
 def subjectObjectStrategy(doc, rootIndex):  # X verb Y
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
-        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "pobj||prep"):
+        if XToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "pobj||prep") and XToken.lemma_ != "-PRON-":
             X = XToken.text
             for YToken in rootToken.subtree:
-                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "npadvmod"):
+                if YToken.dep_ in ("nsubj", "attr", "dobj", "pobj", "nsubjpass", "npadvmod") and YToken.lemma_ != "-PRON-":
                     if YToken.i == XToken.i:
                         continue
 
@@ -385,6 +395,8 @@ def getCorrectChildToken(doc, token):
     if token.dep_ == "prep":
         firstChildIdx = 0
         for child in token.children:
+        	if child.tag_ in ("WP", "WDT"):
+        		return None
             for grandChild in child.children:
                 if grandChild.tag_ in ("WP", "WDT"):
                     return None
@@ -404,7 +416,7 @@ def standardStrategy(doc, rootIndex):  # give me X of Y / Y's X
     rootToken = doc[rootIndex]
     for XToken in rootToken.subtree:
         # print('\t'.join((XToken.text, XToken.lemma_, XToken.pos_, XToken.tag_, XToken.dep_, XToken.head.lemma_)))
-        if XToken.dep_ in ("nsubj", "attr", "dobj"):  # X is one of the root's children with one of these dependencies
+        if XToken.dep_ in ("nsubj", "attr", "dobj") and XToken.lemma_ != "-PRON-":  # X is one of the root's children with one of these dependencies
             X = XToken.text
 
             for YToken in XToken.children:
