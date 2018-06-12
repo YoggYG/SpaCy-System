@@ -33,7 +33,7 @@ def getCodesFromString(word, isProperty=False):
             codes.append("P150")
 
     else:
-        if word in ("part", "region", "border", "area", "population", "elevation", "depth", "highest point", "height", "administrative territorial entities", "administrative territorial region"): # Time efficiency.
+        if word in ("part", "region", "border", "area", "population", "elevation", "depth", "highest point", "length", "height", "administrative territorial entities", "administrative territorial region"): # Time efficiency.
             return []
 
     params['search'] = word
@@ -612,6 +612,9 @@ def yesNoQuestions(line):
 def descriptionStrategy(doc, rootIndex):
     for token in doc[rootIndex].subtree:
         if token.dep_ in ("attr", "nsubj") and token.tag_ != "WP":
+            if len(list(token.children)) > 1:
+                continue
+
             for qCode in getCodesFromString(token.text):
                 query = '''
                 SELECT ?itemDescription WHERE {
