@@ -641,14 +641,14 @@ if __name__ == '__main__':
         if earthStrategy(question.syntax, question.syntax_root):
             continue
 
+        print("Trying where is strategy next")
+        if question.text.split(" ", 1)[0] == "where": #check if the first word is where
+            if whereIsStrategy(question.syntax, question.syntax_root):
+                continue
+
         print("Trying find all that apply strategy next")
         if findAllThatApply(question.syntax, question.syntax_root):
             continue
-
-        print("Trying where is strategy next")
-        if question.text.split(" ", 1)[0] == "where": #check if the first word is is
-            if whereIsStrategy(question.syntax, question.syntax_root):
-                continue
 
         print("Guessing")
         writeAndPrintAnswers(["Yes"])  # Default answer
