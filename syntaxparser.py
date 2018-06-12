@@ -87,10 +87,13 @@ class SyntaxParser:
                     spans.append(span)
 
             for span in spans:
+                if len(span) == 1:
+                    continue
+
                 if span[0].dep_ == "det":  # exclude the first determiner, we don't want it.
-                    if len(span) == 1:
-                        continue
                     span[1:].merge()
+                elif len(span) > 2 and span[0].text == "how" and span[1].text == "many":
+                    span[2:].merge()
                 else:
                     span.merge()
 
