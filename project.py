@@ -22,13 +22,19 @@ def getCodesFromString(word, isProperty=False):
         'format': 'json'
     }
 
+    codes = []
+    
     if isProperty:  # returns property codes "Pxx"
         params['type'] = 'property'
+        if word in ("provinces", "administrative territorial entities"):  # override for 'contains' instead of 'located in'
+        	return ["P150"]
+
+        if word in ("part"):
+        	codes.append("P150")
 
     params['search'] = word
     json = requests.get(url, params).json()
 
-    codes = []
     for result in json['search']:
         codes.append("{}".format(result['id']))
 
