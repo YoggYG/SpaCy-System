@@ -395,8 +395,9 @@ def getCorrectChildToken(doc, token):
     if token.dep_ == "prep":
         firstChildIdx = 0
         for child in token.children:
-        	if child.tag_ in ("WP", "WDT"):
-        		return None
+            if child.tag_ in ("WP", "WDT"):
+                return None
+            
             for grandChild in child.children:
                 if grandChild.tag_ in ("WP", "WDT"):
                     return None
