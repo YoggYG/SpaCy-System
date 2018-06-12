@@ -39,6 +39,9 @@ class PreProcess:
         elif words[0] in ("list", "state") and len(words) > 1:
             question.text = "name " + " ".join(words[1:])
 
+        if words[-1] == "flag?":
+            question.text = " ".join(words[:-3]) + " " + "".join(list(words[-1])[:-1]) + " of " + "".join(list(words[-2])[:-1])
+
         self.process_aliases(question)
 
         if unstructured != question.text:
