@@ -463,7 +463,7 @@ def whereIsStrategy(doc, rootIndex):  # Where is X
     rootToken = doc[rootIndex]
 
     for XToken in rootToken.subtree:
-        if XToken.dep_ in ("nsubj", "attr", "dobj", "nsubjpass", "pobj"):  # X is one of the root's children with one of these dependencies
+        if XToken.dep_ in ("nsubj", "attr", "dobj", "nsubjpass", "pobj", "npadvmod"):  # X is one of the root's children with one of these dependencies
             X = XToken.text
 
             if not isInstanceOf(X, ["country"]) and not isInstanceOf(X, ["continent"]):
