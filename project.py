@@ -683,6 +683,7 @@ if __name__ == '__main__':
                 continue
         
         if question.text.split(" ", 3)[0] == "what" and question.text.split(" ", 3)[1] == "is" and question.text.split(" ", 3)[2] == "a":
+            print("Trying description strategy next")
             if descriptionStrategy(question.syntax, question.syntax_root):
                 continue
 
@@ -714,6 +715,11 @@ if __name__ == '__main__':
         print("Trying find all that apply strategy next")
         if findAllThatApply(question.syntax, question.syntax_root):
             continue
+
+        if question.text.split(" ", 3)[0] == "what" and question.text.split(" ", 3)[1] == "is":
+            print("Trying description strategy next")
+            if descriptionStrategy(question.syntax, question.syntax_root):
+                continue
 
         print("Guessing")
         writeAndPrintAnswers(["Yes"])  # Default answer
