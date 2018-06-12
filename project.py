@@ -530,6 +530,19 @@ def findAllThatApply(doc, rootIndex):
 
     return False
 
+def memberStrategy(doc, rootIndex):
+    rootToken = doc[rootIndex]
+    cont = False
+    for XToken in rootToken.subtree:
+        if XToken.lemma_ in ("member", "part"):
+            cont = True
+    if cont:
+        for YToken in rootToken.subtree:
+            if isInstanceOf(YToken.text, ["supranational organisation", "supranational organization", "intergovernmental organisation", "intergovernmental organization", "regional organisation", "regional organization"]):
+                if getY("member of", [YToken.text], ["country"]):
+                    return True          
+    return False
+
 
 def binarysparql(entity, property):
     sparqlurl = 'https://query.wikidata.org/sparql'
@@ -640,6 +653,11 @@ if __name__ == '__main__':
             if yesNoQuestions(question.text):       #perform yes/no function
                 continue
 
+        print("Trying member strategy next")
+        if memberStrategy(question.syntax, question.syntax_root):
+            continue
+
+        print("Trying standard strategy next")
         if standardStrategy(question.syntax, question.syntax_root):
             continue
 
