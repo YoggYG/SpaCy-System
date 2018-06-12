@@ -623,7 +623,6 @@ def descriptionStrategy(doc, rootIndex):
 
                 if areValid(answers):
                     writeAndPrintAnswers(answers)
-
                     return True
 
     return False
