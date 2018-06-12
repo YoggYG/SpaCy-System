@@ -33,7 +33,7 @@ def getCodesFromString(word, isProperty=False):
             codes.append("P150")
 
     else:
-        if word in ("part", "region", "border", "area", "population", "elevation", "depth", "highest point", "length", "height", "administrative territorial entities", "administrative territorial region"): # Time efficiency.
+        if word in ("part", "region", "border", "area", "population", "capital", "elevation", "depth", "highest point", "length", "height", "administrative territorial entities", "administrative territorial region"): # Time efficiency.
             return []
 
     params['search'] = word
