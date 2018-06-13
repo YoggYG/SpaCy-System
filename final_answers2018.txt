@@ -1,0 +1,52 @@
+1	Yes
+2	LomÃ©
+3	Portugal
+4	Liechtenstein
+5	Yes
+6	1006
+7	Für Gott, Fürst und Vaterland	For God, Prince, and Fatherland	За Бог, княз и Отечество
+8	No
+9	Yes
+10	La Marseillaise
+11	federation	federal system
+12	459
+13	1
+14	Mount Everest
+13	1
+14	3180000
+15	2758
+16	Yes
+17	Cantabrian Mountains
+18	Yes
+19	Yes
+20	10
+21	7
+22	1944-09-05T00:00:00Z
+23	Switzerland	Austria	Netherlands	France	Germany	Liechtenstein
+24	http://www.elzolphilly.com/
+25	Pacific Time Zone	Eastern Time Zone	Atlantic Time Zone	Central Time Zone	Newfoundland Time Zone	Mountain Time Zone	UTCâˆ’06:00
+26	Upupa epops
+27	Germany
+28	Yes
+29	Yes
+30	Chihuahua	Mexico City	Jalisco	Nuevo León	Oaxaca	Sonora	Guanajuato	Baja California Sur	Coahuila	Baja Californiana	Chiapas	Veracruz	Guerrero	Yucatán	Colima	Morelos	San Luis Potosí	Querétaro	Michoacán	Durango	Nayarit	Puebla	Aguascalientes	Tamaulipas	Quintana Roo	Sinaloa	Zacatecas	Hidalgo	Campeche	Tabasco	México	Tlaxcala
+31	Atlantic Ocean
+32	http://newzealand.govt.nz/
+33	268021
+34	Antarctica
+35	Ã‰tang de Lavalduc
+36	Yes
+37	Canada	Japan	Norway	Ireland	Hungary	Spain	United States of America	Belgium	Finland	Sweden	Poland	Lithuania	Italy	Switzerland	Austria	Greece	Turkey	Portugal	Netherlands	Egypt	Mexico	Kenya	Ethiopia	Ghana	France	United Kingdom	People's Republic of China	Brazil	Germany	Belarus	Iceland	Estonia	Latvia	Ukraine	Czech Republic	Slovakia	Slovenia	Moldova	Romania	Bulgaria	Republic of Macedonia	Albania	Croatia	Bosnia and Herzegovina	Azerbaijan	Cyprus	Georgia	Kazakhstan	Montenegro	Indonesia	South Africa	Chile	Armenia	Serbia	Australia	North Korea	Cambodia	European Union	New Zealand	India	Venezuela	Bolivia	Iran	Iraq	Nicaragua	Malaysia	Myanmar	Nepal	Pakistan	Sri Lanka	Syria	Taiwan	Thailand	United Arab Emirates	Vietnam	South Korea	Afghanistan	Bangladesh	Tanzania	Philippines	Zambia	Benin	Burkina Faso	Eritrea	Libya	Morocco	Mozambique	Uganda	Somalia	Sudan	Kosovo	Soviet Union	State of Palestine
+38	Dutch	Papiamento
+39	Moldova
+40	Black Hills
+41	No
+42	1959-01-01T00:00:00Z
+43	27
+44	Poland	Austria	Germany	Czech Republic
+45	051
+46	Yes
+47	17312
+48	2
+49	Saint George
+50	1

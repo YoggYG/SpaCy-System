@@ -1,0 +1,52 @@
+1	How wide is the Aral Sea?
+2	What is the capital of Togo?
+3	Of which country is Lisbon the capital?
+4	Which country is Vaduz the capital of?
+5	List all countries in which the river Meuse flows.
+6	What is the length of the Loire river?
+7	Name the motto of Liechtenstein.
+8	Is Andorra a republic?
+9	Is Andorra a principality?
+10	What is the anthem of France?
+11	What is the opposite of a unitary state?
+12	How deep is the Baltic Sea?
+13	How many official languages does Andorra have?
+14	What is the highest point of Tibet?
+13	Through how many countries does the Meuse flow?
+14	How many inhabitants does Tibet have?
+15	How high is the Stelvio Pass?
+16	For which sport is the Stelvio Pass known?
+17	In which mountain range is the Alto de L'Angliru located?
+18	Is Austria a democracy?
+19	Are the Netherlands a landlocked country?
+20	How many districts does Austria have?
+21	How many participants does the G7 have?
+22	When was the Benelux founded?
+23	Give the names of the countries that the Rhine flows through.
+24	What is the President of Russia's official website?
+25	List Canada's time zones.
+26	What is the official symbol of Israel?
+27	Which country is Rügen a part of?
+28	What is the continent of Europe named after?
+29	Does Europe border Asia?
+30	Is the Gulf of Mexico part of the Baltic Sea?
+31	List anything that is part of the North Sea.
+32	What is the official website of New Zealand?
+33	Is the area of New Zealand equal to 268021?
+34	On which continent can we find Adélie Land?
+35	Name the deepest point of France.
+36	Which Japanese administrative terretorial entity has the largest area?
+37	Do the Netherlands have a diplomatic relation with Denmark?
+38	List the official languages of Bonaire.
+39	Which historical country is Moldova named after?
+40	Which mountain range does Mount Rushmore belong to?
+41	Is the Amazon a river?
+42	In which year was the María Trinidad Sánchez Province incepted?
+43	What is the elevation above sea level of the María Trinidad Sánchez Province?
+44	List the basin countries of the Elbe.
+45	What is the local dialing code of Bloemfontein?
+46	What is the Mariana Trench an instance of?
+47	Tell me the population of Mount Clemens.
+48	How many countries does England share a border with?
+49	Who is the patron saint of England?
+50	How many tributaries does the Meuse have?
