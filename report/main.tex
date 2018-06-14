@@ -80,6 +80,13 @@ Questions in the form \emph{Where is X?} can be answered by the where is strateg
 Finally, if all strategies used to understand the question have failed or if the Wikidata query returns nothing, the system will have no answer to give. No answer is always a wrong answer. In order to have a nonzero chance of giving a correct answer, the system will output \emph{Yes}. This is also the most common answer seen in the 100 test questions we have used to build the system.
 
 \section{Results}
+To evaluate the system, 52 random test questions were provided. Of these questions, 35 were answered correctly. In other words, the system has a recall of approximately $67\%$. We have analyzed a few notable mistakes:
+
+\begin{itemize}
+    \item To the question \emph{Is the Amazon a river?}, the system wrongly answered \emph{No}. This was caused by the fact that the wikidata entry of the river is called \emph{Amazon} instead of \emph{the Amazon}. This could have been fixed by removing \emph{the} from the query if it fails.
+    \item The question \emph{Do the Netherlands have a diplomatic relation with Denmark?} asks for \emph{Yes} or \emph{No}. Instead, the system returned all countries the Netherlands have diplomatic relations with. It seems the \emph{with Denmark} part of the question was omitted altogether.
+    \item Surprisingly, the question \emph{Which Japanese administrative terretorial entity has the largest area?} contains a spelling error and could not be answered because of this.
+\end{itemize}
 
 \section{Discussion}
 The final version of the system contains many different answering strategies that are strongly aimed at specifically worded questions in a specific domain. This benefits the performance of the system since 100 possible test questions are available to us; we know these wordings occur often. This does make the system vulnerable for over fitting; it may reduce the chance of correctly answering a question with unrecognized wording because it can be wrongly classified as a differently worded question. A more general question answering system would have to lean more heavily on the syntax inferred from spaCy, because the number of question wordings is too big to prepare the system for in practice.
@@ -120,4 +127,3 @@ Currently, the system takes relatively long to answer questions. The vast majori
 \end{itemize}
 
 \end{document}
-
