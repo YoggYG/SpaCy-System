@@ -46,9 +46,9 @@ The question is broken down into its syntactic parts using the spaCy library. De
 
 \begin{itemize}
     \item The syntax may indicate that an answer is related to a specific point in time. For example, a question could ask for the population in a country at the year 1960. If this is inferred from the syntax, a time filter flag is set. Filtering for time requires additional information in the Wikidata query. In our implementation, time filtering for a specific year is supported.
-    \item Analyzing the syntax gives tells us what property of what thing is asked for. For example, a question may take the form of \emph{What is X of Y?}. If multiple answers are required, the question likely takes the form \emph{What are the X's of Y?}. These formulations can also be reordered or recursive, e.g. \emph{What is the X of (the Z of Y?)}. The syntax tells us how the question parts are nested.
+    \item Analyzing the syntax tells us what property of what thing is asked for. For example, a question may take the form of \emph{What is X of Y?}. If multiple answers are required, the question likely takes the form \emph{What are the X's of Y?}. These formulations can also be reordered or recursive, e.g. \emph{What is the X of (the Z of Y?)}. The syntax tells us how the question parts are nested.
     \item Conjunctions can exist in a question. An example of such a question is: \emph{What country borders France and Germany?}. A poor solver would answer just the question \emph{What country borders France?} and skip Germany altogether; our solver forms a conjunction from the last two countries and includes them in the query.
-    \item We have defined several formulations which tell us the question asks for more than one answer. If e.g. \emph{how many} is part of the question, we know multiple answers are required. This hint is stored while breaking down the sentence, and later determines which answering strategy is used. A list of formulations hinting to the multiple answers requirement is stored outside of the program to streamline the development and debugging process; it is loaded and used when the program runs.
+    \item We have defined several formulations which tell us the question asks for a number. If e.g. \emph{how many} is part of the question, we know a number should be the answer. This hint is stored while breaking down the sentence, and later determines which answering strategy is used. A list of formulations hinting to the number requirement is stored outside of the program to streamline the development and debugging process; it is loaded and used when the program runs.
     \item Because the domain of the questions is limited, several recurring compound properties may be queried for. Examples are \emph{head of state}, \emph{country of origin} and \emph{gdp per capita}. We do not want the system to break down these terms any further; we'd like to parse them as one phrase. Therefore, we group them to prevent the syntactic analysis from trying to query what for example the literal head of a state would be. A list of commonly seen compound terms was created and maintained by us while improving the system, and this list is loaded and used by the system when it runs.
 \end{itemize}
 
@@ -65,13 +65,13 @@ The standard strategy takes questions in the general form \emph{Give the X of Y}
 Because river related questions often have recurring structures, a dedicated strategy was made for them. River questions relate to river origins, paths and ends.
 
 \subsubsection{Subject - object strategy}
-The subject object strategy answers questions in the form \emph{X <verb> Y?}. Possible formulations are \emph{Does Austria border Germany?} or \emph{Belgium has which neighbours?}.
+The subject object strategy answers questions in the form \emph{X (verb) Y?}. Possible formulations are \emph{Does Austria border Germany?} or \emph{Belgium has which neighbours?}.
 
 \subsubsection{Earth strategy}
 Several test questions have forms similar to \emph{What is the tallest mountain on earth?}. Since all questions relate to geography, \emph{earth} can be seen as a global qualifier; it could be replaced by \emph{of all}. A specific strategy facilitates answering these questions.
 
 \subsubsection{Find all strategy}
-The find all strategy was devised to answer questions in the form \emph{Find all X of Y}. An example query could be \emph{Give me all the rivers of Spain.}. The strategy queries all the instances that apply to constraint \emph{Y}.
+The find all strategy was devised to answer questions in the form \emph{Give all X that apply to Y}. An example query could be \emph{Give me the rivers crossing Spain}. The strategy queries all the instances that apply to constraint \emph{Y}.
 
 \subsubsection{Where is strategy}
 Questions in the form \emph{Where is X?} can be answered by the where is strategy. If \emph{X} is not a continent or a country, the answer is most likely a country. If \emph{X} is a country, the answer is probably a continent. The question \emph{Where is Antwerp?} will be answered with \emph{Belgium}.
@@ -136,7 +136,7 @@ Currently, the system takes relatively long to answer questions. The vast majori
 \begin{itemize}
     \item Global program structure.
     \item SpaCy querying and deconstruction system.
-    \item Multiply answering strategies.
+    \item Multiple answering strategies.
     \item System validation \& iteration.
     \item Query restructuring.
 \end{itemize}
