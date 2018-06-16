@@ -115,7 +115,7 @@ The final version of the system contains many different answering strategies tha
 
 If the system would be improved on, further modularization would be beneficial. The external \emph{.json} files help already, but a next step would be creating a common base class for all strategies and factoring each strategy into their own file and class. Different combinations of strategies can then be tested for total performance. New strategies could also easily be added to the existing system.
 
-Currently, the system takes relatively long to answer questions. The vast majority of time is spend waiting for \emph{sparql} queries. The service seems to be relatively slow. Reducing the number of queries would therefore improve performance. Unfortunately, the design of our system sends many queries since several strategies are probed until one of them answers. A way to reduce calls within this design would be caching query responses.
+Currently, the system takes relatively long to answer questions. The vast majority of time is spent waiting for \emph{sparql} queries. The service seems to be relatively slow. Reducing the number of queries would therefore improve performance. Unfortunately, the design of our system sends many queries since several strategies are probed until one of them answers. A way to reduce calls within this design would be caching query responses.
 
 \section{Appendix: accountability}
 \subsection{Robin Heiminge}
