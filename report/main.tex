@@ -88,6 +88,28 @@ To evaluate the system, 52 random test questions were provided. Of these questio
     \item Surprisingly, the question \emph{Which Japanese administrative terretorial entity has the largest area?} contains a spelling error and could not be answered because of this.
 \end{itemize}
 
+\subsection{Strategy performance}
+Additionally, the strategies were investigated further to determine their individual performance. Table \ref{strategy-performance} shows the results. The test questions were categorized by the strategy used to answer them, and the performance of each strategy was recorded. The results are ordered by the number of questions answered, so the strategies with most impact towards the total recall of the system are listed first.
+
+\begin{table}[h!]
+\centering
+\caption{Strategy performance}
+\label{strategy-performance}
+\begin{tabular}{l|l|l}
+Strategy         & Number of Questions & Percentage Correct \\ \hline \hline
+Standard         & 26                  & 80.77\%            \\\hline
+Guess "yes"      & 9                   & 11.11\%            \\\hline
+Subject - object & 7                   & 85.71\%            \\\hline
+Yes or no        & 4                   & 75.00\%            \\\hline
+Earth            & 3                   & 100\%              \\\hline
+River            & 2                   & 50.00\%            \\\hline
+Find all         & 1                   & 0\%                \\\hline
+Where is         & 0                   & -                  
+\end{tabular}
+\end{table}
+
+The table shows that the standard strategy was the most used strategy by far; this is also logical, since all other strategies are more specific. It also performs quite well with over 80\% recall. Next up is the strategy where we just guess \textit{Yes}. This strategy answered 9 out of 52 questions, which means only 9 questions could not be answered by any of the other strategies. This is where about half our incorrect answers come from. Most other strategies have an accuracy higher than that of the total system. Aside from River and Find all which perform at 50\% and 0\% respectively, though both only had very few questions to answer. These strategies at first sight seem to maybe have a negative impact on the system. However, it must be noted that other strategies are not necessarily able to answer them better, so they do boost the total accuracy of the system. The Earth strategy performed best, with 3 out 3 questions correct. The Where is strategy was not used to answer any of the test questions.
+
 \section{Discussion}
 The final version of the system contains many different answering strategies that are strongly aimed at specifically worded questions in a specific domain. This benefits the performance of the system since 100 possible test questions are available to us; we know these wordings occur often. This does make the system vulnerable for over fitting; it may reduce the chance of correctly answering a question with unrecognized wording because it can be wrongly classified as a differently worded question. A more general question answering system would have to lean more heavily on the syntax inferred from spaCy, because the number of question wordings is too big to prepare the system for in practice.
 
@@ -96,12 +118,13 @@ If the system would be improved on, further modularization would be beneficial. 
 Currently, the system takes relatively long to answer questions. The vast majority of time is spend waiting for \emph{sparql} queries. The service seems to be relatively slow. Reducing the number of queries would therefore improve performance. Unfortunately, the design of our system sends many queries since several strategies are probed until one of them answers. A way to reduce calls within this design would be caching query responses.
 
 \section{Appendix: accountability}
-\subsection{Nicholas Kees Dupuis}
+\subsection{Robin Heiminge}
 \begin{itemize}
     \item Yes or no answering strategy.
+    \item Strategy performance analysis.
 \end{itemize}
 
-\subsection{Robin Heiminge}
+\subsection{Nicholas Kees Dupuis}
 \begin{itemize}
     \item The earth, river and where strategies.
     \item Parsing of special symbols.
